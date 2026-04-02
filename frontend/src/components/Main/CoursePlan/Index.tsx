@@ -1,4 +1,4 @@
-﻿import styled from "@emotion/styled";
+import styled from "@emotion/styled";
 import React, { useMemo } from "react";
 
 import { colorGreen, colorGreenDark, mobileMedia } from "@/utils/style";
@@ -101,7 +101,8 @@ const CoursePlan = ({ subjects, usedBookmark }: CoursePlanProps) => {
   } = usedBookmark;
 
   const yearSubjects = useMemo(() => {
-    // 蟷ｴ蠎ｦ豈弱↓髮・ｨ・    const record: Record<number, Subject[]> = {};
+    // 年度ごとに集計
+    const record: Record<number, Subject[]> = {};
     for (const subject of subjects) {
       const bookmark = getBookmarkSubject(subject.code);
       if (bookmark) {
@@ -112,11 +113,12 @@ const CoursePlan = ({ subjects, usedBookmark }: CoursePlanProps) => {
       }
     }
 
-    // 蟷ｴ蠎ｦ豈弱↓繧ｽ繝ｼ繝・    for (const year in record) {
+    // 年度ごとにソート
+    for (const year in record) {
       record[year].sort((a, b) =>
-        a.termStr.includes("騾壼ｹｴ")
+        a.termStr.includes("通年")
           ? -1
-          : a.termStr.includes("譏･") && !b.termStr.includes("譏･")
+          : a.termStr.includes("春") && !b.termStr.includes("春")
             ? -1
             : a.termStr < b.termStr
               ? -1
@@ -147,9 +149,9 @@ const CoursePlan = ({ subjects, usedBookmark }: CoursePlanProps) => {
         <thead>
           <tr>
             <Th />
-            <Th>遘醍岼逡ｪ蜿ｷ・冗ｧ醍岼蜷搾ｼ丞腰菴・/Th>
+            <Th>科目番号 / 科目名 / 単位</Th>
             <Th />
-            <Th>螳滓命蠖｢諷・/Th>
+            <Th>実施形態</Th>
             {[...Array(memoLength)].map((_, i) => (
               <Th key={i}>
                 <input
@@ -170,8 +172,9 @@ const CoursePlan = ({ subjects, usedBookmark }: CoursePlanProps) => {
             <React.Fragment key={key}>
               <tr>
                 <YearTd colSpan={2}>
-                  {key} 蟷ｴ蠎ｦ・・yearCredits[Number.parseInt(key, 10)] ?? 0}{" "}
-                  蜊倅ｽ搾ｼ・                </YearTd>
+                  {key} 年度（{yearCredits[Number.parseInt(key, 10)] ?? 0}{" "}
+                  単位）
+                </YearTd>
               </tr>
               {subjects.map((subject) => (
                 <SubjectTr
@@ -184,11 +187,13 @@ const CoursePlan = ({ subjects, usedBookmark }: CoursePlanProps) => {
           ))}
           <tr>
             <BottomTd colSpan={4}>
-              險・{totalCredits} 蜊倅ｽ・              <br />
+              計：{totalCredits} 単位
+              <br />
               {Object.entries(memoSlashLineCredits).map(
                 ([key, credits], i, array) => (
                   <React.Fragment key={key}>
-                    {key}・嘴credits} 蜊倅ｽ・                    {i < array.length - 1 && <br />}
+                    {key}：{credits} 単位
+                    {i < array.length - 1 && <br />}
                   </React.Fragment>
                 ),
               )}
@@ -201,11 +206,15 @@ const CoursePlan = ({ subjects, usedBookmark }: CoursePlanProps) => {
       </Table>
       <Description>
         <p>
-          縲卦A縲阪↓繝√ぉ繝・け繧貞・繧後ｋ縺ｨ縲∵凾髢灘牡縺ｫ縺ｯ蜿肴丐縺輔ｌ縺ｾ縺吶′縲∝腰菴肴焚縺九ｉ縺ｯ髯､螟悶＆繧後∪縺吶・        </p>
+          「TA」にチェックを入れると、時間割には反映されますが、単位数からは除外されます。
+        </p>
         <p>
-          蜿ｳ蛛ｴ縺ｮ繝・く繧ｹ繝医・繝・け繧ｹ縺ｯ繝｡繝｢逕ｨ縺ｫ縺贋ｽｿ縺・￥縺縺輔＞縲・          <br />
-          謨ｰ蛟､繧貞・蜉帙＠縺溷ｴ蜷医√ヵ繝・ち縺ｫ蛻励・蜷郁ｨ亥､縺瑚｡ｨ遉ｺ縺輔ｌ縺ｾ縺吶・          <br />
-          縺ｾ縺溘√・蠢・ｿｮ縲阪・繧医≧縺ｫ陦後′繧ｹ繝ｩ繝・す繝･縺九ｉ蟋九∪繧句ｴ蜷医√◎縺ｮ陦後ｒ蜷ｫ繧遘醍岼縺ｮ蜊倅ｽ肴焚縺ｮ蜷郁ｨ亥､縺瑚｡ｨ遉ｺ縺輔ｌ縺ｾ縺吶・        </p>
+          右側のテキストボックスはメモ用にお使いください。
+          <br />
+          数値を入れた場合、フッターに列の合計値が表示されます。
+          <br />
+          また、「/必修」のように行がスラッシュから始まる場合、その行を含む科目の単位数の合計値が表示されます。
+        </p>
       </Description>
     </Wrapper>
   );

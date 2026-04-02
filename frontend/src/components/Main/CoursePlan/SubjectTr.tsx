@@ -1,4 +1,4 @@
-﻿import styled from "@emotion/styled";
+import styled from "@emotion/styled";
 
 import { useMemo } from "react";
 
@@ -114,13 +114,13 @@ const SubjectTr = ({ subject, usedBookmark }: SubjectTrProps) => {
 
 
 
-  const isSpring = subject.termStr.includes("隴擾ｽ･");
+  const isSpring = subject.termStr.includes("春");
 
-  const isAutumn = subject.termStr.includes("驕倥・);
+  const isAutumn = subject.termStr.includes("秋");
 
   const isYearRound =
 
-    subject.termStr.includes("鬨ｾ螢ｼ・ｹ・ｴ") || (isSpring && isAutumn);
+    subject.termStr.includes("通年") || (isSpring && isAutumn);
 
 
 
@@ -142,15 +142,15 @@ const SubjectTr = ({ subject, usedBookmark }: SubjectTrProps) => {
 
           {isYearRound ? (
 
-            "鬨ｾ螢ｼ・ｹ・ｴ"
+            "通年"
 
           ) : (
 
             <>
 
-              {isSpring && "隴擾ｽ･"}
+              {isSpring && "春"}
 
-              {isAutumn && "驕倥・}
+              {isAutumn && "秋"}
 
             </>
 
@@ -162,7 +162,9 @@ const SubjectTr = ({ subject, usedBookmark }: SubjectTrProps) => {
 
       <Td>
 
-        {subject.code}繝ｻ繝ｻsubject.credit.toFixed(1)} 陷雁・ｽｽ謳ｾ・ｼ繝ｻ        <br />
+        {subject.code} / {subject.credit.toFixed(1)} 単位 /
+
+        <br />
 
         {subject.name}
 
@@ -180,7 +182,8 @@ const SubjectTr = ({ subject, usedBookmark }: SubjectTrProps) => {
 
           >
 
-            隨倥・          </Star>
+            ★
+          </Star>
 
 
 

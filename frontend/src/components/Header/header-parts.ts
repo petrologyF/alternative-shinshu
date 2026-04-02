@@ -1,4 +1,4 @@
-﻿import { css } from "@emotion/react";
+import { css } from "@emotion/react";
 
 import styled from "@emotion/styled";
 
@@ -166,15 +166,14 @@ export const SubButtonAnchor = styled(ButtonAnchor)`
 
 export const keywordContainOptions = [
 
-  ["遘醍岼蜷・, "containsName"],
+  ["科目名", "containsName"],
 
-  ["遘醍岼逡ｪ蜿ｷ", "containsCode"],
+  ["科目番号", "containsCode"],
 
-  ["謨吝藤蜷・, "containsPerson"],
+  ["教員名", "containsPerson"],
 
-  ["讎りｦ・, "containsAbstract"],
+  ["概要", "containsAbstract"],
 
-  ["蛯呵・, "containsNote"],
+  ["備考", "containsNote"],
 
 ] as const;
-

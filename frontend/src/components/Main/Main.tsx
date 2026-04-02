@@ -1,4 +1,4 @@
-﻿import styled from "@emotion/styled";
+import styled from "@emotion/styled";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import type { SearchOptions } from "@/utils/search";
@@ -64,13 +64,13 @@ const Main = React.memo(
     );
 
     useEffect(() => {
-      // 繝悶ャ繧ｯ繝槭・繧ｯ縺ｮ蛻・崛譎ゅ・繧ｬ繧ｿ縺､縺阪ｒ髦ｲ豁｢縺吶ｋ縺溘ａ縺ｫ縲∽ｻ･蜑崎｡ｨ遉ｺ縺励※縺・◆莉ｶ謨ｰ縺ｯ蠢・★陦ｨ遉ｺ
+      // ブックマークの切り替え時のガタつきを防止するために、以前表示していた件数は必ず表示
       setDisplayedCount((prev) => Math.max(ONCE_COUNT, prev));
       setInitial(false);
     }, []);
 
     useEffect(() => {
-      // 辟｡髯舌せ繧ｯ繝ｭ繝ｼ繝ｫ縺ｧ荳螳壻ｻｶ謨ｰ縺壹▽陦ｨ遉ｺ
+      // 無限スクロールで一定件数ずつ表示
       const observer = new IntersectionObserver(
         (entries) => {
           if (!hasMore) {

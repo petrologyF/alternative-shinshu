@@ -1,4 +1,4 @@
-﻿import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { z } from "zod";
 
 import { CURRENT_YEAR, kdb, type Subject } from "./subject";
@@ -37,12 +37,12 @@ const createEmptyBookmarks = (): Bookmarks => {
 const getLocalBookmarks = (): Bookmarks => {
   const value = localStorage.getItem(BOOKMARKS_KEY);
 
-  // 繝・・繧ｿ縺悟ｭ伜惠縺励↑縺・ｴ蜷医・遨ｺ縺ｮ繝悶ャ繧ｯ繝槭・繧ｯ繧定ｿ斐☆
+  // データが存在しない場合は空のブックマークを返す
   if (value === null) {
     return createEmptyBookmarks();
   }
 
-  // 譁ｰ繝舌・繧ｸ繝ｧ繝ｳ縺ｮ繝・・繧ｿ繧定ｪｭ霎ｼ
+  // 新バージョンのデータを読み込む
   try {
     const result = bookmarksSchema.safeParse(JSON.parse(value));
     if (!result.success) {
@@ -55,7 +55,7 @@ const getLocalBookmarks = (): Bookmarks => {
   }
 
   try {
-    // 譌ｧ繝舌・繧ｸ繝ｧ繝ｳ縺ｮ繝・・繧ｿ・育ｧ醍岼逡ｪ蜿ｷ繧ｫ繝ｳ繝槫玄蛻・ｊ・峨ｒ螟画鋤
+    // 旧バージョンのデータ（科目番号カンマ区切り）を変換
     const array =
       value !== null
         ? decodeURIComponent(value)
@@ -84,7 +84,8 @@ export const useBookmark = (
 ) => {
   const [bookmarks, setBookmarks] = useState<Bookmarks>(localStorageBookmarks);
 
-  // 蟷ｴ蠎ｦ縺斐→縺ｮ蜊倅ｽ肴焚縺ｮ蜷郁ｨ・  const yearCredits = useMemo(() => {
+  // 年度ごとの単位数の合計
+  const yearCredits = useMemo(() => {
     const result: Record<number, number> = {};
     for (const [code, bookmarkSubject] of Object.entries(bookmarks.subjects)) {
       const subject = kdb.subjectMap[code];
@@ -98,17 +99,18 @@ export const useBookmark = (
     return result;
   }, [bookmarks]);
 
-  // 蜈ｨ縺ｦ縺ｮ蜊倅ｽ肴焚縺ｮ蜷郁ｨ・  const totalCredits = useMemo(
+  // 全ての単位数の合計
+  const totalCredits = useMemo(
     () =>
       Object.values(yearCredits).reduce((prev, credits) => prev + credits, 0),
     [yearCredits],
   );
 
   const [
-    bookmarkTimeslotTable, // 迴ｾ蝨ｨ縺ｮ繧ｿ繝ｼ繝縺ｮ TimeslotTable
-    bookmarkSubjectTable, // 迴ｾ蝨ｨ縺ｮ繧ｿ繝ｼ繝縺ｮ譎る俣蜑ｲ
-    currentCredits, // 迴ｾ蝨ｨ縺ｮ繧ｿ繝ｼ繝縺ｮ蜊倅ｽ肴焚
-    currentTimeslots, // 迴ｾ蝨ｨ縺ｮ繧ｿ繝ｼ繝縺ｮ繧ｳ繝樊焚
+    bookmarkTimeslotTable, // 現在のタームの TimeslotTable
+    bookmarkSubjectTable, // 現在のタームの時間割
+    currentCredits, // 現在のタームの単位数
+    currentTimeslots, // 現在のタームのコマ数
   ] = useMemo(() => {
     const table = createEmptyTimeslotTable();
     const subjectTable = fillTimetable<Subject[]>([]);
@@ -124,7 +126,7 @@ export const useBookmark = (
         continue;
       }
 
-      // 繧ｿ繝ｼ繝繧ｳ繝ｼ繝峨ｒ蜷ｫ繧繧ｰ繝ｫ繝ｼ繝励ｒ謗｢邏｢
+      // タームコードを含むグループを探索
       const termIndex = subject.termCodes.findIndex((codes) =>
         codes.includes(timetableTermCode),
       );
@@ -136,7 +138,7 @@ export const useBookmark = (
       if (subjectTimeslotTable) {
         for (let day = 0; day < table.length; day++) {
           for (let period = 0; period < table[day].length; period++) {
-            // 遘醍岼縺後さ繝槭ｒ蜷ｫ繧√・霑ｽ蜉
+            // 科目がコマを含めれば追加
             if (subjectTimeslotTable[day][period]) {
               table[day][period] = true;
               subjectTable[day][period].push(subject);
@@ -179,7 +181,8 @@ export const useBookmark = (
       }
       const set = new Set<string>();
 
-      // 繧ｹ繝ｩ繝・す繝･縺九ｉ蟋九∪繧九Γ繝｢繧帝寔險・      for (let i = 0; i < memoLength; i++) {
+      // スラッシュから始まるメモを集計
+      for (let i = 0; i < memoLength; i++) {
         const memo = bookmarkSubject.memos[i];
         if (!memo) {
           continue;
@@ -192,7 +195,7 @@ export const useBookmark = (
         }
       }
 
-      // totals 縺ｫ霑ｽ蜉
+      // totals に追加
       for (const item of set) {
         if (!(item in totals)) {
           totals[item] = 0;
@@ -260,7 +263,7 @@ export const useBookmark = (
 
   const clearBookmarks = useCallback(() => {
     const ok = window.confirm(
-      "縺吶∋縺ｦ縺ｮ縺頑ｰ励↓蜈･繧翫・遘醍岼縺悟炎髯､縺輔ｌ縺ｾ縺吶ゅｈ繧阪＠縺・〒縺吶°・・,
+      "すべてのお気に入り科目が削除されます。よろしいですか？",
     );
     if (ok) {
       localStorage.removeItem(BOOKMARKS_KEY);

@@ -1,4 +1,4 @@
-﻿import styled from "@emotion/styled";
+import styled from "@emotion/styled";
 
 import React from "react";
 
@@ -160,7 +160,7 @@ const SubjectTr = React.memo(
 
 
 
-    // TODO: 驕倬・蟯ｼ陋ｹ・ｺ陋ｻ繝ｻ・帝§驢榊ｲｼ騾｡・ｪ陷ｿ・ｷ邵ｺ・ｮ鬮ｫ・｣邵ｺ・ｫ髯ｦ・ｨ驕会ｽｺ繝ｻ蝓溘Η陜｣・ｱ陝・ｽｦ驗抵ｽ､ 邵ｺ・ｮ郢ｧ蛹ｻ竕ｧ邵ｺ・ｫ繝ｻ繝ｻ
+    // TODO: 科目一覧で科目名をクリックすると「科目詳細」画面へ遷移
 
     return (
 
@@ -178,7 +178,7 @@ const SubjectTr = React.memo(
 
             <Link onClick={() => setSyllabiSubjectCode(subject.code)}>
 
-              <span>郢ｧ・ｷ郢晢ｽｩ郢晁・縺・/span>
+              <span>シラバス</span>
 
             </Link>
 
@@ -190,7 +190,9 @@ const SubjectTr = React.memo(
 
             >
 
-              隨倥・            </Star>
+              ★
+
+            </Star>
 
             {bookmarkSubject && (
 
@@ -254,9 +256,11 @@ const SubjectTr = React.memo(
 
         <Td>
 
-          {subject.credit.toFixed(1)} 陷雁・ｽｽ繝ｻ          <br />
+          {subject.credit.toFixed(1)} 単位
 
-          {subject.year} 陝ｷ・ｴ隹ｺ・｡
+          <br />
+
+          {subject.year} 年次
 
         </Td>
 

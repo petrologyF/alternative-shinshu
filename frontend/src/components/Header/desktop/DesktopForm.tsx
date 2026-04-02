@@ -1,4 +1,4 @@
-﻿import styled from "@emotion/styled";
+import styled from "@emotion/styled";
 import React from "react";
 
 import type { SearchOptions } from "@/utils/search";
@@ -79,28 +79,28 @@ const DesktopForm = ({
   return (
     <Wrapper>
       <Line thin={false}>
-        <Headline>繧ｭ繝ｼ繝ｯ繝ｼ繝・/Headline>
+        <Headline>キーワード</Headline>
         <Input
           value={searchOptions.keyword}
           type="text"
-          placeholder="遘醍岼逡ｪ蜿ｷ縺ｯ蜑肴婿荳閾ｴ縲√◎縺ｮ莉悶・豁｣隕剰｡ｨ迴ｾ縺ｫ蟇ｾ蠢・
+          placeholder="科目番号は前方一致、その他は正規表現に対応"
           onChange={(e) =>
             setSearchOptions({ ...searchOptions, keyword: e.target.value })
           }
         />
         <MainButtonAnchor href="#" css={desktopButtonAnchor}>
-          <span>讀懃ｴ｢</span>
+          <span>検索</span>
         </MainButtonAnchor>
         <KeywordOptions options={searchOptions} setOptions={setSearchOptions} />
       </Line>
       <SecondLine options={searchOptions} setOptions={setSearchOptions} />
       <ThirdLine options={searchOptions} setOptions={setSearchOptions} />
       <Line thin={true}>
-        <Headline>譖懈律繝ｻ譎る剞</Headline>
+        <Headline>曜日・時限</Headline>
         <Left>
           <Period>
             {displaysTimeslotSelection
-              ? "繧ｫ繝ｬ繝ｳ繝繝ｼ繧偵け繝ｪ繝・け縺励※譖懈律繝ｻ譎る剞繧帝∈謚・
+              ? "カレンダーをクリックして曜日・時限を選択"
               : getTimeslotsLength(searchOptions.timeslotTable) > 0
                 ? searchOptions.timeslotTable.map(
                     (day, dayi) =>
@@ -119,13 +119,13 @@ const DesktopForm = ({
                         </div>
                       ),
                   )
-                : "謖・ｮ壹↑縺・}
+                : "指定なし"}
           </Period>
           <SubButtonAnchor
             css={desktopButtonAnchor}
             onClick={() => setDisplaysTimeslotSelection(true)}
           >
-            <span>驕ｸ謚・/span>
+            <span>選択</span>
           </SubButtonAnchor>
         </Left>
         <label>
@@ -139,7 +139,8 @@ const DesktopForm = ({
               })
             }
           />
-          蜷悟錐縺ｮ遘醍岼繧帝勁螟・        </label>
+          同名の科目を除外
+        </label>
         <TimeslotsSelection
           options={searchOptions}
           displays={displaysTimeslotSelection}
@@ -149,7 +150,7 @@ const DesktopForm = ({
         />
       </Line>
       <Line thin={true}>
-        <Headline>螳滓命蠖｢諷・/Headline>
+        <Headline>実施形態</Headline>
         <label>
           <input
             type="radio"
@@ -160,7 +161,8 @@ const DesktopForm = ({
               setSearchOptions({ ...searchOptions, classMethod: null })
             }
           />
-          窶・        </label>
+          全
+        </label>
         {classMethods.map((method) => (
           <label key={method}>
             <input
@@ -179,7 +181,7 @@ const DesktopForm = ({
         ))}
       </Line>
       <Line thin={true}>
-        <Headline>讓呎ｺ門ｱ･菫ｮ蟷ｴ谺｡</Headline>
+        <Headline>履修学年</Headline>
         <Left>
           <Options css={{ width: inputSize }}>
             {[...Array(6)].map((_, i) => (
@@ -208,15 +210,16 @@ const DesktopForm = ({
             css={desktopButtonAnchor}
             onClick={() => setDisplaysPlan((prev) => !prev)}
           >
-            <span>{displaysPlan ? "ﾃ・螻･菫ｮ險育判" : "螻･菫ｮ險育判"}</span>
+            <span>{displaysPlan ? "× 履修計画" : "履修計画"}</span>
           </SubButtonAnchor>
         </Left>
         <Update>
-          <span>{kdb.updated}</span> 譎らせ縺ｧ縺ｮ
-          <a href="https://kdb.tsukuba.ac.jp/" target="_blank" rel="noreferrer">
-            遲第ｳ｢螟ｧ蟄ｦ KdB
+          <span>{kdb.updated}</span> 時点での
+          <a href="https://campus-3.shinshu-u.ac.jp/syllabusj/" target="_blank" rel="noreferrer">
+            信州大学 シラバス
           </a>
-          縺ｮ繝・・繧ｿ縺ｫ蝓ｺ縺･縺阪∪縺・        </Update>
+          のデータに基づきます。
+        </Update>
       </Line>
     </Wrapper>
   );

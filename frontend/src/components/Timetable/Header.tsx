@@ -1,4 +1,4 @@
-﻿import styled from "@emotion/styled";
+import styled from "@emotion/styled";
 
 import { shadow } from "@/utils/style";
 import { modules, normalSeasons } from "@/utils/subject";
@@ -114,7 +114,8 @@ const Header = ({
           onClick={moveBefore}
           data-disabled={termCode - 1 < 0}
         >
-          縲・        </Move>
+          ＜
+        </Move>
         <TermName>
           {normalSeasons[Math.floor(termCode / modules.length)]}{" "}
           {modules[termCode % 3]}
@@ -124,12 +125,14 @@ const Header = ({
           data-disabled={termCode + 1 >= normalSeasons.length * modules.length}
           onClick={moveAfter}
         >
-          縲・        </Move>
+          ＞
+        </Move>
         <Details>
-          {currentCredits.toFixed(1)} 蜊倅ｽ阪＋currentTimeslots} 繧ｳ繝橸ｼ磯壼ｹｴ{" "}
-          {yearCredits.toFixed(1)} 蜊倅ｽ搾ｼ・        </Details>
+          {currentCredits.toFixed(1)} 単位 / {currentTimeslots} コマ（通年{" "}
+          {yearCredits.toFixed(1)} 単位）
+        </Details>
       </Left>
-      <Close opened={opened}>{opened ? "・" : "・ｿ"}</Close>
+      <Close opened={opened}>{opened ? "▼" : "▲"}</Close>
     </Wrapper>
   );
 };

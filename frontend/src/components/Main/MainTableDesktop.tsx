@@ -1,4 +1,4 @@
-﻿import styled from "@emotion/styled";
+import styled from "@emotion/styled";
 import React from "react";
 
 import type { SearchOptions } from "@/utils/search";
@@ -124,20 +124,20 @@ const MainTableDesktop = React.memo(
       <Table>
         <thead>
           <tr>
-            <Th>遘醍岼逡ｪ蜿ｷ・冗ｧ醍岼蜷・/Th>
-            <Th>蜊倅ｽ搾ｼ丞ｹｴ谺｡</Th>
-            <Th>蟄ｦ譛滂ｼ乗凾髯・/Th>
-            <Th>諡・ｽ・/Th>
+            <Th>科目番号 / 科目名</Th>
+            <Th>単位 / 年次</Th>
+            <Th>学期 / 時限</Th>
+            <Th>担当</Th>
             <Th onClick={() => setIsImporting(true)}>
               <Classrooms>
-                螳滓命謨吝ｮ､
+                実施教室
                 <Plus>
-                  <span>・・/span>
+                  <span>+</span>
                 </Plus>
               </Classrooms>
             </Th>
-            <Th>讎りｦ・/Th>
-            <Th>蛯呵・/Th>
+            <Th>概要</Th>
+            <Th>備考</Th>
           </tr>
         </thead>
         <tbody>
@@ -155,7 +155,7 @@ const MainTableDesktop = React.memo(
             <BottomTd>
               {hasMore
                 ? "Loading..."
-                : `蜈ｨ ${kdb?.subjectCodeList.length} 莉ｶ荳ｭ ${subjects.length} 莉ｶ繧定｡ｨ遉ｺ縺励∪縺励◆`}
+                : `全 ${kdb?.subjectCodeList.length} 件中 ${subjects.length} 件を表示しました`}
             </BottomTd>
           </tr>
         </tbody>

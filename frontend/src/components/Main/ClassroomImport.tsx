@@ -1,4 +1,4 @@
-﻿import styled from "@emotion/styled";
+import styled from "@emotion/styled";
 import { useCallback, useMemo } from "react";
 import { useDropzone } from "react-dropzone";
 import Modal from "react-modal";
@@ -89,10 +89,10 @@ const ClassroomImport = ({
       (async () => {
         const result = await importFile(acceptedFiles[0]);
         if (result.error) {
-          alert(`繧､繝ｳ繝昴・繝医↓螟ｱ謨励＠縺ｾ縺励◆・・{result.error.message}`);
+          alert(`インポートに失敗しました。${result.error.message}`);
           return;
         }
-        alert("遘醍岼諠・ｱ繧偵う繝ｳ繝昴・繝医＠縺ｾ縺励◆");
+        alert("科目情報をインポートしました");
       })();
     },
     [importFile],
@@ -106,35 +106,42 @@ const ClassroomImport = ({
       onRequestClose={() => setIsImporting(false)}
       style={customStyles}
     >
-      <H2>謨吝ｮ､諠・ｱ繧偵う繝ｳ繝昴・繝・/H2>
+      <H2>教室情報をインポート</H2>
       <p>
         <Anchor href="https://www.tsukuba.ac.jp/education/pdf/how-to-check-the-classrooms-to-be-used-for-courses.pdf">
-          螟ｧ蟄ｦ縺梧署萓帙＠縺ｦ縺・ｋ遘醍岼荳隕ｧ繝・・繧ｿ
+          大学が提供している科目一覧データ
         </Anchor>{" "}
-        縺九ｉ縲・        <br />
-        謨吝ｮ､諠・ｱ繧偵う繝ｳ繝昴・繝医☆繧九％縺ｨ縺後〒縺阪∪縺・      </p>
+        から、
+        <br />
+        教室情報をインポートすることができます。
+      </p>
       <Ul>
-        <li>kdb_YYYY-ja.xlsx 繧偵う繝ｳ繝昴・繝医＠縺ｦ縺上□縺輔＞縲・/li>
-        <li>繧､繝ｳ繝昴・繝医＠縺滓ュ蝣ｱ縺ｯ繝ｭ繝ｼ繧ｫ繝ｫ縺ｫ縺ｮ縺ｿ菫晏ｭ倥＆繧後∪縺吶・/li>
+        <li>kdb_YYYY-ja.xlsx をインポートしてください。</li>
+        <li>インポートした情報はローカルにのみ保存されます。</li>
         <li>
-          蟄ｦ螟冶・ｄ繧､繝ｳ繧ｿ繝ｼ繝阪ャ繝井ｸ翫↓諠・ｱ繧貞・譛峨☆繧句ｴ蜷医・縲・          <br />
-          蟄ｦ螟悶↓髱槫・髢九・諠・ｱ・域蕗螳､諠・ｱ遲会ｼ峨′蜀吶ｊ霎ｼ縺ｾ縺ｪ縺・ｈ縺・          <br />
-          蜊∝・縺ｫ豕ｨ諢上＠縺ｦ縺上□縺輔＞縲・        </li>
+          学外者やインターネット上に情報を共有する場合、
+          <br />
+          学外に非公開の情報（教室情報等）が書き込まれないよう、
+          <br />
+          十分に注意してください。
+        </li>
       </Ul>
       <p>
         {formattedUpdatedAt ? (
           <>
-            譛邨よ峩譁ｰ・嘴formattedUpdatedAt}・・            <Anchor onClick={clearClassrooms}>蜑企勁</Anchor>・・          </>
+            最終更新：{formattedUpdatedAt}（
+            <Anchor onClick={clearClassrooms}>削除</Anchor>）
+          </>
         ) : (
-          "迴ｾ蝨ｨ縺ｾ縺ｧ縺ｫ繧､繝ｳ繝昴・繝医＆繧後◆遘醍岼諠・ｱ縺ｯ縺ゅｊ縺ｾ縺帙ｓ"
+          "現在までにインポートされた科目情報はありません"
         )}
       </p>
       <Dropbox {...getRootProps()}>
         <input {...getInputProps()} />
         {isDragActive ? (
-          <p>繝輔ぃ繧､繝ｫ繧偵ラ繝ｩ繝・げ</p>
+          <p>ファイルをドラッグ</p>
         ) : (
-          <p>繝峨Λ繝・げ・・ラ繝ｭ繝・・縺ｾ縺溘・繧ｯ繝ｪ繝・け縺励※繝輔ぃ繧､繝ｫ繧帝∈謚・/p>
+          <p>ドラッグ＆ドロップ、またはクリックしてファイルを選択</p>
         )}
       </Dropbox>
     </Modal>

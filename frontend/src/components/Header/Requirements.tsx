@@ -1,4 +1,4 @@
-﻿import styled from "@emotion/styled";
+import styled from "@emotion/styled";
 
 import { useMemo } from "react";
 
@@ -142,7 +142,7 @@ const Requirements = ({ options, setOptions }: RequirementsProps) => {
 
       >
 
-        <option value="null">隰悶・・ｮ螢ｹ竊醍ｸｺ繝ｻ/option>
+        <option value="null">要件を指定</option>
 
         {typesA.map((key) => (
 
@@ -168,7 +168,7 @@ const Requirements = ({ options, setOptions }: RequirementsProps) => {
 
       >
 
-        <option value="null">{typesB.length > 0 ? "隰悶・・ｮ螢ｹ竊醍ｸｺ繝ｻ : ""}</option>
+        <option value="null">{typesB.length > 0 ? "要件を指定" : ""}</option>
 
         {typesB.map((key) => (
 
@@ -190,7 +190,7 @@ const Requirements = ({ options, setOptions }: RequirementsProps) => {
 
       >
 
-        <option value="null">{typesC.length > 0 ? "隰悶・・ｮ螢ｹ竊醍ｸｺ繝ｻ : ""}</option>
+        <option value="null">{typesC.length > 0 ? "要件を指定" : ""}</option>
 
         {typesC.map((key) => (
 

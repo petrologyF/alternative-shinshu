@@ -1,1 +1,72 @@
-[]
+[
+  {
+    "id": "SA801400",
+    "title": "卒業研究",
+    "instructor": "宮西　吉久 他",
+    "slot": "集不定",
+    "url": "https://campus-3.shinshu-u.ac.jp/syllabusj/Display?NENDO=2026&BUKYOKU=S&CODE=SA801400"
+  },
+  {
+    "id": "SB801400",
+    "title": "セミナー",
+    "instructor": "加藤　千尋",
+    "slot": "集不定",
+    "url": "https://campus-3.shinshu-u.ac.jp/syllabusj/Display?NENDO=2026&BUKYOKU=S&CODE=SB801400"
+  },
+  {
+    "id": "SA401100",
+    "title": "線形代数学演習Ⅰ",
+    "instructor": "和田　堅太郎",
+    "slot": "木４",
+    "url": "https://campus-3.shinshu-u.ac.jp/syllabusj/Display?NENDO=2026&BUKYOKU=S&CODE=SA401100"
+  },
+  {
+    "id": "SA402100",
+    "title": "微分積分学演習Ⅰ",
+    "instructor": "佐々木　格",
+    "slot": "月４",
+    "url": "https://campus-3.shinshu-u.ac.jp/syllabusj/Display?NENDO=2026&BUKYOKU=S&CODE=SA402100"
+  },
+  {
+    "id": "SA403100",
+    "title": "微分積分学詳論Ⅰ",
+    "instructor": "佐々木　格",
+    "slot": "火１",
+    "url": "https://campus-3.shinshu-u.ac.jp/syllabusj/Display?NENDO=2026&BUKYOKU=S&CODE=SA403100"
+  },
+  {
+    "id": "SA408200",
+    "title": "代数入門",
+    "instructor": "花木　章秀",
+    "slot": "月１",
+    "url": "https://campus-3.shinshu-u.ac.jp/syllabusj/Display?NENDO=2026&BUKYOKU=S&CODE=SA408200"
+  },
+  {
+    "id": "SA409200",
+    "title": "代数入門演習",
+    "instructor": "花木　章秀",
+    "slot": "月２",
+    "url": "https://campus-3.shinshu-u.ac.jp/syllabusj/Display?NENDO=2026&BUKYOKU=S&CODE=SA409200"
+  },
+  {
+    "id": "SA410200",
+    "title": "幾何入門",
+    "instructor": "境　圭一",
+    "slot": "金３ 金４",
+    "url": "https://campus-3.shinshu-u.ac.jp/syllabusj/Display?NENDO=2026&BUKYOKU=S&CODE=SA410200"
+  },
+  {
+    "id": "SA411200",
+    "title": "関数論Ⅰ",
+    "instructor": "TRUSHIN IGOR",
+    "slot": "水３ 水４",
+    "url": "https://campus-3.shinshu-u.ac.jp/syllabusj/Display?NENDO=2026&BUKYOKU=S&CODE=SA411200"
+  },
+  {
+    "id": "SA605300",
+    "title": "環論",
+    "instructor": "上山　健太",
+    "slot": "月３",
+    "url": "https://campus-3.shinshu-u.ac.jp/syllabusj/Display?NENDO=2026&BUKYOKU=S&CODE=SA605300"
+  }
+]

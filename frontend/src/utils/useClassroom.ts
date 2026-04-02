@@ -1,4 +1,4 @@
-﻿import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import * as xlsx from "xlsx";
 import { z } from "zod";
 
@@ -54,7 +54,7 @@ export const useClassroom = () => {
 
   const importFile = async (file: File) => {
     try {
-      // 繝輔ぃ繧､繝ｫ繧定ｪｭ霎ｼ
+      // ファイルを読み込む
       const buffer = await new Promise<ArrayBuffer | null>((resolve) => {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -63,15 +63,15 @@ export const useClassroom = () => {
         reader.readAsArrayBuffer(file);
       });
 
-      // Excel 繧偵ヱ繝ｼ繧ｹ
+      // Excel をパース
       const workbook = xlsx.read(buffer);
       const firstSheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[firstSheetName];
       if (!firstSheetName) {
-        throw new Error("Excel 繝輔ぃ繧､繝ｫ縺ｫ繧ｷ繝ｼ繝医′蟄伜惠縺励∪縺帙ｓ");
+        throw new Error("Excel ファイルにシートが存在しません");
       }
 
-      // 蜀帝ｭ 4 陦後・繝倥ャ繝縺ｮ縺溘ａ繧ｹ繧ｭ繝・・
+      // 先頭 5 行はヘッダーのためスキップ
       const data = xlsx.utils.sheet_to_json(worksheet, { header: 1 }).slice(5);
       const newClassrooms = createEmptyClassrooms();
 
@@ -85,7 +85,7 @@ export const useClassroom = () => {
       }
 
       if (Object.keys(newClassrooms.subjects).length === 0) {
-        throw new Error("遘醍岼繝・・繧ｿ縺悟ｭ伜惠縺励∪縺帙ｓ");
+        throw new Error("科目データが存在しません");
       }
 
       setClassroom(newClassrooms);

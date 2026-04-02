@@ -1,4 +1,4 @@
-﻿import styled from "@emotion/styled";
+import styled from "@emotion/styled";
 
 import React, { useState } from "react";
 
@@ -420,11 +420,13 @@ const TimetableElement = React.memo(
 
     const getColor = (subject: Subject, no: number) => {
 
-      // 陞ｳ貊灘多陟厄ｽ｢隲ｷ荵昶・鬩･髦ｪ竊醍ｹｧ鄙ｫ縲呈ｿｶ・ｲ郢ｧ蜻茨ｽｱ・ｺ陞ｳ繝ｻ      const isFaceToFace = subject.classMethods.includes("陝・ｽｾ鬮ｱ・｢");
+      // 授業形態（対面・オンライン）に応じて色を決定
 
-      const isOndemand = subject.classMethods.includes("郢ｧ・ｪ郢晢ｽｳ郢昴・繝ｻ郢晢ｽｳ郢昴・);
+      const isFaceToFace = subject.classMethods.includes("対面");
 
-      const isInteractive = subject.classMethods.includes("陷ｷ譴ｧ蜃ｾ陷ｿ譴ｧ蟀ｿ陷ｷ繝ｻ);
+      const isOndemand = subject.classMethods.includes("オンライン");
+
+      const isInteractive = subject.classMethods.includes("ハイブリッド");
 
 
 
@@ -550,7 +552,9 @@ const TimetableElement = React.memo(
 
                           >
 
-                            隨ｨ繝ｻ                          </Close>
+                            ×
+
+                          </Close>
 
                         </SubjectTile>
 
@@ -571,53 +575,12 @@ const TimetableElement = React.memo(
         </TimetableWrapper>
 
         <Footer>
-
           <Link onClick={exportToTwinte}>
-
-            <span>Twin:te 邵ｺ・ｫ郢ｧ・ｨ郢ｧ・ｯ郢ｧ・ｹ郢晄亢繝ｻ郢昴・/span>
-
+            <span>Twin:te にエクスポート</span>
           </Link>
-
-          {/*<Link>
-
-=======
-
-                    ))}
-
-                  </Item>
-
-                ))}
-
-              </MainColumn>
-
-            ))}
-
-          </Main>
-
-        </TimetableWrapper>
-
-        <Footer>
-
-          <Link onClick={exportToTwinte}>
-
-            <span>Twin:te 邵ｺ・ｫ郢ｧ・ｨ郢ｧ・ｯ郢ｧ・ｹ郢晄亢繝ｻ郢昴・/span>
-
-          </Link>
-
-          {/*<Link>
-
->>>>>>> 6a66e61a43e30268e77c6652617ca04077d03a32
-
-          <span>騾包ｽｻ陷剃ｸ岩・闖ｫ譎擾ｽｭ繝ｻ/span>
-
-        </Link>*/}
-
           <Link caution={true} onClick={clearBookmarks}>
-
-            <span>邵ｺ蜷ｶ竏狗ｸｺ・ｦ陷台ｼ∝求</span>
-
+            <span>全てリセット</span>
           </Link>
-
         </Footer>
 
       </Wrapper>

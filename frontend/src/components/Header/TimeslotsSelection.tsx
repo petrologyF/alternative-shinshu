@@ -1,4 +1,4 @@
-﻿import styled from "@emotion/styled";
+import styled from "@emotion/styled";
 
 import React, { useEffect } from "react";
 
@@ -254,7 +254,7 @@ const TimeslotsSelection = ({
 
 
 
-    // 鬩包ｽｸ隰壽ｨ抵ｽｯ繝ｻ蟲・ｹｧ雋樊ｸ夐怕・｢
+    // ドラッグで範囲指定
 
     for (
 
@@ -284,7 +284,7 @@ const TimeslotsSelection = ({
 
 
 
-    // updates 邵ｺ繝ｻtrue 邵ｺ・ｮ陜｣・ｴ陷ｷ蛹ｻ繝ｻ邵ｺ・ｿ邵ｲ竏晢ｽｮ貊・怙邵ｺ・ｮ隶諛・ｽｴ・｢隴夲ｽ｡闔会ｽｶ郢ｧ蜻亥ｳｩ隴・ｽｰ
+    // updates が true の時は状態を更新し、false の時は一時的なテーブルを更新
 
     if (updates) {
 
@@ -438,7 +438,7 @@ const TimeslotsSelection = ({
 
       </ButtonWrapper>
 
-      <Description>郢晏ｳｨﾎ帷ｹ昴・縺堤ｸｺ・ｧ髫阪・辟夐ｩ包ｽｸ隰壹・/Description>
+      <Description>ドラッグで複数選択可能</Description>
 
       <Label>
 
@@ -456,7 +456,8 @@ const TimeslotsSelection = ({
 
         />
 
-        郢晄じ繝｣郢ｧ・ｯ郢晄ｧｭ繝ｻ郢ｧ・ｯ郢ｧ蟶晏求陞溘・      </Label>
+        ブックマーク済みを除外
+      </Label>
 
     </Wrapper>
 

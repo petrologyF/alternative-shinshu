@@ -1,4 +1,4 @@
-﻿import styled from "@emotion/styled";
+import styled from "@emotion/styled";
 import DOMPurify from "dompurify";
 import { useEffect, useState } from "react";
 import { colorGreenDark, shadow } from "@/utils/style";
@@ -111,16 +111,16 @@ const Syllabi = ({ subjectCode, setSubjectCode }: SyllabiProps) => {
       );
       let data = DOMPurify.sanitize(await response.text());
 
-      // 荳崎ｦ√↑隕∫ｴ繧帝勁蜴ｻ
+      // 不要な要素を除去
       data = data
         .replace(/<head>.+?<\/head>/gms, "")
         .replace(/<script.*?>.+?<\/script>/gms, "")
         .replace(/<style.*?>.+?<\/style>/gms, "");
 
-      // 荳崎ｦ√↑繝・く繧ｹ繝医ｒ髯､蜴ｻ
+      // 不要なテキストを除去
       data = data
         .replace(/<h1.*?>.+?<\/h1>/ms, "")
-        .replace(/<h2.*?>繧ｷ繝ｩ繝舌せ蜿ら・<\/h2>/ms, "")
+        .replace(/<h2.*?>シラバス参照<\/h2>/ms, "")
         .replace(/<div id="credit-grade-assignments">.+?<\/div>/ms, "")
         .replace(/<table.*?>.+?<\/table>/ms, "");
       console.log(data);
@@ -138,18 +138,19 @@ const Syllabi = ({ subjectCode, setSubjectCode }: SyllabiProps) => {
       <Header>
         <H1>{subject.name}</H1>
         <Description>
-          {subject.code} / {subject.credit} 蜊倅ｽ阪＋subject.year} 蟷ｴ谺｡縲・          {subject.termStr} {subject.timeslotStr}
+          {subject.code} / {subject.credit} 単位 / {subject.year} 年次 /
+          {subject.termStr} {subject.timeslotStr}
           <br />
-          {subject.person.split(",").join("縲・)}
+          {subject.person.split(",").join(" / ")}
         </Description>
         <SyllabusLink
           href={subject.syllabusHref}
           target="_blank"
           rel="noopener noreferrer"
         >
-          蜈ｬ蠑上す繝ｩ繝舌せ縺ｧ蜿ら・
+          公式シラバスで参照
         </SyllabusLink>
-        <Close onClick={() => setSubjectCode(null)}>ﾃ・/Close>
+        <Close onClick={() => setSubjectCode(null)}>×</Close>
       </Header>
       {/* biome-ignore lint/security/noDangerouslySetInnerHtml: to display the syllabus HTML */}
       <Content dangerouslySetInnerHTML={{ __html: content }}></Content>

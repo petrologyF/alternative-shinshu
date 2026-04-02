@@ -1,4 +1,4 @@
-﻿import styled from "@emotion/styled";
+import styled from "@emotion/styled";
 import React from "react";
 
 import { createSearchOptions, type SearchOptions } from "@/utils/search";
@@ -123,9 +123,9 @@ const Update = styled.div`
 `;
 
 const specialOptions = [
-  ["髮・ｸｭ", "concentration"],
-  ["蠢懆ｫ・, "negotiable"],
-  ["髫乗凾", "asneeded"],
+  ["集中", "concentration"],
+  ["相談可", "negotiable"],
+  ["随時", "asneeded"],
   ["NT", "nt"],
 ] as const;
 
@@ -154,7 +154,7 @@ const MobileForm = ({
         <Input
           value={searchOptions.keyword}
           type="text"
-          placeholder="遘醍岼逡ｪ蜿ｷ縺ｯ蜑肴婿荳閾ｴ縲√◎縺ｮ莉悶・豁｣隕剰｡ｨ迴ｾ縺ｫ蟇ｾ蠢・
+          placeholder="科目番号は前方一致、その他は正規表現に対応"
           onChange={(e) =>
             setSearchOptions({ ...searchOptions, keyword: e.target.value })
           }
@@ -177,12 +177,12 @@ const MobileForm = ({
         </CheckButtonWrapper>
       </div>
       <Line>
-        <Headline>隕∽ｻｶ</Headline>
+        <Headline>要件</Headline>
         <Requirements options={searchOptions} setOptions={setSearchOptions} />
       </Line>
       <SubWrapper>
         <Line>
-          <Headline>繧ｳ繝・/Headline>
+          <Headline>時間</Headline>
           <Right>
             <ModuleSelect
               value={
@@ -204,7 +204,7 @@ const MobileForm = ({
                 }))
               }
             >
-              <option value="null">蜈ｨ繝｢繧ｸ繝･繝ｼ繝ｫ</option>
+              <option value="null">全モジュール</option>
               {normalSeasons.map((season) => (
                 <React.Fragment key={season}>
                   {modules.map((module) => (
@@ -222,7 +222,7 @@ const MobileForm = ({
               style={{ flexGrow: 1 }}
               onClick={() => setDisplaysTimeslotSelection(true)}
             >
-              <span>譖懈律繝ｻ譎る剞繧帝∈謚・/span>
+              <span>曜日・時限を選択</span>
             </SubButtonAnchor>
           </Right>
         </Line>
@@ -251,7 +251,8 @@ const MobileForm = ({
                 }))
               }
             >
-              笘・            </CheckButton>
+              ★
+            </CheckButton>
             <CheckButton
               data-selected={searchOptions.exceptSameName}
               onClick={() =>
@@ -261,7 +262,8 @@ const MobileForm = ({
                 }))
               }
             >
-              蜷悟錐遘醍岼繧帝勁螟・            </CheckButton>
+              同名科目を除外
+            </CheckButton>
           </CheckButtonWrapper>
           <TimeslotsSelection
             options={searchOptions}
@@ -274,11 +276,11 @@ const MobileForm = ({
       </SubWrapper>
       <SubWrapper>
         <Line>
-          <Headline>蠖｢諷・/Headline>
+          <Headline>形態</Headline>
           <CheckButtonWrapper>
             {(
               [
-                ["謖・ｮ壹↑縺・, null],
+                ["指定なし", null],
                 ...classMethods.map((method) => [method, method]),
               ] as const
             ).map((method) => (
@@ -298,7 +300,7 @@ const MobileForm = ({
           </CheckButtonWrapper>
         </Line>
         <Line>
-          <Headline>蟷ｴ谺｡</Headline>
+          <Headline>年次</Headline>
           <CheckButtonWrapper>
             {[...Array(6)].map((_, i) => (
               <CheckButton
@@ -326,23 +328,24 @@ const MobileForm = ({
       <SubWrapper>
         <Line right={true}>
           <SubButtonAnchor href="#" onClick={clear}>
-            <span>譚｡莉ｶ繧偵け繝ｪ繧｢</span>
+            <span>条件をクリア</span>
           </SubButtonAnchor>
           <MainButtonAnchor href="#" style={{ marginLeft: "8px" }}>
-            <span>讀懃ｴ｢</span>
+            <span>検索</span>
           </MainButtonAnchor>
         </Line>
         <Line right={true}>
           <Update>
-            <span>{kdb.updated}</span> 譎らせ縺ｧ縺ｮ
+            <span>{kdb.updated}</span> 時点での
             <a
-              href="https://kdb.tsukuba.ac.jp/"
+              href="https://campus-3.shinshu-u.ac.jp/syllabusj/"
               target="_blank"
               rel="noreferrer"
             >
-              遲第ｳ｢螟ｧ蟄ｦ KdB
+              信州大学 シラバス
             </a>
-            縺ｮ繝・・繧ｿ縺ｫ蝓ｺ縺･縺阪∪縺・          </Update>
+            のデータに基づきます。
+          </Update>
         </Line>
       </SubWrapper>
     </Wrapper>

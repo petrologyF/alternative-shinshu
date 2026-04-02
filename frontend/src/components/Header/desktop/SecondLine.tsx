@@ -1,4 +1,4 @@
-﻿import { createSearchOptions, type SearchOptions } from "@/utils/search";
+import { createSearchOptions, type SearchOptions } from "@/utils/search";
 
 import { inputSize } from "@/utils/style";
 
@@ -34,7 +34,7 @@ const SecondLine = ({ options, setOptions }: RequirementProps) => {
 
     <Line thin={false} style={{ marginBottom: "4px" }}>
 
-      <Headline>隕∽ｻｶ</Headline>
+      <Headline>要件</Headline>
 
       <div style={{ width: inputSize }}>
 
@@ -44,7 +44,7 @@ const SecondLine = ({ options, setOptions }: RequirementProps) => {
 
       <SubButtonAnchor href="#" css={desktopButtonAnchor} onClick={clear}>
 
-        <span>譚｡莉ｶ繧偵け繝ｪ繧｢</span>
+        <span>条件をクリア</span>
 
       </SubButtonAnchor>
 
@@ -54,11 +54,11 @@ const SecondLine = ({ options, setOptions }: RequirementProps) => {
 
           [
 
-            ["all", "蜈ｨ遘醍岼"],
+            ["all", "全科目"],
 
-            ["bookmark", "縺頑ｰ励↓蜈･繧・],
+            ["bookmark", "お気に入り"],
 
-            ["except-bookmark", "縺頑ｰ励↓蜈･繧贋ｻ･螟・],
+            ["except-bookmark", "お気に入り以外"],
 
           ] as [SearchOptions["filter"], string][]
 

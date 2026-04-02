@@ -1,4 +1,4 @@
-﻿import kdbData from "@/kdb/kdb.json";
+import kdbData from "@/kdb/kdb.json";
 
 import kdbGradData from "@/kdb/kdb-grad.json";
 
@@ -16,17 +16,18 @@ import {
 
 
 
-// 霑ｴ・ｾ陜ｨ・ｨ邵ｺ・ｮ隴鯉ｽ･闔牙･ﾂｰ郢ｧ迚呻ｽｹ・ｴ陟趣ｽｦ郢ｧ雋槫徐陟募干笘・ｹｧ蜿･・ｰ・ｴ陷ｷ蛹ｻﾂ竏ｵ謔ｴ陷茨ｽｬ鬮｢荵昴・郢ｧ・ｷ郢晢ｽｩ郢晁・縺帷ｹｧ雋樒崟霎｣・ｧ邵ｺ蜉ｱ窶ｻ邵ｺ蜉ｱ竏ｪ邵ｺ繝ｻ蠎・妙・ｽ隲､・ｧ邵ｺ蠕娯旺郢ｧ荵昶螺郢ｧ竏堋竏ｵ辟碑恪霈斐定濤・ｴ陟趣ｽｦ郢ｧ蜻亥ｳｩ隴・ｽｰ邵ｺ蜷ｶ・狗ｸｲ繝ｻ// 郢ｧ・ｷ郢晢ｽｩ郢晁・縺帷ｸｺ・ｯ雎井ｸｻ・ｹ・ｴ 4 隴帑ｺ包ｽｸ鬆第ｵ∫ｸｺ・ｫ隴厄ｽｴ隴・ｽｰ邵ｺ霈費ｽ檎ｹｧ荵敖繝ｻexport const CURRENT_YEAR = 2026;
+// 現在の年度
+export const CURRENT_YEAR = 2026;
 
 
 
-const allSeasons = ["隴擾ｽ･", "陞溘・, "驕倥・, "陷・ｬ"] as const;
+const allSeasons = ["春", "夏", "秋", "冬"] as const;
 
-export const normalSeasons = ["隴擾ｽ･", "驕倥・] as const;
+export const normalSeasons = ["春", "秋"] as const;
 
 export const modules = ["A", "B", "C"] as const;
 
-export const classMethods = ["陝・ｽｾ鬮ｱ・｢", "郢ｧ・ｪ郢晢ｽｳ郢昴・繝ｻ郢晢ｽｳ郢昴・, "陷ｷ譴ｧ蜃ｾ陷ｿ譴ｧ蟀ｿ陷ｷ繝ｻ] as const;
+export const classMethods = ["対面", "オンライン", "ハイブリッド"] as const;
 
 
 
@@ -59,8 +60,7 @@ const isModule = (char: string): char is Module =>
 
 
 export const getTermCode = (season: NormalSeason, module: Module) =>
-
-  (season === "隴擾ｽ･" ? 0 : 3) + (module === "A" ? 0 : module === "B" ? 1 : 2);
+  (season === "春" ? 0 : 3) + (module === "A" ? 0 : module === "B" ? 1 : 2);
 
 
 
@@ -76,7 +76,8 @@ export class Subject {
 
   private _timeslotTables: TimeslotTable[] = [];
 
-  // timeslotTables 邵ｺ・ｮ郢晁侭繝｣郢昜ｺ･繝ｻ邵ｺ・ｮ髫ｲ荵溽ｊ驕ｨ謳ｾ・ｼ蝓滂ｽ､諛・ｽｴ・｢騾包ｽｨ繝ｻ繝ｻ  private _timeslotTableBits = 0n;
+  // timeslotTables のビット列（重複判定などに使用）
+  private _timeslotTableBits = 0n;
 
   year: string;
 
@@ -140,9 +141,10 @@ export class Subject {
 
 
 
-    // 隴弱ｋ蜑・
-    // 郢ｧ・ｿ郢晢ｽｼ郢晢｣ｰ邵ｺ・ｨ郢ｧ・ｳ郢晄ｧｭ繝ｻ郢ｧ・ｰ郢晢ｽｫ郢晢ｽｼ郢晞斡閨樒ｸｺ・ｯ驕楪邵ｺ・ｫ闕ｳﾂ髢ｾ・ｴ邵ｺ蜉ｱ竊醍ｸｺ繝ｻ・ｰ・ｴ陷ｷ蛹ｻ窶ｲ邵ｺ繧・ｽ・
-    // 郢ｧ・ｿ郢晢ｽｼ郢晢｣ｰ邵ｺ・ｮ郢ｧ・ｰ郢晢ｽｫ郢晢ｽｼ郢晏干窶ｲ 1 邵ｺ・､邵ｺ蜉ｱﾂｰ邵ｺ・ｪ邵ｺ繝ｻ・ｰ・ｴ陷ｷ蛹ｻ繝ｻ邵ｲ竏壺・邵ｺ・ｹ邵ｺ・ｦ邵ｺ・ｮ郢ｧ・ｳ郢晄ｧｭ・帝お・ｱ陷ｷ繝ｻ    const tempTimeslotStr =
+    // 時限
+    // タームが1つの場合はスペースをカンマに置換して一括パース
+    // タームが複数の場合はスペースで分割
+    const tempTimeslotStr =
 
       this._termCodes.length === 1
 
@@ -152,17 +154,17 @@ export class Subject {
 
 
 
-    // 郢ｧ・ｰ郢晢ｽｫ郢晢ｽｼ郢晉軸・ｯ蠑ｱ竊楢怎・ｦ騾・・    const termStrArray = tempTimeslotStr.split(" ");
+    // タームごとに分割してパース
+    const termStrArray = tempTimeslotStr.split(" ");
 
     for (const str of termStrArray) {
 
       this._timeslotTables.push(createTimeslotTable(str));
+      this.concentration ||= str.includes("集中");
 
-      this.concentration ||= str.includes("鬮ｮ繝ｻ・ｸ・ｭ");
+      this.negotiable ||= str.includes("応相談");
 
-      this.negotiable ||= str.includes("陟｢諛・ｽｫ繝ｻ);
-
-      this.asneeded ||= str.includes("鬮ｫ荵怜・");
+      this.asneeded ||= str.includes("随時");
 
       this.nt ||= str.includes("NT");
 
@@ -176,7 +178,8 @@ export class Subject {
 
 
 
-    // 郢ｧ・ｳ郢晄ｧｭ繝ｻ郢ｧ・ｰ郢晢ｽｫ郢晢ｽｼ郢晏干窶ｲ 1 邵ｺ・､邵ｺ蜉ｱﾂｰ邵ｺ・ｪ邵ｺ繝ｻ・ｰ・ｴ陷ｷ蛹ｻ繝ｻ邵ｲ竏壺・邵ｺ・ｹ邵ｺ・ｦ邵ｺ・ｮ郢ｧ・ｿ郢晢ｽｼ郢晢｣ｰ郢ｧ蝣､・ｵ・ｱ陷ｷ繝ｻ    if (this._timeslotTables.length === 1) {
+    // タームが1つの場合は全タームコードを1つのグループにまとめる
+    if (this._timeslotTables.length === 1) {
 
       this._termCodes = [[...new Set(this._termCodes.flat())]];
 
@@ -248,11 +251,10 @@ export class Subject {
 
   private static parseTerm(termStr: string) {
 
-    // 郢ｧ・ｿ郢晢ｽｼ郢晢｣ｰ郢ｧ・ｳ郢晢ｽｼ郢昴・    // - 隴擾ｽ･ A-C: 0-2
-
-    // - 驕倥・A-C: 3-5
-
-    // - 隴擾ｽ･陝・ｽ｣邵ｲ竏晢ｽ､荳橸ｽｭ・｣邵ｲ竏ｫ・ｧ蜿･・ｭ・｣邵ｲ竏昴・陝・ｽ｣闔ｨ隨ｬ・･・ｭ闕ｳ・ｭ: 6-9
+    // タームコード
+    // - 春 A-C: 0-2
+    // - 秋 A-C: 3-5
+    // - 春 夏季/夏季等/秋 冬季/冬季等: 6-9
 
     const termCodes: number[][] = [];
 
@@ -260,13 +262,13 @@ export class Subject {
 
 
 
-    // 陋ｻ譏ｴ・∫ｸｺ・ｫ郢ｧ・ｹ郢晏｣ｹ繝ｻ郢ｧ・ｹ邵ｺ・ｧ陋ｻ繝ｻ迚｡
+    // 空白で分割（グループごと）
 
     const termGroups = termStr.split(" ");
 
     for (const groupStr of termGroups) {
 
-      // 邵ｺ・ｻ邵ｺ・ｨ郢ｧ阮吮・邵ｺ・ｮ驕倬・蟯ｼ邵ｺ・ｫ邵ｺ・ｦ邵ｲ竏壹■郢晢ｽｼ郢晢｣ｰ郢ｧ・ｳ郢晢ｽｼ郢晏ｳｨ繝ｻ郢ｧ・ｰ郢晢ｽｫ郢晢ｽｼ郢晏干繝ｻ郢ｧ・ｳ郢晄ｧｭ繝ｻ郢ｧ・ｰ郢晢ｽｫ郢晢ｽｼ郢晏干竊定叉ﾂ髢ｾ・ｴ邵ｺ蜷ｶ・・
+      // 最初に見つかったシーズンのグループとしてタームコードを作成
       const group: number[] = [];
 
       const charArray = Array.from(groupStr);
@@ -281,8 +283,8 @@ export class Subject {
 
 
 
-        // 鬨ｾ螢ｼ・ｹ・ｴ邵ｺ・ｮ陜｣・ｴ陷ｷ蛹ｻ繝ｻ隴擾ｽ･ A-C繝ｻ讙趣ｽｧ蟶ｰ-C 郢ｧ雋槭・郢ｧ蠕鯉ｽ・
-        if (char === "鬨ｾ繝ｻ && nextChar === "陝ｷ・ｴ") {
+        // 春秋 A-C の場合
+        if (char === "春" && nextChar === "秋") {
 
           group.push(0, 1, 2, 3, 4, 5);
 
@@ -290,7 +292,8 @@ export class Subject {
 
         }
 
-        // 陝・ｽ｣驕ｽﾂ邵ｺ謔溘・霑ｴ・ｾ邵ｺ蜉ｱ笳・撻・ｴ陷ｷ蛹ｻﾂ竏ｽ・ｻ・･鬮ｯ髦ｪ繝ｻ郢ｧ・ｿ郢晢ｽｼ郢晢｣ｰ邵ｺ・ｯ邵ｺ譏ｴ繝ｻ陝・ｽ｣驕ｽﾂ邵ｺ・ｨ邵ｺ蜉ｱ窶ｻ隰・ｽｱ邵ｺ繝ｻ        if (isAllSeason(char)) {
+        // シーズンの判定
+        if (isAllSeason(char)) {
 
           season = char;
 
@@ -298,7 +301,7 @@ export class Subject {
 
         if (season) {
 
-          // ABC 郢ｧ・ｿ郢晢ｽｼ郢晢｣ｰ
+          // ABC モジュール
 
           if (isModule(char) && isNormalSeason(season)) {
 
@@ -308,9 +311,8 @@ export class Subject {
 
           }
 
-          // 闔ｨ隨ｬ・･・ｭ闕ｳ・ｭ
-
-          if (char === "闔ｨ繝ｻ) {
+          // 夏季/冬季
+          if (char === "季") {
 
             group.push(allSeasons.indexOf(season) + 6);
 
@@ -372,13 +374,13 @@ export const kdb = (() => {
 
 
 
-// 闕ｳﾂ陟趣ｽｦ邵ｺ・ｫ髯ｦ・ｨ驕会ｽｺ邵ｺ蜷ｶ・玖脂・ｶ隰ｨ・ｰ
+// 一度に表示する件数
 
 export const ONCE_COUNT = 50;
 
 
 
-// 鬯ｮ蛟ｬﾂ貅ｷ蝟ｧ邵ｺ・ｮ邵ｺ貅假ｽ∫ｸｲ竏昴・陜玲ｫ・ｽ｡・ｨ驕会ｽｺ隴弱ｅ繝ｻ邵ｺ・ｿ郢晁ｼ斐≦郢晢ｽｫ郢ｧ・ｿ邵ｺ霈費ｽ檎ｸｺ・ｦ邵ｺ・ｪ邵ｺ繝ｻ・ｧ驢榊ｲｼ郢ｧ螳夲ｽ｡・ｨ驕会ｽｺ
+// 初期表示する科目
 
 export const initialSubjects = kdb.subjectCodeList
 
@@ -388,7 +390,8 @@ export const initialSubjects = kdb.subjectCodeList
 
 
 
-// UTF-8繝ｻ繝ｻOM 闔牙･窶ｳ繝ｻ蟲ｨ繝ｻ CSV 郢晁ｼ斐＜郢ｧ・､郢晢ｽｫ邵ｺ・ｫ陷・ｽｺ陷峨・export const outputSubjectsToCSV = (
+// UTF-8 BOM付きで CSV ファイルに出力
+export const outputSubjectsToCSV = (
 
   subjects: Subject[],
 
@@ -408,25 +411,25 @@ export const initialSubjects = kdb.subjectCodeList
 
     [
 
-      "驕倬・蟯ｼ騾｡・ｪ陷ｿ・ｷ",
+      "科目コード",
 
-      "驕倬・蟯ｼ陷ｷ繝ｻ,
+      "科目名",
 
-      "陷雁・ｽｽ閧ｴ辟・,
+      "単位数",
 
-      "陝ｷ・ｴ隹ｺ・｡",
+      "年度",
 
-      "郢ｧ・ｿ郢晢ｽｼ郢晢｣ｰ",
+      "ターム",
 
-      "隴匁㊧蠕狗ｹ晢ｽｻ隴弱ｋ蜑・,
+      "時限",
 
-      "隲｡繝ｻ・ｽ繝ｻ,
+      "担当教員",
 
-      "陞ｳ貊灘多陟厄ｽ｢隲ｷ繝ｻ,
+      "授業方法",
 
-      "隶弱ｊ・ｦ繝ｻ,
+      "概要",
 
-      "陋ｯ蜻ｵﾂ繝ｻ,
+      "備考",
 
     ],
 
@@ -462,7 +465,8 @@ export const initialSubjects = kdb.subjectCodeList
 
 
 
-  // 郢ｧ・ｨ郢ｧ・ｹ郢ｧ・ｱ郢晢ｽｼ郢昴・  const csvRows: string[] = [];
+  // カンマなどでエスケープ
+  const csvRows: string[] = [];
 
   for (const row of rows) {
 
@@ -512,7 +516,8 @@ export const initialSubjects = kdb.subjectCodeList
 
 
 
-  // Blob 邵ｺ・ｮ郢晢ｽｪ郢晢ｽｳ郢ｧ・ｯ郢ｧ蝣､蜃ｽ隰後・  const blob = new Blob([bom, csvRows.join("\n")], { type: "text/csv" });
+  // Blob の作成
+  const blob = new Blob([bom, csvRows.join("\n")], { type: "text/csv" });
 
   if (a) {
 

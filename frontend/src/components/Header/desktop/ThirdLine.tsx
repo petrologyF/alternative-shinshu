@@ -1,4 +1,4 @@
-﻿import type { SearchOptions } from "@/utils/search";
+import type { SearchOptions } from "@/utils/search";
 
 import type { Module, NormalSeason } from "@/utils/subject";
 
@@ -8,11 +8,11 @@ import { Headline, Left, Line, Options } from "./parts";
 
 const specialOptions = [
 
-  ["鬮ｮ繝ｻ・ｸ・ｭ", "concentration"],
+  ["集中", "concentration"],
 
-  ["陟｢諛・ｽｫ繝ｻ, "negotiable"],
+  ["相談可", "negotiable"],
 
-  ["鬮ｫ荵怜・", "asneeded"],
+  ["随時", "asneeded"],
 
   ["NT", "nt"],
 
@@ -36,7 +36,7 @@ const ThirdLine = ({ options, setOptions }: ThirdLineProps) => {
 
     <Line thin={true}>
 
-      <Headline>陝・ｽｦ隴帙・/Headline>
+      <Headline>学期・期間</Headline>
 
       <Left>
 
@@ -54,9 +54,9 @@ const ThirdLine = ({ options, setOptions }: ThirdLineProps) => {
 
           />
 
-          遯ｶ繝ｻ        </label>
+          全        </label>
 
-        {(["隴擾ｽ･", "驕倥・] as NormalSeason[]).map((season) => (
+        {(["春", "秋"] as NormalSeason[]).map((season) => (
 
           <label key={season}>
 
@@ -78,7 +78,8 @@ const ThirdLine = ({ options, setOptions }: ThirdLineProps) => {
 
         ))}
 
-        繝ｻ繝ｻ        <label>
+        /
+        <label>
 
           <input
 

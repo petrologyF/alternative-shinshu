@@ -1,4 +1,4 @@
-﻿import styled from "@emotion/styled";
+import styled from "@emotion/styled";
 
 import React, { useEffect, useState } from "react";
 
@@ -298,7 +298,7 @@ const Mobile = React.memo(
 
                   <span className="class-method">
 
-                    {subject.classMethods.join("縲・)}
+                    {subject.classMethods.join(" / ")}
 
                   </span>
 
@@ -306,7 +306,7 @@ const Mobile = React.memo(
 
                 <Title>{subject.name}</Title>
 
-                {subject.person.split(",").join("縲・)}
+                {subject.person.split(",").join(" / ")}
 
               </Left>
 
@@ -316,13 +316,13 @@ const Mobile = React.memo(
 
                 {subject.credit.toFixed(1)}
 
-                <span className="sub">蜊倅ｽ・/span>
+                <span className="sub">単位</span>
 
                 <br />
 
                 {subject.year}
 
-                <span className="sub">蟷ｴ谺｡</span>
+                <span className="sub">年次</span>
 
               </Right>
 
@@ -345,10 +345,8 @@ const Mobile = React.memo(
                   <span>
 
                     {bookmarksHas(subject.code)
-
-                      ? "笘・縺頑ｰ励↓蜈･繧・
-
-                      : "笘・縺頑ｰ励↓蜈･繧翫↓霑ｽ蜉"}
+                      ? "★ お気に入り"
+                      : "☆ お気に入りに追加"}
 
                   </span>
 
@@ -364,7 +362,7 @@ const Mobile = React.memo(
 
                 >
 
-                  <span>繧ｷ繝ｩ繝舌せ</span>
+                  <span>シラバス</span>
 
                 </Anchor>
 
@@ -379,10 +377,8 @@ const Mobile = React.memo(
         <Loading ref={loadingRef}>
 
           {hasMore
-
             ? "Loading..."
-
-            : `蜈ｨ ${kdb?.subjectCodeList.length} 莉ｶ荳ｭ ${subjects.length} 莉ｶ繧定｡ｨ遉ｺ縺励∪縺励◆`}
+            : `全 ${kdb?.subjectCodeList.length} 件中 ${subjects.length} 件を表示しました`}
 
         </Loading>
 

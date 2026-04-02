@@ -1,4 +1,4 @@
-﻿import styled from "@emotion/styled";
+import styled from "@emotion/styled";
 import React, { useRef } from "react";
 
 import { mobileMedia } from "@/utils/style";
@@ -52,7 +52,7 @@ const Footer = React.memo(({ filteredSubjects }: FooterProps) => {
         </li>
         <li>
           Contributed by{" "}
-          <a href="https://github.com/inaniwaudon">縺・↑縺ｫ繧上≧縺ｩ繧・/a>,{" "}
+          <a href="https://github.com/inaniwaudon">いなにわうどん</a>,{" "}
           <a href="https://github.com/frodo821">frodo821</a>,{" "}
           <a href="https://github.com/eggplants">eggplants</a>,{" "}
           <a href="https://github.com/maru2213">maru2213</a>,{" "}
@@ -66,7 +66,8 @@ const Footer = React.memo(({ filteredSubjects }: FooterProps) => {
               outputSubjectsToCSV(filteredSubjects, anchorRef.current)
             }
           >
-            CSV 繝繧ｦ繝ｳ繝ｭ繝ｼ繝・          </a>
+            CSV ダウンロード
+          </a>
         </li>
       </List>
     </Wrapper>
