@@ -1,0 +1,205 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex">
+<meta name="robots" content="nofollow">
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>シラバス検索</title>
+<style type="text/css">
+  /* table.IchiranTable tr.odd{
+  background-color: #ffffee;
+偶数行の背景色 */
+
+}
+</style>
+</head>
+<body>
+<p><a name="top"></a></p>
+<table width="100%">
+  <tbody>
+    <tr>
+      <td align="center" bgcolor="#00ff00"><font size="+1"><b>シラバス検索</b></font></td>
+    </tr>
+  </tbody>
+</table>
+<form name="form" method="post">
+<input type="hidden" id="POS" name="Pos" value="" />
+<input type="hidden" id="MODE" name="Mode" value="1" />
+<input type="hidden" id="STARTNO" name="StartNo" value="0" /><br />
+検索条件を指定して「検索」をクリックしてください。
+<table>
+  <tbody>
+    <tr>
+      <td colspan="2">
+      <table border="1">
+        <tbody>
+          <tr>
+            <td bgcolor="#ffff80">開講部局</td>
+            <td>
+              
+                <span>理学部</span>
+                <input type="hidden" name="Bukyoku" value="S" />
+              
+              
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffff80">開講年度</td>
+            <td><input type="text" size="10" maxlength="4" name="Nendo" value="2026" /> 年度(西暦)</td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffff80">開講期間</td>
+            <td><input type="checkbox" value="true" name="KikZenki" id="KikZenki" /><input type="hidden" name="_KikZenki" value="on"/><label for="KikZenki">前期 </label><input type="checkbox" value="true" name="KikKouki" id="KikKouki" /><input type="hidden" name="_KikKouki" value="on"/><label for="KikKouki">後期 </label><input type="checkbox" value="true" name="KikTsuunen" id="KikTsuunen" /><input type="hidden" name="_KikTsuunen" value="on"/><label for="KikTsuunen">通年 </label></td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffff80">曜日</td>
+            <td><input type="checkbox" value="true" name="WeekMon" id="WeekMon" /><input type="hidden" name="_WeekMon" value="on"/><label for="WeekMon">月 </label><input type="checkbox" value="true" name="WeekTue" id="WeekTue" /><input type="hidden" name="_WeekTue" value="on"/><label for="WeekTue">火 </label><input type="checkbox" value="true" name="WeekWed" id="WeekWed" /><input type="hidden" name="_WeekWed" value="on"/><label for="WeekWed">水 </label><input type="checkbox" value="true" name="WeekThu" id="WeekThu" /><input type="hidden" name="_WeekThu" value="on"/><label for="WeekThu">木 </label><input type="checkbox" value="true" name="WeekFri" id="WeekFri" /><input type="hidden" name="_WeekFri" value="on"/><label for="WeekFri">金 </label><input type="checkbox" value="true" name="WeekSat" id="WeekSat" /><input type="hidden" name="_WeekSat" value="on"/><label for="WeekSat">土 </label><input type="checkbox" value="true" name="WeekOth" id="WeekOth" /><input type="hidden" name="_WeekOth" value="on"/><label for="WeekOth">不定</label></td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffff80">時限</td>
+            <td><input type="checkbox" value="true" name="Jigen1" id="Jigen1" /><input type="hidden" name="_Jigen1" value="on"/><label for="Jigen1">1時限 </label><input type="checkbox" value="true" name="Jigen2" id="Jigen2" /><input type="hidden" name="_Jigen2" value="on"/><label for="Jigen2">2時限 </label><input type="checkbox" value="true" name="Jigen3" id="Jigen3" /><input type="hidden" name="_Jigen3" value="on"/><label for="Jigen3">3時限 </label><input type="checkbox" value="true" name="Jigen4" id="Jigen4" /><input type="hidden" name="_Jigen4" value="on"/><label for="Jigen4">4時限 </label><input type="checkbox" value="true" name="Jigen5" id="Jigen5" /><input type="hidden" name="_Jigen5" value="on"/><label for="Jigen5">5時限 </label><input type="checkbox" value="true" name="Jigen6" id="Jigen6" /><input type="hidden" name="_Jigen6" value="on"/><label for="Jigen6">6時限 </label><input type="checkbox" value="true" name="Jigen7" id="Jigen7" /><input type="hidden" name="_Jigen7" value="on"/><label for="Jigen7">7時限 </label><input type="checkbox" value="true" name="JigenO" id="JigenO" /><input type="hidden" name="_JigenO" value="on"/><label for="JigenO">不定</label></td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffff80">授業名</td>
+            <td><input type="text" size="40" maxlength="60" name="Meisyou" value="" />　(授業名の一部で検索します)</td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffff80">教員氏名<br><font size="-1">(姓と名の間には全角スペースを入れてください)</font></td>
+            <td><input type="text" size="40" maxlength="60" name="Kyouin" value="" />　(教員漢字氏名の一部で検索します)<br />
+            <input type="text" size="40" maxlength="60" name="KyouinKana" value="" />　(教員カナ氏名の一部で検索します)<br />
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffff80">授業の内容・計画</td>
+            <td><input type="text" size="40" maxlength="60" name="Keikaku" value="" />　(授業の内容・計画の一部で検索します)</td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffff80">対象学生</td>
+            <td><input type="text" size="40" maxlength="60" name="Taisyou" value="" />　(対象学生の一部で検索します)</td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffff80">登録コード</td>
+            <td><input type="text" size="10" maxlength="8" name="CodeStart" value="" /> <select name="CodeJyouken">
+              <option value="0" selected="selected">で始まる</option>
+              <option value="1">で終わる</option>
+              <option value="2">を含む</option>
+              <option value="3">を含まない</option>
+            </select></td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffff80">市民開放授業</td>
+            <td><input type="checkbox" value="true" name="KaihouShimin" id="KaihouShimin" /><input type="hidden" name="_KaihouShimin" value="on"/><label for="KaihouShimin">対象科目のみ</label> </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffff80">県内大学履修科目</td>
+            <td><input type="checkbox" value="true" name="KaihouDaigaku" id="KaihouDaigaku" /><input type="hidden" name="_KaihouDaigaku" value="on"/><label for="KaihouDaigaku">対象科目のみ</label> </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffff80">大学院共通科目</td>
+            <td><input type="checkbox" value="true" name="InKyoutsuu" id="InKyoutsuu" /><input type="hidden" name="_InKyoutsuu" value="on"/><label for="InKyoutsuu">対象科目のみ</label> </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffff80">信大コンピテンシー</td>
+            <td><input type="checkbox" value="true" name="Cometency" id="Cometency" /><input type="hidden" name="_Cometency" value="on"/><label for="Cometency">対象科目のみ</label></td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffff80">授業で学べる「テーマ」<br />
+            <font size="-1">（2016年度以降指定可能）<br />
+            ※複数指定の場合はAND条件 </font></td>
+            <td>
+            <table border="0">
+              <tbody>
+                <tr>
+                  <td><input type="checkbox" id="THEME_2" value="true" name="ThemeFlag[2]" /><input type="hidden" name="_ThemeFlag[2]" value="on"/><label for="THEME_2"><span>地域運営</span></label>　</td>
+                  <td><input type="checkbox" id="THEME_3" value="true" name="ThemeFlag[3]" /><input type="hidden" name="_ThemeFlag[3]" value="on"/><label for="THEME_3"><span>芸術文化</span></label>　</td>
+                  <td><input type="checkbox" id="THEME_4" value="true" name="ThemeFlag[4]" /><input type="hidden" name="_ThemeFlag[4]" value="on"/><label for="THEME_4"><span>環境共生</span></label>　</td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" id="THEME_5" value="true" name="ThemeFlag[5]" /><input type="hidden" name="_ThemeFlag[5]" value="on"/><label for="THEME_5"><span>多文化協働</span></label>　</td>
+                  <td><input type="checkbox" id="THEME_6" value="true" name="ThemeFlag[6]" /><input type="hidden" name="_ThemeFlag[6]" value="on"/><label for="THEME_6"><span>健康長寿</span></label>　</td>
+                  <td><input type="checkbox" id="THEME_7" value="true" name="ThemeFlag[7]" /><input type="hidden" name="_ThemeFlag[7]" value="on"/><label for="THEME_7"><span>防災減災</span></label>　</td>
+                  <td><input type="checkbox" id="THEME_8" value="true" name="ThemeFlag[8]" /><input type="hidden" name="_ThemeFlag[8]" value="on"/><label for="THEME_8"><span>キャリア</span></label>　</td>
+                </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffff80">授業で扱う「志向」<br />
+            （本学で重点的に育成するマインド）<br />
+            <font size="-1">（2016年度以降指定可能）<br />
+            ※複数指定の場合はAND条件 </font></td>
+            <td>
+            <table border="0">
+              <tbody>
+                <tr>
+                  <td><input type="checkbox" id="MIND_2" value="true" name="MindFlag[2]" /><input type="hidden" name="_MindFlag[2]" value="on"/><label for="MIND_2"><span>信州志向</span></label>　</td>
+                  <td><input type="checkbox" id="MIND_3" value="true" name="MindFlag[3]" /><input type="hidden" name="_MindFlag[3]" value="on"/><label for="MIND_3"><span>グローバル</span></label>　</td>
+                  <td><input type="checkbox" id="MIND_4" value="true" name="MindFlag[4]" /><input type="hidden" name="_MindFlag[4]" value="on"/><label for="MIND_4"><span>環境</span></label>　</td>
+                </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffff80">全学横断特別教育プログラム<br />
+            <font size="-1">（2021年度以降指定可能）<br />
+            ※複数指定の場合はOR条件 </font>
+            </td>
+            <td>
+              <div><label><input type='checkbox' name='SEProgram' value='01' id='SEProgram'1 >ローカル･イノベーター養成コース</input><input type='hidden' name='_SEProgram' value='on' /> </label><br>
+&nbsp;･&nbsp;グローバルコア人材養成コース ・ ＢＡＳＩＣ<br>　
+<label><input type='checkbox' name='SEProgram' value='0201' id='SEProgram'2 >日本理解</input><input type='hidden' name='_SEProgram' value='on' /> </label>　<label><input type='checkbox' name='SEProgram' value='0202' id='SEProgram'3 >国際理解</input><input type='hidden' name='_SEProgram' value='on' /> </label>　<label><input type='checkbox' name='SEProgram' value='0203' id='SEProgram'4 >国際共修</input><input type='hidden' name='_SEProgram' value='on' /> </label>　<br>
+<label><input type='checkbox' name='SEProgram' value='03' id='SEProgram'5 >グローバルコア人材養成コース ・ ＡＤＶＡＮＣＥＤ</input><input type='hidden' name='_SEProgram' value='on' /> </label><br>
+<label><input type='checkbox' name='SEProgram' value='04' id='SEProgram'6 >環境マインド実践人材養成コース</input><input type='hidden' name='_SEProgram' value='on' /> </label><br>
+<label><input type='checkbox' name='SEProgram' value='05' id='SEProgram'7 >ストラテジー･デザイン人材養成コース</input><input type='hidden' name='_SEProgram' value='on' /> </label><br>
+<label><input type='checkbox' name='SEProgram' value='06' id='SEProgram'8 >ライフクリエイター養成コース</input><input type='hidden' name='_SEProgram' value='on' /> </label><br>
+&nbsp;･&nbsp;ENGINE教育プログラム<br>　
+<label><input type='checkbox' name='SEProgram' value='0701' id='SEProgram'9 >ENGINE</input><input type='hidden' name='_SEProgram' value='on' /> </label>　<br>
+&nbsp;･&nbsp;ShinXiaコース<br>　
+<label><input type='checkbox' name='SEProgram' value='0801' id='SEProgram'10 >ShinXia</input><input type='hidden' name='_SEProgram' value='on' /> </label>　</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+    <tr>
+      <td align="left"><input type="submit" name="BtKENSAKU" value="　検　索　" /></td>
+      <td align="right">
+        <!--　　　　 <input type="submit" name="BtDIPLOMAMAP" value="「学位授与の方針」マップへ" />-->
+      </td>
+    </tr>
+  </tbody>
+</table>
+<!-- エラーメッセージ --><font color="#ff0000"><span></span></font><!-- エラーメッセージ -->
+<p style="display:inline;"></p>
+
+　
+
+<br />
+</form>
+<hr />
+<!-- 一覧表示 -->
+<table border="1" class="IchiranTable">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffff80" align="center">開講年度</td>
+      <td bgcolor="#ffff80" align="center">開講期間</td>
+      <td bgcolor="#ffff80" align="center">コード</td>
+      <td bgcolor="#ffff80" align="center">授業名</td>
+      <td bgcolor="#ffff80" align="center">教員氏名</td>
+      <td bgcolor="#ffff80" align="center">曜日・時限</td>
+      <td bgcolor="#ffff80" align="center">開講部局</td>
+      <td bgcolor="#ffff80" align="center">開講場所</td>
+      <td bgcolor="#ffff80" align="center">ﾀﾞｳﾝﾛｰﾄﾞ</td>
+    </tr>
+    
+  </tbody>
+</table>
+<!-- 一覧表示 --><a href="./Top">←検索TOPページへ</a> 　　　 <a href="#top" target="_self" title="このページのトップへ">↑このページのトップへ</a></body>
+</html>
