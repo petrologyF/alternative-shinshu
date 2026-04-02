@@ -1,0 +1,284 @@
+﻿import styled from "@emotion/styled";
+
+import { useMemo } from "react";
+
+
+
+import { shallowShadow } from "@/utils/style";
+
+import type { Subject } from "@/utils/subject";
+
+import type { useBookmark } from "@/utils/useBookmark";
+
+import { BottomRow, Star, Td, YearSelect, years } from "../parts";
+
+
+
+const Season = styled.div`
+
+  padding: 4px 0;
+
+  text-align: center;
+
+  border-radius: 4px;
+
+
+
+  &[data-season="year-round"] {
+
+    background: #f0f0f0;
+
+  }
+
+  &[data-season="spring"] {
+
+    background: #ffe6f7;
+
+  }
+
+  &[data-season="autumn"] {
+
+    background: #ffedd6;
+
+  }
+
+`;
+
+
+
+const Textarea = styled.textarea`
+
+  width: 100%;
+
+  height: 2lh;
+
+  font-family: inherit;
+
+  padding: 4px;
+
+  border: none;
+
+  border-radius: 4px 8px;
+
+  box-sizing: border-box;
+
+  box-shadow: ${shallowShadow};
+
+  display: block;
+
+`;
+
+
+
+interface SubjectTrProps {
+
+  subject: Subject;
+
+  usedBookmark: ReturnType<typeof useBookmark>;
+
+}
+
+
+
+const SubjectTr = ({ subject, usedBookmark }: SubjectTrProps) => {
+
+  const {
+
+    memoLength,
+
+    bookmarksHas,
+
+    getBookmarkSubject,
+
+    switchBookmark,
+
+    updateBookmark,
+
+  } = usedBookmark;
+
+
+
+  const bookmarkSubject = useMemo(
+
+    () => getBookmarkSubject(subject.code),
+
+    [getBookmarkSubject, subject.code],
+
+  );
+
+  if (!bookmarkSubject) {
+
+    return null;
+
+  }
+
+
+
+  const isSpring = subject.termStr.includes("隴擾ｽ･");
+
+  const isAutumn = subject.termStr.includes("驕倥・);
+
+  const isYearRound =
+
+    subject.termStr.includes("鬨ｾ螢ｼ・ｹ・ｴ") || (isSpring && isAutumn);
+
+
+
+  return (
+
+    <tr key={subject.code}>
+
+      <Td css={{ verticalAlign: "middle" }}>
+
+        <Season
+
+          data-season={
+
+            isYearRound ? "year-round" : isSpring ? "spring" : "autumn"
+
+          }
+
+        >
+
+          {isYearRound ? (
+
+            "鬨ｾ螢ｼ・ｹ・ｴ"
+
+          ) : (
+
+            <>
+
+              {isSpring && "隴擾ｽ･"}
+
+              {isAutumn && "驕倥・}
+
+            </>
+
+          )}
+
+        </Season>
+
+      </Td>
+
+      <Td>
+
+        {subject.code}繝ｻ繝ｻsubject.credit.toFixed(1)} 陷雁・ｽｽ謳ｾ・ｼ繝ｻ        <br />
+
+        {subject.name}
+
+      </Td>
+
+      <Td css={{ verticalAlign: "middle" }}>
+
+        <BottomRow>
+
+          <Star
+
+            enabled={bookmarksHas(subject.code)}
+
+            onClick={() => switchBookmark(subject.code)}
+
+          >
+
+            隨倥・          </Star>
+
+
+
+          <YearSelect
+
+            value={bookmarkSubject.year}
+
+            onChange={(e) =>
+
+              updateBookmark(subject.code, {
+
+                year: Number.parseInt(e.currentTarget.value, 10),
+
+              })
+
+            }
+
+          >
+
+            {years.map((year) => (
+
+              <option key={year}>{year}</option>
+
+            ))}
+
+          </YearSelect>
+
+          <label>
+
+            <input
+
+              type="checkbox"
+
+              checked={bookmarkSubject.ta}
+
+              onChange={(e) =>
+
+                updateBookmark(subject.code, {
+
+                  ta: e.currentTarget.checked,
+
+                })
+
+              }
+
+            />{" "}
+
+            TA
+
+          </label>
+
+        </BottomRow>
+
+      </Td>
+
+      <Td>
+
+        {subject.termStr} {subject.timeslotStr}
+
+        <br />
+
+        {subject.classMethods.join(", ")}
+
+      </Td>
+
+      {[...Array(memoLength)].map((_, i) => (
+
+        <Td key={i}>
+
+          <Textarea
+
+            value={bookmarkSubject.memos[i] ?? ""}
+
+            data-index={i}
+
+            onChange={(e) => {
+
+              const memos = [...bookmarkSubject.memos];
+
+              memos[i] = e.currentTarget.value;
+
+              updateBookmark(subject.code, { memos });
+
+            }}
+
+          />
+
+        </Td>
+
+      ))}
+
+    </tr>
+
+  );
+
+};
+
+
+
+export default SubjectTr;
+
