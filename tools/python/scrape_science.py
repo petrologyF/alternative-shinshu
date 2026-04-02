@@ -72,10 +72,25 @@ def scrape_science_courses(limit=10):
     final_payload.append(("BtKENSAKU", KENSAKU_BUTTON))
 
     # 2. Execute Search
-    response = session.post(SEARCH_URL, data=final_payload)
+    # Encode payload using Shift_JIS as required by the server
+    import urllib.parse
+    encoded_payload = urllib.parse.urlencode(final_payload, encoding='shift_jis')
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded; charset=Shift_JIS",
+        "Referer": SEARCH_URL,
+        "Accept-Language": "ja-JP",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Origin": BASE_URL,
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+    }
+    response = session.post(SEARCH_URL, data=encoded_payload.encode('shift_jis'), headers=headers)
     response.encoding = response.apparent_encoding
+    # Debug: print response size and snippet
+    print(f"Response status: {response.status_code}, length: {len(response.text)}")
+    print("Snippet:", response.text[:500].replace('\n', ' '))
     soup = BeautifulSoup(response.text, "html.parser")
-    table = soup.select_one("table.IchiranTable") 
+    table = soup.select_one("table.IchiranTable")
+
     
     if not table:
         print("Error: IchiranTable not found.")
