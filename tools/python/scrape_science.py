@@ -55,21 +55,30 @@ def scrape_science_courses(limit=10):
     })
 
     # 1. Prepare Payload
-    payload = get_form_payload(session)
+    # Extract all form fields first
+    fields = get_form_payload(session)
     
-    # Update Nendo and ensure BtKENSAKU is present
-    final_payload = []
-    has_kensaku = False
-    for k, v in payload:
-        if k == "Nendo":
-            final_payload.append((k, "2026"))
-        else:
-            final_payload.append((k, v))
-            
-    # Add the search button field manually to ensure correct full-width spaces
-    # \u3000 is full-width space
-    KENSAKU_BUTTON = "\u3000\u691c\u3000\u7d22\u3000" # 　検　索　
-    final_payload.append(("BtKENSAKU", KENSAKU_BUTTON))
+    # Ensure year is set to the current academic year
+    fields = [(k, "2026" if k == "Nendo" else v) for k, v in fields]
+    
+    # Clear the free‑text search field to retrieve all courses
+    fields = [(k, "" if k == "Meisyou" else v) for k, v in fields]
+    
+    # Explicitly enable all required checkboxes (Spring auxiliary fields)
+    checkbox_params = [
+        "KikZenki", "KikKouki", "KikTsuunen",
+        "WeekMon", "WeekTue", "WeekWed", "WeekThu", "WeekFri", "WeekSat", "WeekOth",
+        "Jigen1", "Jigen2", "Jigen3", "Jigen4", "Jigen5", "Jigen6", "Jigen7", "JigenO",
+        "KaihouShimin", "KaihouDaigaku", "InKyoutsuu", "Cometency"
+    ]
+    for param in checkbox_params:
+        fields.append((param, "true"))
+        fields.append(("_" + param, "on"))
+    
+    # Add the search button field (full‑width spaces)
+    fields.append(("BtKENSAKU", "\u3000\u691c\u3000\u7d22\u3000"))
+    
+    final_payload = fields
 
     # 2. Execute Search
     # Encode payload using Shift_JIS as required by the server
