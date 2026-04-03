@@ -13,6 +13,34 @@ export interface ScrapedSubject {
   url: string;
 }
 
+const facultyColorMap: Record<string, string> = {
+  H: "#8C0023", // 人文学部
+  E: "#FF3FCC", // 教育学部
+  L: "#FF7F0C", // 経済学部
+  S: "#26BFFF", // 理学部
+  M: "#19FFB2", // 医学部
+  T: "#7399FF", // 工学部
+  A: "#73FF0D", // 農学部
+  F: "#0099FF", // 繊維学部
+  G: "#8CFF26", // 全学教育機構
+  Q: "#8CFF26", // 全学教育機構
+  R: "#8CFF26", // 全学教育機構
+};
+
+const facultyNameMap: Record<string, string> = {
+  H: "人文学部",
+  E: "教育学部",
+  L: "経法学部",
+  S: "理学部",
+  M: "医学部",
+  T: "工学部",
+  A: "農学部",
+  F: "繊維学部",
+  G: "全学教育機構",
+  Q: "全学教育機構",
+  R: "全学教育機構",
+};
+
 
 
 // 現在の年度
@@ -168,6 +196,16 @@ export class Subject {
     return this._syllabusHref || `https://campus-3.shinshu-u.ac.jp/syllabusj/Display?NENDO=${CURRENT_YEAR}&CODE=${this.code}`;
   }
   private _syllabusHref: string;
+
+  get facultyColor() {
+    const prefix = this._code.charAt(0).toUpperCase();
+    return facultyColorMap[prefix] || "#006633"; // デフォルトはスクールカラー(DIC389)
+  }
+
+  get facultyName() {
+    const prefix = this._code.charAt(0).toUpperCase();
+    return facultyNameMap[prefix] || "信州大学";
+  }
 
 
 

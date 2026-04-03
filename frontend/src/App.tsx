@@ -1,4 +1,4 @@
-﻿import { css, Global } from "@emotion/react";
+import { css, Global } from "@emotion/react";
 import { useEffect, useState } from "react";
 
 import Footer from "./components/Footer";
@@ -21,15 +21,23 @@ const globalStyle = css`
     margin: 0;
     padding: 0;
     -webkit-text-size-adjust: 100%;
-    background: #fff;
+    background: #f8fafc; /* Slightly off-white for a premium feel */
+    color: #1e293b;
   }
 
   a {
     cursor: pointer;
+    color: #006633; /* DIC389 */
+    text-decoration: none;
+    transition: opacity 0.2s;
+    &:hover {
+      opacity: 0.7;
+    }
   }
 
   * {
     font-family: "Noto Sans JP", sans-serif;
+    box-sizing: border-box;
   }
 
   @font-face {
@@ -44,6 +52,21 @@ const globalStyle = css`
     font-weight: 700;
     font-display: swap;
     src: url("./NotoSansJP-Bold.ttf");
+  }
+
+  /* Custom Scrollbar for a premium look */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #006633;
   }
 `;
 

@@ -1,4 +1,4 @@
-﻿import styled from "@emotion/styled";
+import styled from "@emotion/styled";
 
 import React, { useState } from "react";
 
@@ -17,19 +17,12 @@ import MobileForm from "./mobile/MobileForm";
 
 
 const Wrapper = styled.header`
-
   width: 100%;
-
   background: linear-gradient(
-
     90deg,
-
-    rgba(242, 230, 255, 0.95),
-
+    rgba(242, 255, 249, 0.95),
     rgba(255, 255, 255, 0.95) 250px
-
   );
-
 `;
 
 

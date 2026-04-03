@@ -7,15 +7,7 @@ import React from "react";
 import type { SearchOptions } from "@/utils/search";
 
 import {
-
-  colorGreen,
-
-  colorGreenDark,
-
-  colorGreenGradient,
-
   shallowShadow,
-
 } from "@/utils/style";
 
 import type { Subject } from "@/utils/subject";
@@ -27,49 +19,28 @@ import { BottomRow, Star, Td, YearSelect, years } from "./parts";
 
 
 const Link = styled.a`
-
   height: 24px;
-
-  color: ${colorGreenDark};
-
+  color: #fff;
   text-align: center;
-
   text-decoration: none;
-
   font-size: 13px;
-
   margin: 4px 0;
-
-  padding: 0 6px 0 6px;
-
+  padding: 0 10px;
   border-radius: 12px;
-
   box-shadow: ${shallowShadow};
-
-  background: ${colorGreenGradient};
-
+  background: #006633; /* DIC389 */
   display: inline-flex;
-
   align-items: center;
-
-
+  transition: opacity 0.2s;
 
   &:hover {
-
+    opacity: 0.8;
     color: #fff;
-
-    background: ${colorGreen};
-
   }
-
-
 
   span {
-
     text-box: trim-both cap alphabetic;
-
   }
-
 `;
 
 
@@ -165,8 +136,7 @@ const SubjectTr = React.memo(
     return (
 
       <tr key={subject.code}>
-
-        <Td>
+        <Td style={{ borderLeft: `4px solid ${subject.facultyColor}` }}>
 
           {subject.code}
 

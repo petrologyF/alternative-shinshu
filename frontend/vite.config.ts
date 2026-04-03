@@ -12,7 +12,7 @@ export default defineConfig({
       registerType: "autoUpdate",
       devOptions: { enabled: true },
       manifest: {
-        name: "Kdb っぽいなにか",
+        name: "信大シラバス builder",
         icons: [
           {
             sizes: "192x192",
@@ -53,5 +53,5 @@ export default defineConfig({
       "@": `${__dirname}/src`,
     },
   },
-  base: "/alternative-tsukuba-kdb/",
+  base: "/alternative-shinshu/",
 });
