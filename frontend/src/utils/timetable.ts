@@ -56,96 +56,59 @@ export const fillTimetable = <T>(filled: T): T[][] => {
  */
 
 export const createTimeslotTable = (value: string): TimeslotTable => {
-
   const table = fillTimetable(false);
-
   let dayArray: number[] = [];
 
+  // 全角数字を半角に変換し、スペースをカンマに正規化
+  const normalizedValue = value
+    .replace(/[０-９]/g, (s) => String.fromCharCode(s.charCodeAt(0) - 0xfee0))
+    .replace(/ /g, ",");
 
-
-  // 曜日と時限をパース
-
-  // TODO: check
-
-  const slotStrArray = (value as string).split(",");
-
+  const slotStrArray = normalizedValue.split(",");
   for (const slotStr of slotStrArray) {
+    if (!slotStr) continue;
 
     // 曜日の抽出
     const dayStr = slotStr.replace(/[0-9-]/g, "");
-
     const days = dayStr
-
       .split("")
-
       .filter((day) => daysofweek.includes(day))
-
       .map((day) => daysofweek.indexOf(day));
 
     if (days.length > 0) {
-
       dayArray = days;
-
     }
-
-
 
     // 時限の抽出
     const periodArray: number[] = [];
-
     const periodStr = slotStr.replace(/[^0-9-]/g, "");
 
-
-
-    // 連続する時限のパース
     if (periodStr.indexOf("-") > -1) {
-
       const periodStrArray = periodStr.split("-");
-
       const startPeriod = Number(periodStrArray[0]);
-
       const endPeriod = Number(periodStrArray[1]);
-
       for (
-
-        let k = Math.max(startPeriod, 0);
-
+        let k = Math.max(startPeriod, 1);
         k <= Math.min(endPeriod, maxPeriod);
-
         k++
-
       ) {
-
         periodArray.push(k);
-
       }
-
-    } else {
-
+    } else if (periodStr.length > 0) {
       periodArray.push(Number(periodStr));
-
     }
-
-
 
     if (periodStr.length > 0) {
-
       for (const day of dayArray) {
-
         for (const period of periodArray) {
-
-          table[day][period - 1] = true;
-
+          if (day >= 0 && day < daysofweek.length && period >= 1 && period <= maxPeriod) {
+            table[day][period - 1] = true;
+          }
         }
-
       }
-
     }
-
   }
-
   return table;
-
 };
 
 

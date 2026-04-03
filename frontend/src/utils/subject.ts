@@ -1,18 +1,17 @@
-import kdbData from "@/kdb/kdb.json";
-
-import kdbGradData from "@/kdb/kdb-grad.json";
-
-import type { KdbData } from "../kdb/kdb";
-
+import syllabusData from "@/syllabus/syllabus.json";
 import {
-
   createTimeslotTable,
-
   type TimeslotTable,
-
   timeslotTableToBits,
-
 } from "./timetable";
+
+export interface ScrapedSubject {
+  id: string;
+  title: string;
+  instructor: string;
+  slot: string;
+  url: string;
+}
 
 
 
@@ -105,90 +104,34 @@ export class Subject {
 
 
 
-  constructor(line: KdbData["subject"][0]) {
+  constructor(data: ScrapedSubject) {
+    this._code = data.id;
+    this._name = data.title;
+    this._credit = 2; // デフォルト単位数 (信州大学の多くは2単位)
+    this.year = "1-4";
+    this.termStr = "通年"; // TODO: シラバスからターム情報を抽出
+    this.timeslotStr = data.slot;
+    this.room = "";
+    this.person = data.instructor;
+    this.abstract = "";
+    this.note = "";
+    this._syllabusHref = data.url;
 
-    this._code = line[0];
+    this._termCodes = [[0, 1, 2, 3, 4, 5]]; // デフォルトで全ターム
 
-    this._name = line[1];
-
-
-
-    this._credit = Number.parseFloat(line[3]);
-
-    if (Number.isNaN(this._credit)) {
-
-      this._credit = 0;
-
-    }
-
-    this.year = line[4];
-
-    this.termStr = line[5];
-
-    this.timeslotStr = line[6];
-
-    this.room = line[7];
-
-    this.person = line[8];
-
-    this.abstract = line[9];
-
-    this.note = line[10];
-
-
-
-    this._termCodes = Subject.parseTerm(this.termStr);
-
-
-
-    // 時限
-    // タームが1つの場合はスペースをカンマに置換して一括パース
-    // タームが複数の場合はスペースで分割
-    const tempTimeslotStr =
-
-      this._termCodes.length === 1
-
-        ? this.timeslotStr.replace(/ /g, ",")
-
-        : this.timeslotStr;
-
-
-
-    // タームごとに分割してパース
-    const termStrArray = tempTimeslotStr.split(" ");
-
-    for (const str of termStrArray) {
-
-      this._timeslotTables.push(createTimeslotTable(str));
-      this.concentration ||= str.includes("集中");
-
-      this.negotiable ||= str.includes("応相談");
-
-      this.asneeded ||= str.includes("随時");
-
-      this.nt ||= str.includes("NT");
-
-    }
+    // 時限のパース
+    this._timeslotTables.push(createTimeslotTable(this.timeslotStr));
+    
+    // 特殊フラグの設定
+    this.concentration = this.timeslotStr.includes("集");
+    this.negotiable = this.timeslotStr.includes("不定");
+    this.asneeded = this.timeslotStr.includes("随時");
 
     for (const table of this._timeslotTables) {
-
       this._timeslotTableBits |= timeslotTableToBits(table);
-
     }
 
-
-
-    // タームが1つの場合は全タームコードを1つのグループにまとめる
-    if (this._timeslotTables.length === 1) {
-
-      this._termCodes = [[...new Set(this._termCodes.flat())]];
-
-    }
-
-
-
-    this.classMethods = classMethods.filter((it) => this.note.indexOf(it) > -1);
-
+    this.classMethods = [];
   }
 
 
@@ -242,10 +185,9 @@ export class Subject {
 
 
   get syllabusHref() {
-
-    return `https://kdb.tsukuba.ac.jp/syllabi/${CURRENT_YEAR}/${this.code}/jpn`;
-
+    return this._syllabusHref || `https://campus-3.shinshu-u.ac.jp/syllabusj/Display?NENDO=${CURRENT_YEAR}&CODE=${this.code}`;
   }
+  private _syllabusHref: string;
 
 
 
@@ -335,41 +277,21 @@ export class Subject {
 
 
 export const kdb = (() => {
-
   const subjectMap: { [key: string]: Subject } = {};
-
   const subjectCodeList: string[] = [];
+  const allSubjects = syllabusData as ScrapedSubject[];
 
-
-
-  const allSubjects = [
-
-    ...(kdbData as KdbData).subject,
-
-    ...(kdbGradData as KdbData).subject,
-
-  ];
-
-  for (const line of allSubjects) {
-
-    const subject = new Subject(line);
-
-    subjectMap[subject.code] = subject;
-
-    subjectCodeList.push(subject.code);
-
+  for (const data of allSubjects) {
+     const subject = new Subject(data);
+     subjectMap[subject.code] = subject;
+     subjectCodeList.push(subject.code);
   }
 
   return {
-
     subjectMap,
-
     subjectCodeList,
-
-    updated: kdbData.updated,
-
+    updated: new Date().toISOString(),
   };
-
 })();
 
 
