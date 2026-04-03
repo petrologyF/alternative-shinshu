@@ -121,6 +121,7 @@ const Update = styled.div`
 `;
 
 const specialOptions = [
+  ["抽選", "isLottery"],
   ["集中", "concentration"],
   ["相談可", "negotiable"],
   ["随時", "asneeded"],

@@ -7,6 +7,7 @@ import React from "react";
 import type { SearchOptions } from "@/utils/search";
 
 import {
+  colorGreen,
   shallowShadow,
 } from "@/utils/style";
 
@@ -28,7 +29,7 @@ const Link = styled.a`
   padding: 0 10px;
   border-radius: 12px;
   box-shadow: ${shallowShadow};
-  background: #006633; /* DIC389 */
+  background: ${colorGreen};
   display: inline-flex;
   align-items: center;
   transition: opacity 0.2s;
@@ -41,6 +42,27 @@ const Link = styled.a`
   span {
     text-box: trim-both cap alphabetic;
   }
+`;
+
+const Badge = styled.span`
+  background: #d32f2f;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: bold;
+  margin-left: 6px;
+  vertical-align: middle;
+`;
+
+const CampusBadge = styled.span`
+  background: #f1f5f9;
+  color: #475569;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  margin-right: 6px;
+  border: 1px solid #e2e8f0;
 `;
 
 
@@ -137,19 +159,15 @@ const SubjectTr = React.memo(
 
       <tr key={subject.code}>
         <Td style={{ borderLeft: `4px solid ${subject.facultyColor}` }}>
-
-          {subject.code}
-
-          <br />
-
+          <div style={{ marginBottom: "4px" }}>
+            <CampusBadge>{subject.campus}</CampusBadge>
+            {subject.code}
+            {subject.isLottery && <Badge>抽選</Badge>}
+          </div>
           {subject.name}
-
           <BottomRow>
-
             <Link onClick={() => setSyllabiSubjectCode(subject.code)}>
-
               <span>シラバス</span>
-
             </Link>
 
             <Star

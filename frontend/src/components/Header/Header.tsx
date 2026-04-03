@@ -27,24 +27,41 @@ const Wrapper = styled.header`
 
 
 
+const Brand = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+`;
+
+const Logo = styled.div`
+  width: 32px;
+  height: 32px;
+  background: #004831;
+  color: #fff;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 20px;
+`;
+
+const Title = styled.div`
+  font-size: 18px;
+  font-weight: bold;
+  color: #004831;
+`;
+
 const Content = styled.div`
-
   width: 1100px;
-
   margin: auto;
-
   padding: 10px 1rem 12px 1rem;
-
   position: relative;
 
-
-
   ${mobileMedia} {
-
     width: calc(100% - 2rem);
-
   }
-
 `;
 
 
@@ -94,49 +111,33 @@ const Header = React.memo(
     return (
 
       <Wrapper>
-
         <Content>
-
-          {isMobile ? (
-
-            <MobileForm
-
-              searchOptions={searchOptions}
-
-              bookmarkTimeslotTable={bookmarkTimeslotTable}
-
-              displaysTimeslotSelection={displaysTimeslotSelection}
-
-              setSearchOptions={setSearchOptions}
-
-              setDisplaysTimeslotSelection={setDisplaysTimeslotSelection}
-
-            />
-
-          ) : (
-
-            <DesktopForm
-
-              searchOptions={searchOptions}
-
-              bookmarkTimeslotTable={bookmarkTimeslotTable}
-
-              displaysTimeslotSelection={displaysTimeslotSelection}
-
-              displaysPlan={displaysPlan}
-
-              setSearchOptions={setSearchOptions}
-
-              setDisplaysTimeslotSelection={setDisplaysTimeslotSelection}
-
-              setDisplaysPlan={setDisplaysPlan}
-
-            />
-
+          {!isMobile && (
+            <Brand>
+              <Logo>S</Logo>
+              <Title>信大シラバス (非公式)</Title>
+            </Brand>
           )}
-
+          {isMobile ? (
+            <MobileForm
+              searchOptions={searchOptions}
+              bookmarkTimeslotTable={bookmarkTimeslotTable}
+              displaysTimeslotSelection={displaysTimeslotSelection}
+              setSearchOptions={setSearchOptions}
+              setDisplaysTimeslotSelection={setDisplaysTimeslotSelection}
+            />
+          ) : (
+            <DesktopForm
+              searchOptions={searchOptions}
+              bookmarkTimeslotTable={bookmarkTimeslotTable}
+              displaysTimeslotSelection={displaysTimeslotSelection}
+              displaysPlan={displaysPlan}
+              setSearchOptions={setSearchOptions}
+              setDisplaysTimeslotSelection={setDisplaysTimeslotSelection}
+              setDisplaysPlan={setDisplaysPlan}
+            />
+          )}
         </Content>
-
       </Wrapper>
 
     );

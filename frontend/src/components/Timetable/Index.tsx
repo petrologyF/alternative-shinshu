@@ -542,6 +542,10 @@ const TimetableElement = React.memo(
 
                             {subject.name}
 
+                            <br />
+
+                            <small style={{ opacity: 0.8 }}>[{subject.campus}]</small>
+
                           </a>
 
                           <Close

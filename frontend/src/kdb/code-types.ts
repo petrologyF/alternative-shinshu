@@ -1,6 +1,8 @@
+import { z } from "zod";
 import codeTypesGrad from "./code-types-grad.json";
-
 import codeTypesUndergrad from "./code-types-undergrad.json";
+
+export const subjectCodeSchema = z.string().min(7).max(10);
 
 
 

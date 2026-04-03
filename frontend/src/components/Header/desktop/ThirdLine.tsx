@@ -7,15 +7,11 @@ import { Headline, Left, Line, Options } from "./parts";
 
 
 const specialOptions = [
-
+  ["抽選", "isLottery"],
   ["集中", "concentration"],
-
   ["相談可", "negotiable"],
-
   ["随時", "asneeded"],
-
   ["NT", "nt"],
-
 ] as const;
 
 

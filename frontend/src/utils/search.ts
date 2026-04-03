@@ -16,6 +16,9 @@ export interface SearchOptions {
   classMethod: ClassMethod | null;
   years: Set<number>;
   season: NormalSeason | null;
+  campuses: Set<string>;
+  departments: Set<string>;
+  categories: Set<string>;
   timeslotTable: TimeslotTable;
   excludesBookmark: boolean;
   containsName: boolean;
@@ -26,6 +29,7 @@ export interface SearchOptions {
   containsNote: boolean;
   filter: "all" | "bookmark" | "except-bookmark";
   concentration: boolean;
+  isLottery: boolean;
   negotiable: boolean;
   asneeded: boolean;
   nt: boolean;
@@ -41,6 +45,9 @@ export const createSearchOptions = (): SearchOptions => {
     classMethod: null,
     years: new Set(),
     season: null,
+    campuses: new Set(),
+    departments: new Set(),
+    categories: new Set(),
     timeslotTable: createEmptyTimeslotTable(),
     excludesBookmark: false,
     containsName: true,
@@ -51,6 +58,7 @@ export const createSearchOptions = (): SearchOptions => {
     containsNote: false,
     filter: "all",
     concentration: false,
+    isLottery: false,
     negotiable: false,
     asneeded: false,
     nt: false,
@@ -126,6 +134,15 @@ const matchesSearchOptions = (
     );
   })();
 
+  // キャンパス
+  const matchesCampus = options.campuses.size === 0 || options.campuses.has(subject.campus);
+
+  // 部局
+  const matchesDepartment = options.departments.size === 0 || options.departments.has(subject.openingDepartment);
+
+  // カテゴリ
+  const matchesCategory = options.categories.size === 0 || options.categories.has(subject.category);
+
   // 要件
   const matchesRequirement = (() => {
     const reqA = options.reqA !== "null" ? options.reqA : null;
@@ -165,7 +182,11 @@ const matchesSearchOptions = (
     matchesBookmark &&
     matchesClassMethod &&
     matchesYear &&
-    matchesSameName
+    matchesSameName &&
+    matchesCampus &&
+    matchesDepartment &&
+    matchesCategory &&
+    (!options.isLottery || subject.isLottery)
   );
 };
 

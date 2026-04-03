@@ -43,6 +43,12 @@ const Footer = React.memo(({ filteredSubjects }: FooterProps) => {
   return (
     <Wrapper>
       <List>
+        <li style={{ color: "#d32f2f", fontWeight: "bold", marginBottom: "8px" }}>
+          本サイトは非公式サイトです。履修登録は必ず ACSU (信州大学学務情報システム) で行ってください。
+        </li>
+        <li>
+          信大シラバス (SOAR代替)
+        </li>
         <li>
           Source code is available on{" "}
           <a href="https://github.com/Make-IT-TSUKUBA/alternative-tsukuba-kdb">
@@ -52,12 +58,7 @@ const Footer = React.memo(({ filteredSubjects }: FooterProps) => {
         </li>
         <li>
           Contributed by{" "}
-          <a href="https://github.com/inaniwaudon">いなにわうどん</a>,{" "}
-          <a href="https://github.com/frodo821">frodo821</a>,{" "}
-          <a href="https://github.com/eggplants">eggplants</a>,{" "}
-          <a href="https://github.com/maru2213">maru2213</a>,{" "}
-          <a href="https://github.com/itsu-dev">Itsu</a>,{" "}
-          <a href="https://github.com/Mimori256">Mimori256</a> et al.
+          <a href="https://github.com/inaniwaudon">いなにわうどん</a>, et al.
           <Slash>/</Slash>
           <a
             href="javascript:void(0)"

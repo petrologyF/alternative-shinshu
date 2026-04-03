@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import DOMPurify from "dompurify";
 import { useEffect, useState } from "react";
 import { colorGreenDark, shadow } from "@/utils/style";
 import { kdb } from "@/utils/subject";
@@ -106,26 +105,9 @@ const Syllabi = ({ subjectCode, setSubjectCode }: SyllabiProps) => {
         return;
       }
 
-      const response = await fetch(
-        `https://kdb-backend.yokohama.dev/syllabi/${subjectCode}`,
-      );
-      let data = DOMPurify.sanitize(await response.text());
-
-      // 不要な要素を除去
-      data = data
-        .replace(/<head>.+?<\/head>/gms, "")
-        .replace(/<script.*?>.+?<\/script>/gms, "")
-        .replace(/<style.*?>.+?<\/style>/gms, "");
-
-      // 不要なテキストを除去
-      data = data
-        .replace(/<h1.*?>.+?<\/h1>/ms, "")
-        .replace(/<h2.*?>シラバス参照<\/h2>/ms, "")
-        .replace(/<div id="credit-grade-assignments">.+?<\/div>/ms, "")
-        .replace(/<table.*?>.+?<\/table>/ms, "");
-      console.log(data);
-
-      setContent(data);
+      // Shinshu University does not have a public JSON syllabus backend like Yokohama.dev for Tsukuba
+      // We set a placeholder or fetch from a different source if it existed.
+      setContent("<p>クイックビューは現在利用できません。詳細は以下の公式シラバスリンクから確認してください。</p>");
     })();
   }, [subjectCode]);
 
@@ -135,7 +117,7 @@ const Syllabi = ({ subjectCode, setSubjectCode }: SyllabiProps) => {
 
   return (
     <Wrapper>
-      <Header>
+      <Header style={{ borderTop: `6px solid ${colorGreenDark}` }}>
         <H1>{subject.name}</H1>
         <Description>
           {subject.code} / {subject.credit} 単位 / {subject.year} 年次 /
@@ -148,11 +130,11 @@ const Syllabi = ({ subjectCode, setSubjectCode }: SyllabiProps) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          公式シラバスで参照
+          公式シラバス (SOAR) で詳細を表示
         </SyllabusLink>
         <Close onClick={() => setSubjectCode(null)}>×</Close>
       </Header>
-      {/* biome-ignore lint/security/noDangerouslySetInnerHtml: to display the syllabus HTML */}
+      {/* biome-ignore lint/security/noDangerouslySetInnerHtml: to display the syllabus HTML or placeholder */}
       <Content dangerouslySetInnerHTML={{ __html: content }}></Content>
     </Wrapper>
   );

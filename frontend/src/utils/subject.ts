@@ -70,65 +70,77 @@ export type ClassMethod = (typeof classMethods)[number];
 
 
 export class Subject {
-
   private _code: string;
-
   private _name: string;
-
   private _credit: number;
-
   private _termCodes: number[][] = [];
-
   private _timeslotTables: TimeslotTable[] = [];
-
-  // timeslotTables のビット列（重複判定などに使用）
   private _timeslotTableBits = 0n;
 
   year: string;
-
   termStr: string;
-
   timeslotStr: string;
-
   room: string;
-
   person: string;
-
   abstract: string;
-
   note: string;
-
   classMethods: ClassMethod[];
+  
+  // Shinshu-optimized fields
+  openingDepartment: string;
+  campus: string;
+  category: string;
+  isLottery: boolean;
 
   concentration = false;
-
   negotiable = false;
-
   asneeded = false;
-
   nt = false;
-
-
 
   constructor(data: ScrapedSubject) {
     this._code = data.id;
     this._name = data.title;
     this._credit = 2; // デフォルト単位数 (信州大学の多くは2単位)
     this.year = "1-4";
-    this.termStr = "通年"; // TODO: シラバスからターム情報を抽出
+    this.termStr = "通年"; 
     this.timeslotStr = data.slot;
     this.room = "";
     this.person = data.instructor;
     this.abstract = "";
-    this.note = "";
+    this.note = ""; // Note content would ideally be scraped, but check against known constraints
     this._syllabusHref = data.url;
 
-    this._termCodes = [[0, 1, 2, 3, 4, 5]]; // デフォルトで全ターム
+    // Shinshu Mapping
+    const prefix = this._code.charAt(0).toUpperCase();
+    this.openingDepartment = facultyNameMap[prefix] || "信州大学";
+    
+    // Campus Heuristic: 1st year subjects are almost always Matsumoto
+    // Code prefixes map mainly to faculties with specific home campuses
+    const homeCampuses: Record<string, string> = {
+      H: "松本", E: "長野", L: "松本", S: "松本", M: "松本",
+      T: "長野", A: "南箕輪", F: "上田", G: "松本", Q: "松本", R: "松本"
+    };
+    
+    // Assume 1st year = Matsumoto, otherwise home campus
+    this.campus = this.year.includes("1") ? "松本" : (homeCampuses[prefix] || "松本");
 
-    // 時限のパース
+    // Category for General Ed (G prefixes)
+    this.category = "";
+    if (prefix === "G" || prefix === "Q" || prefix === "R") {
+      const subCategory = this._code.substring(1, 3);
+      if (subCategory === "0A") this.category = "学術リテラシー";
+      else if (subCategory === "0B") this.category = "現代社会の諸課題";
+      else this.category = "共通教育";
+    } else {
+      this.category = this.openingDepartment;
+    }
+
+    // Lottery check
+    this.isLottery = this.note.includes("抽選") || this._name.includes("(抽選)");
+
+    this._termCodes = [[0, 1, 2, 3, 4, 5]]; 
     this._timeslotTables.push(createTimeslotTable(this.timeslotStr));
     
-    // 特殊フラグの設定
     this.concentration = this.timeslotStr.includes("集");
     this.negotiable = this.timeslotStr.includes("不定");
     this.asneeded = this.timeslotStr.includes("随時");
@@ -138,6 +150,8 @@ export class Subject {
     }
 
     this.classMethods = [];
+    if (this._name.includes("対面")) this.classMethods.push("対面");
+    if (this._name.includes("オンライン")) this.classMethods.push("オンライン");
   }
 
 
@@ -320,69 +334,29 @@ export const outputSubjectsToCSV = (
 
   }
 
-
-
   // カンマなどでエスケープ
   const csvRows: string[] = [];
 
   for (const row of rows) {
-
     csvRows.push(
-
       row
-
         .map((field) =>
-
           escaped.test(field) ? `"${field.replace(e, '""')}"` : field,
-
         )
-
         .join(",")
-
         .replace('\n",', '",'),
-
     );
-
   }
 
-
-
-  // kdb_YYYYMMDDhhmmdd.csv
-
-  const dateString = (() => {
-
-    const date = new Date();
-
-    const Y = date.getFullYear();
-
-    const M = `${date.getMonth() + 1}`.padStart(2, "0");
-
-    const D = `${date.getDate()}`.padStart(2, "0");
-
-    const h = `${date.getHours()}`.padStart(2, "0");
-
-    const m = `${date.getMinutes()}`.padStart(2, "0");
-
-    const d = `${date.getSeconds()}`.padStart(2, "0");
-
-    return Y + M + D + h + m + d;
-
-  })();
-
-  const filename = `kdb_${dateString}.csv`;
-
-
-
-  // Blob の作成
-  const blob = new Blob([bom, csvRows.join("\n")], { type: "text/csv" });
+  const csv = csvRows.join("\n");
+  const dateString = new Date().toISOString().replace(/[-:T]/g, "").slice(0, 14);
+  const filename = `shinshu_syllabus_${dateString}.csv`;
 
   if (a) {
-
+    const blob = new Blob([bom, csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    a.href = url;
     a.download = filename;
-
-    a.href = window.URL.createObjectURL(blob);
-
+    a.click();
   }
-
 };
-
