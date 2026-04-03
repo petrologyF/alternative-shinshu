@@ -11,6 +11,14 @@ export interface ScrapedSubject {
   instructor: string;
   slot: string;
   url: string;
+  classroom?: string;
+  credits_detail?: string;
+  target_student?: string;
+  format?: string;
+  overview?: string;
+  evaluation?: string;
+  textbook?: string;
+  lesson_plan?: Array<{ session: string; content: string }>;
 }
 
 const facultyColorMap: Record<string, string> = {
@@ -75,6 +83,13 @@ export class Subject {
   category: string;
   isLottery: boolean;
 
+  // New Detailed Fields
+  targetStudent: string;
+  format: string;
+  evaluation: string;
+  textbook: string;
+  lessonPlan: Array<{ session: string; content: string }>;
+
   concentration = false;
   negotiable = false;
   asneeded = false;
@@ -83,8 +98,12 @@ export class Subject {
   constructor(data: ScrapedSubject) {
     this._code = data.id;
     this._name = data.title;
-    this._credit = 2; // デフォルト単位数 (信州大学の多くは2単位)
-    this.year = "1-4";
+    
+    // Use scraped credits if available, fallback to 2
+    this._credit = data.credits_detail ? parseFloat(data.credits_detail) : 2;
+    if (isNaN(this._credit)) this._credit = 2;
+
+    this.year = data.target_student || "1-4";
     this.timeslotStr = data.slot;
     
     // Shinshu Term Mapping (Simplified)
@@ -92,11 +111,17 @@ export class Subject {
     else if (this.timeslotStr.includes("後期")) this.termStr = "後期";
     else this.termStr = "通年";
 
-    this.room = "";
+    this.room = data.classroom || "";
     this.person = data.instructor;
-    this.abstract = "";
+    this.abstract = data.overview || "";
     this.note = ""; 
     this._syllabusHref = data.url;
+
+    this.targetStudent = data.target_student || "";
+    this.format = data.format || "";
+    this.evaluation = data.evaluation || "";
+    this.textbook = data.textbook || "";
+    this.lessonPlan = data.lesson_plan || [];
 
     // Shinshu Mapping
     const prefix = this._code.charAt(0).toUpperCase();
