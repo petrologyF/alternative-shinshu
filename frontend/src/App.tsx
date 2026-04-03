@@ -121,6 +121,7 @@ const App = () => {
         usedClassroom={usedClassroom}
         setSearchOptions={setSearchOptions}
         setSyllabiSubjectCode={setSyllabiSubjectCode}
+        searchOptions={searchOptions}
       />
       <Footer filteredSubjects={filteredSubjects} />
       <Timetable

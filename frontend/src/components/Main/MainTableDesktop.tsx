@@ -54,6 +54,7 @@ interface MainTableDesktopProps {
   usedBookmark: ReturnType<typeof useBookmark>;
   setSearchOptions: React.Dispatch<React.SetStateAction<SearchOptions>>;
   setSyllabiSubjectCode: React.Dispatch<React.SetStateAction<string | null>>;
+  searchOptions: SearchOptions;
 }
 
 const MainTableDesktop = React.memo(
@@ -64,20 +65,56 @@ const MainTableDesktop = React.memo(
     usedBookmark,
     setSearchOptions,
     setSyllabiSubjectCode,
+    searchOptions,
   }: MainTableDesktopProps) => {
+    const handleSort = (key: string) => {
+      setSearchOptions((prev) => ({
+        ...prev,
+        sortBy: key,
+        sortOrder: prev.sortBy === key && prev.sortOrder === "asc" ? "desc" : "asc",
+      }));
+    };
+
+    const SortIndicator = ({ columnKey }: { columnKey: string }) => {
+      if (searchOptions.sortBy !== columnKey) return <span style={{ opacity: 0.3, marginLeft: "4px" }}>↕</span>;
+      return <span style={{ marginLeft: "4px" }}>{searchOptions.sortOrder === "asc" ? "▲" : "▼"}</span>;
+    };
+
+    const ThInner = ({ name, columnKey, width }: { name: string; columnKey: string; width: string }) => (
+      <th
+        style={{ width, cursor: "pointer", userSelect: "none" }}
+        onClick={() => handleSort(columnKey)}
+      >
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {name}
+          <SortIndicator columnKey={columnKey} />
+        </div>
+      </th>
+    );
+
     return (
       <Table>
         <Header>
           <tr>
             <th style={{ width: "2.5rem", textAlign: "center" }}>★</th>
-            <th style={{ width: "5.5rem" }}>登録コード</th>
-            <th style={{ width: "16rem" }}>授業名</th>
-            <th style={{ width: "12rem" }}>担当教員</th>
-            <th style={{ width: "3rem", textAlign: "center" }}>単位</th>
-            <th style={{ width: "3.5rem", textAlign: "center" }}>年次</th>
-            <th style={{ width: "6rem" }}>講義期間</th>
-            <th style={{ width: "9rem" }}>曜日・時限</th>
-            <th style={{ width: "14rem" }}>開講部局</th>
+            <ThInner name="登録コード" columnKey="code" width="5.5rem" />
+            <ThInner name="授業名" columnKey="name" width="16rem" />
+            <ThInner name="担当教員" columnKey="person" width="12rem" />
+            <th
+              style={{ width: "3rem", textAlign: "center", cursor: "pointer" }}
+              onClick={() => handleSort("credit")}
+            >
+              単位<SortIndicator columnKey="credit" />
+            </th>
+            <th
+              style={{ width: "3.5rem", textAlign: "center", cursor: "pointer" }}
+              onClick={() => handleSort("year")}
+            >
+              年次<SortIndicator columnKey="year" />
+            </th>
+            <ThInner name="講義期間" columnKey="termStr" width="6rem" />
+            <ThInner name="曜日・時限" columnKey="timeslotStr" width="9rem" />
+            <ThInner name="開講部局" columnKey="openingDepartment" width="14rem" />
           </tr>
         </Header>
         <tbody>

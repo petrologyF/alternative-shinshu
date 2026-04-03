@@ -29,6 +29,8 @@ export interface SearchOptions {
   containsNote: boolean;
   filter: "all" | "bookmark" | "except-bookmark";
   exceptSameName: boolean;
+  sortBy: string | null;
+  sortOrder: "asc" | "desc";
 }
 
 export const createSearchOptions = (): SearchOptions => {
@@ -53,6 +55,8 @@ export const createSearchOptions = (): SearchOptions => {
     containsNote: false,
     filter: "all",
     exceptSameName: false,
+    sortBy: null,
+    sortOrder: "asc",
   };
 };
 
@@ -89,6 +93,41 @@ export const searchSubjects = (
       nameSet.add(subject.name);
     }
   }
+
+  // Sorting
+  if (searchOptions.sortBy) {
+    subjects.sort((a, b) => {
+      const key = searchOptions.sortBy as keyof Subject;
+      let valA = a[key];
+      let valB = b[key];
+
+      // Handle nulls
+      if (valA == null) return 1;
+      if (valB == null) return -1;
+
+      // Special handling for specific fields
+      if (key === "termStr") {
+        const order: Record<string, number> = { 前期: 1, 後期: 2, 通年: 3 };
+        const aOrder = order[valA as string] || 99;
+        const bOrder = order[valB as string] || 99;
+        return searchOptions.sortOrder === "asc" ? aOrder - bOrder : bOrder - aOrder;
+      }
+
+      if (key === "credit") {
+        const aVal = typeof valA === "number" ? valA : 0;
+        const bVal = typeof valB === "number" ? valB : 0;
+        return searchOptions.sortOrder === "asc" ? aVal - bVal : bVal - aVal;
+      }
+
+      // Default string/locale comparison for Japanese
+      const aStr = String(valA);
+      const bStr = String(valB);
+      return searchOptions.sortOrder === "asc"
+        ? aStr.localeCompare(bStr, "ja")
+        : bStr.localeCompare(aStr, "ja");
+    });
+  }
+
   return subjects;
 };
 
