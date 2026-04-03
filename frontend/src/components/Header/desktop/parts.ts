@@ -1,4 +1,4 @@
-﻿import { css } from "@emotion/react";
+import { css } from "@emotion/react";
 
 import styled from "@emotion/styled";
 
@@ -9,27 +9,19 @@ import { inputSize } from "@/utils/style";
 
 
 export const Line = styled.div<{ thin: boolean }>`
-
-  height: ${({ thin }) => (thin ? "1.4rem" : "1.8rem")};
-
-  line-height: ${({ thin }) => (thin ? "1.4rem" : "1.8rem")};
-
-  margin: 0;
-
+  height: 1.5rem;
+  line-height: 1.5rem;
+  margin: 2px 0;
   display: flex;
-
   align-items: center;
-
+  font-size: 14px;
 `;
 
-
-
 export const Headline = styled.div`
-
-  width: 6em;
-
-  margin-right: 20px;
-
+  width: 5.5em;
+  margin-right: 12px;
+  font-weight: bold;
+  color: #475569;
 `;
 
 

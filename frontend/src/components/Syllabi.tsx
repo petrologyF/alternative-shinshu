@@ -3,7 +3,7 @@ import { colorGreenDark, shadow } from "@/utils/style";
 import { kdb } from "@/utils/subject";
 
 const Wrapper = styled.div`
-  width: 400px;
+  width: 520px;
   height: calc(100% - 16px);
   line-height: 1.5;
   font-size: 14px;
@@ -12,9 +12,10 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(8px);
   overflow: hidden;
+  z-index: 100; /* Ensure it's above the sticky table header (z-index: 10) */
 
   position: fixed;
   bottom: 0;
@@ -120,33 +121,6 @@ const MetaItem = styled.div`
   align-items: center;
 `;
 
-const PlanList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-
-const PlanItem = styled.div`
-  display: flex;
-  gap: 12px;
-  padding: 8px;
-  background: #f8fafc;
-  border-radius: 4px;
-  border-left: 3px solid ${colorGreenDark};
-`;
-
-const SessionNo = styled.div`
-  min-width: 40px;
-  font-weight: bold;
-  color: ${colorGreenDark};
-  font-size: 13px;
-`;
-
-const SessionContent = styled.div`
-  flex-grow: 1;
-  font-size: 14px;
-`;
-
 interface SyllabiProps {
   subjectCode: string | null;
   setSubjectCode: React.Dispatch<React.SetStateAction<string | null>>;
@@ -221,14 +195,9 @@ const Syllabi = ({ subjectCode, setSubjectCode }: SyllabiProps) => {
         {subject.lessonPlan.length > 0 && (
           <Section>
             <SectionTitle>授業計画</SectionTitle>
-            <PlanList>
-              {subject.lessonPlan.map((p, i) => (
-                <PlanItem key={i}>
-                  <SessionNo>{p.session}</SessionNo>
-                  <SessionContent>{p.content}</SessionContent>
-                </PlanItem>
-              ))}
-            </PlanList>
+            <SectionContent>
+              {subject.lessonPlan.map((p) => `${p.session} ${p.content}`).join("\n")}
+            </SectionContent>
           </Section>
         )}
 

@@ -25,181 +25,97 @@ import Header from "./Header";
 
 
 const Wrapper = styled.div`
-
-  width: 400px;
-
+  width: 520px;
   position: fixed;
-
   bottom: 0;
-
   right: 16px;
 
-
-
   ${mobileMedia} {
-
     width: calc(100% - 16px * 2);
-
-    max-width: 400px;
-
+    max-width: 520px;
     right: 16px;
-
   }
-
 `;
-
-
 
 const TimetableWrapper = styled.div`
-
   border-radius: 8px;
-
   box-shadow: ${shadow};
-
   background: #fff;
-
   display: flex;
-
   overflow: hidden;
-
   transition: margin-bottom 0.5s ease;
-
   position: relative;
-
   z-index: 1;
 
-
-
   &[data-closed="true"] {
-
-    margin-bottom: -338px;
-
+    margin-bottom: -421px;
   }
-
 `;
-
-
 
 const Main = styled.div`
-
   flex: 1;
-
   display: flex;
-
 `;
-
-
 
 const Column = styled.div`
-
   display: flex;
-
   flex-direction: column;
-
   justify-content: space-between;
-
   gap: 0;
-
-  justify-content: space-between;
-
   align-items: center;
-
 `;
-
-
 
 const PeriodColumn = styled(Column)`
-
-  flex: 32px 0 0;
-
-  font-size: 14px;
-
+  flex: 42px 0 0;
+  font-size: 18px;
   text-align: center;
-
   box-shadow: ${shadow};
-
 `;
-
-
 
 const MainColumn = styled(Column)`
-
   flex: calc(100% / ${daysofweek.length}) 0 0;
-
   border-left: solid 1px #ddd;
-
 `;
-
-
 
 const Day = styled.div`
-
-  height: 24px;
-
-  font-size: 12px;
-
+  height: 31px;
+  font-size: 16px;
   display: flex;
-
   justify-content: center;
-
   align-items: center;
 
-
-
   span {
-
     text-box: trim-both cap alphabetic;
-
   }
-
 `;
-
-
 
 const Item = styled.div`
-
   width: 100%;
-
-  height: 50px;
-
+  height: 65px;
   border-top: solid 1px #eee;
-
   position: relative;
-
 `;
-
-
 
 const PeriodItem = styled(Item)`
-
   display: flex;
-
   flex-direction: column;
-
   justify-content: center;
-
 `;
 
-
-
-
-
-
-
 const SubjectTile = styled.div<{ background: string; top: number }>`
-  width: calc(100% - 3px * 2);
-  height: 44px;
+  width: calc(100% - 4px * 2);
+  height: 57px;
   line-height: normal;
-  font-size: 10px;
+  font-size: 13px;
   word-break: break-all;
-  padding: 4px 6px;
+  padding: 5px 8px;
   border-radius: 4px;
   background: ${({ background }) => background};
   color: #fff;
   overflow: hidden;
   position: absolute;
-  top: ${({ top }) => 3 + top}px;
-  left: 3px;
+  top: ${({ top }) => 4 + top}px;
+  left: 4px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -220,43 +136,25 @@ const SubjectTile = styled.div<{ background: string; top: number }>`
   }
 `;
 
-
-
 const Close = styled.a`
-
-  width: 14px;
-
-  height: 14px;
-
-  line-height: 14px;
-
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
   color: #c00;
-
-  font-size: 14px;
-
+  font-size: 18px;
   position: absolute;
-
   top: 2px;
-
   right: 2px;
-
   display: none;
 
-
-
   &:hover {
-
     opacity: 0.6;
-
   }
-
 `;
 
-
-
 const Footer = styled.footer`
-  height: 32px;
-  line-height: 32px;
+  height: 42px;
+  line-height: 42px;
   margin-top: 8px;
   padding: 0 16px;
   border-radius: 8px;
@@ -269,11 +167,11 @@ const Footer = styled.footer`
 `;
 
 const Link = styled.a<{ caution?: boolean }>`
-  height: 24px;
-  padding: 0 12px;
+  height: 32px;
+  padding: 0 16px;
   color: ${({ caution }) => (caution ? "#c00" : colorGreenDark)};
   text-decoration: none;
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 500;
   display: flex;
   justify-content: center;

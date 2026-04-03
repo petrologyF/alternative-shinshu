@@ -14,7 +14,7 @@ import type { Subject } from "@/utils/subject";
 
 import type { useBookmark } from "@/utils/useBookmark";
 
-import { Star, Td, YearSelect, years } from "./parts";
+import { Star, Td } from "./parts";
 
 
 
@@ -95,10 +95,8 @@ const SubjectTr = React.memo(
     setSearchOptions,
     setSyllabiSubjectCode,
   }: SubjectTrProps) => {
-    const { bookmarksHas, getBookmarkSubject, switchBookmark, updateBookmark } =
+    const { bookmarksHas, switchBookmark } =
       usedBookmark;
-
-    const bookmarkSubject = getBookmarkSubject(subject.code);
 
     const tdStyle: React.CSSProperties = {
       padding: "8px 4px",
@@ -128,57 +126,9 @@ const SubjectTr = React.memo(
             </SubjectName>
             {subject.isLottery && <Badge>抽選</Badge>}
           </div>
-          {bookmarkSubject && (
-            <div style={{ marginTop: "4px", display: "flex", gap: "8px", alignItems: "center", fontSize: "11px" }}>
-              <YearSelect
-                value={bookmarkSubject.year}
-                onChange={(e) =>
-                  updateBookmark(subject.code, {
-                    year: Number.parseInt(e.currentTarget.value, 10),
-                  })
-                }
-              >
-                {years.map((year) => (
-                  <option key={year}>{year}</option>
-                ))}
-              </YearSelect>
-              <label style={{ cursor: "pointer", color: "#64748b" }}>
-                <input
-                  type="checkbox"
-                  checked={bookmarkSubject.ta}
-                  onChange={(e) =>
-                    updateBookmark(subject.code, {
-                      ta: e.currentTarget.checked,
-                    })
-                  }
-                />{" "}
-                TA
-              </label>
-            </div>
-          )}
         </Td>
 
-        <Td style={tdStyle}>
-          {subject.credit.toFixed(1)}
-        </Td>
-
-        <Td style={tdStyle}>
-          {subject.year}
-        </Td>
-
-        <Td style={tdStyle}>
-          {subject.termStr}
-        </Td>
-
-        <Td style={tdStyle}>
-          {subject.timeslotStr}
-        </Td>
-
-        <Td style={{ ...tdStyle, fontSize: "12px", color: "#64748b" }}>
-          {subject.facultyName}
-        </Td>
-
-        <Td style={tdStyle}>
+        <Td style={{ ...tdStyle, fontSize: "12px", color: "#475569" }}>
           {subject.person.split(",").map((person, i, array) => (
             <React.Fragment key={i}>
               <Anchor
@@ -192,11 +142,31 @@ const SubjectTr = React.memo(
                   }));
                 }}
               >
-                {person}
+                {person.trim()}
               </Anchor>
               {i < array.length - 1 && " / "}
             </React.Fragment>
           ))}
+        </Td>
+
+        <Td style={{ ...tdStyle, textAlign: "center" }}>
+          {subject.credit.toFixed(1)}
+        </Td>
+
+        <Td style={{ ...tdStyle, textAlign: "center" }}>
+          {subject.year}
+        </Td>
+
+        <Td style={tdStyle}>
+          {subject.termStr}
+        </Td>
+
+        <Td style={tdStyle}>
+          {subject.timeslotStr}
+        </Td>
+
+        <Td style={{ ...tdStyle, fontSize: "12px", color: "#64748b" }}>
+          {subject.facultyName}
         </Td>
       </tr>
     );

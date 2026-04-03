@@ -1,83 +1,49 @@
 import styled from "@emotion/styled";
 import React from "react";
-
 import type { SearchOptions } from "@/utils/search";
-import { colorGreenDark, mobileMedia } from "@/utils/style";
 import { kdb, type Subject } from "@/utils/subject";
+import { mobileMedia } from "@/utils/style";
 import type { useBookmark } from "@/utils/useBookmark";
 import { BottomTd } from "./parts";
 import SubjectTr from "./SubjectTr";
 
 const Table = styled.table`
   width: 100%;
-  font-size: 14px;
+  font-size: 13px;
   border-spacing: 0;
   border-collapse: collapse;
   table-layout: fixed;
-  overflow-x: scroll;
 
   ${mobileMedia} {
     display: none;
   }
-
-  th,
-  td {
-    text-align: left;
-    font-weight: normal;
-
-    &:first-of-type {
-      width: 2.2rem; /* Star */
-    }
-
-    &:nth-of-type(2) {
-      width: 5.8rem; /* Code */
-    }
-
-    &:nth-of-type(3) {
-      width: 14rem; /* Name */
-    }
-
-    &:nth-of-type(4) {
-      width: 3rem; /* Credit */
-    }
-
-    &:nth-of-type(5) {
-      width: 3.5rem; /* Year */
-    }
-
-    &:nth-of-type(6) {
-      width: 5.5rem; /* Term */
-    }
-
-    &:nth-of-type(7) {
-      width: 8rem; /* Timeslot */
-    }
-
-    &:nth-of-type(8) {
-      width: 8.5rem; /* Department */
-    }
-
-    /* Column 9 (Instructor) takes remaining space */
-  }
 `;
 
-const Th = styled.th`
-  height: 16px;
-  color: #fff;
-  padding: 6px 4px 8px 4px;
-  background: ${colorGreenDark};
-  font-size: 13px;
-  font-weight: 600;
+const Header = styled.thead`
+  position: sticky;
+  top: 0;
+  z-index: 10;
 
-  &:first-of-type {
-    padding-left: 8px;
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-  }
+  th {
+    padding: 10px 4px;
+    background: #004831; /* Official Shinshu Green */
+    color: #ffffff;
+    font-weight: 600;
+    text-align: left;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    white-space: nowrap;
 
-  &:last-of-type {
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
+    &:first-of-type {
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+      padding-left: 12px;
+    }
+
+    &:last-of-type {
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+      padding-right: 12px;
+    }
   }
 `;
 
@@ -101,19 +67,19 @@ const MainTableDesktop = React.memo(
   }: MainTableDesktopProps) => {
     return (
       <Table>
-        <thead>
+        <Header>
           <tr>
-            <Th>★</Th>
-            <Th>登録コード</Th>
-            <Th>授業名</Th>
-            <Th>単位</Th>
-            <Th>年次</Th>
-            <Th>講義期間</Th>
-            <Th>曜日・時限</Th>
-            <Th>開講部局</Th>
-            <Th>担当教員</Th>
+            <th style={{ width: "2.5rem", textAlign: "center" }}>★</th>
+            <th style={{ width: "5.5rem" }}>登録コード</th>
+            <th style={{ width: "16rem" }}>授業名</th>
+            <th style={{ width: "12rem" }}>担当教員</th>
+            <th style={{ width: "3rem", textAlign: "center" }}>単位</th>
+            <th style={{ width: "3.5rem", textAlign: "center" }}>年次</th>
+            <th style={{ width: "6rem" }}>講義期間</th>
+            <th style={{ width: "9rem" }}>曜日・時限</th>
+            <th style={{ width: "14rem" }}>開講部局</th>
           </tr>
-        </thead>
+        </Header>
         <tbody>
           {subjects.map((subject) => (
             <SubjectTr
@@ -125,10 +91,10 @@ const MainTableDesktop = React.memo(
             />
           ))}
           <tr ref={loadingRef}>
-            <BottomTd>
+            <BottomTd colSpan={9}>
               {hasMore
-                ? "Loading..."
-                : `全 ${kdb?.subjectCodeList.length} 件中 ${subjects.length} 件を表示しました`}
+                ? "読み込み中..."
+                : `全 ${kdb.subjectCodeList.length} 件中 ${subjects.length} 件を表示中`}
             </BottomTd>
           </tr>
         </tbody>

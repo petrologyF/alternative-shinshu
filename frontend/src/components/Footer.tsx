@@ -50,16 +50,17 @@ const Footer = React.memo(({ filteredSubjects }: FooterProps) => {
           信大シラバス (SOAR代替)
         </li>
         <li>
-          Source code is available on{" "}
-          <a href="https://github.com/Make-IT-TSUKUBA/alternative-tsukuba-kdb">
-            GitHub
+          Original system by{" "}
+          <a href="https://github.com/inaniwaudon" target="_blank" rel="noreferrer">
+            いなにわうどん
+          </a>, et al.
+          <Slash>/</Slash>
+          Shinshu Edition by{" "}
+          <a href="https://github.com/petrologyF" target="_blank" rel="noreferrer">
+            petrologyF
           </a>
-          .
         </li>
         <li>
-          Contributed by{" "}
-          <a href="https://github.com/inaniwaudon">いなにわうどん</a>, et al.
-          <Slash>/</Slash>
           <a
             href="javascript:void(0)"
             ref={anchorRef}

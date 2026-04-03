@@ -76,7 +76,6 @@ const App = () => {
   );
   const [filteredSubjects, setFilteredSubjects] = useState<Subject[]>([]);
   const [timetableTermCode, setTimetableTermCode] = useState(0);
-  const [displaysPlan, setDisplaysPlan] = useState(false);
   const [syllabiSubjectCode, setSyllabiSubjectCode] = useState<string | null>(
     null,
   );
@@ -86,21 +85,16 @@ const App = () => {
 
   const usedClassroom = useClassroom();
 
-  // debounce 譎る俣
+  // debounce 時間
   const DEBOUNCE_TIME = 100;
 
   useEffect(() => {
-    // 螻･菫ｮ險育判縺ｮ逕ｻ髱｢縺ｧ縺ｯ繝悶ャ繧ｯ繝槭・繧ｯ縺ｫ逋ｻ骭ｲ縺輔ｌ縺溷・遘醍岼繧定｡ｨ遉ｺ
-    const planSearchOptions = createSearchOptions();
-    planSearchOptions.filter = "bookmark";
-    const options = displaysPlan ? planSearchOptions : searchOptions;
-
     const timer = setTimeout(() => {
-      // 讀懃ｴ｢邨先棡繧呈峩譁ｰ
+      // 検索結果を更新
       const subjects = searchSubjects(
         kdb.subjectMap,
         kdb.subjectCodeList,
-        options,
+        searchOptions,
         bookmarkTimeslotTable,
         bookmarksHas,
       );
@@ -110,7 +104,7 @@ const App = () => {
     return () => {
       clearTimeout(timer);
     };
-  }, [searchOptions, bookmarkTimeslotTable, displaysPlan, bookmarksHas]);
+  }, [searchOptions, bookmarkTimeslotTable, bookmarksHas]);
 
   return (
     <>
@@ -118,13 +112,11 @@ const App = () => {
       <Header
         searchOptions={searchOptions}
         bookmarkTimeslotTable={usedBookmark.bookmarkTimeslotTable}
-        displaysPlan={displaysPlan}
         setSearchOptions={setSearchOptions}
-        setDisplaysPlan={setDisplaysPlan}
       />
       <Main
         filteredSubjects={filteredSubjects}
-        displaysPlan={displaysPlan}
+        displaysPlan={false}
         usedBookmark={usedBookmark}
         usedClassroom={usedClassroom}
         setSearchOptions={setSearchOptions}

@@ -4,11 +4,11 @@ import { shadow } from "@/utils/style";
 import { normalSeasons } from "@/utils/subject";
 
 const Wrapper = styled.header`
-  height: 28px;
-  line-height: 28px;
+  height: 38px;
+  line-height: 38px;
   color: #fff;
   margin-bottom: 0;
-  padding: 8px 12px;
+  padding: 10px 16px;
   border-radius: 8px;
   box-shadow: ${shadow};
   background: #004831; /* Official Shinshu Green */
@@ -29,20 +29,20 @@ const Left = styled.div`
 `;
 
 const TermName = styled.div`
-  width: 56px;
+  width: 72px;
   text-align: center;
-  font-size: 20px;
+  font-size: 26px;
 `;
 
 const Details = styled.div`
-  line-height: 18px;
-  font-size: 14px;
+  line-height: 24px;
+  font-size: 18px;
   margin-left: 16px;
 `;
 
 const Move = styled.a`
-  line-height: 22px;
-  font-size: 18px;
+  line-height: 28px;
+  font-size: 24px;
 
   &[data-prev] {
     margin-left: -8px;
@@ -63,9 +63,9 @@ const Move = styled.a`
 `;
 
 const Close = styled.a<{ opened: boolean }>`
-  line-height: ${({ opened }) => (opened ? 10 : 32)}px;
+  line-height: ${({ opened }) => (opened ? 14 : 38)}px;
   color: #fff;
-  font-size: 20px;
+  font-size: 26px;
 
   &:hover {
     opacity: 0.6;
