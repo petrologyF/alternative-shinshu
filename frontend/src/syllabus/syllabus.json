@@ -4,35 +4,100 @@
     "title": "卒業研究",
     "instructor": "宮西　吉久 他",
     "slot": "集不定",
-    "url": "https://campus-3.shinshu-u.ac.jp/syllabusj/Display?NENDO=2026&BUKYOKU=S&CODE=SA801400"
+    "url": "https://campus-3.shinshu-u.ac.jp/syllabusj/Display?NENDO=2026&BUKYOKU=S&CODE=SA801400",
+    "classroom": "",
+    "credits_detail": "12",
+    "target_student": "4年",
+    "format": "演習",
+    "overview": "各ゼミナールごとに個人の輪読形式を基本として授業を進める。",
+    "evaluation": "卒業研究の研究論文又は研究発表について、非常に優れている者については秀、優れている者については優、ある程度良い者については良、最低限のレベルが有るとした者については可、最低限のレベルもないと判断したものについては不可で判定する。",
+    "textbook": "各ゼミナールごとに決める。",
+    "lesson_plan": [
+      {
+        "session": "1-15",
+        "content": "各ゼミナールごとに年間の授業計画を立てる。最後のゼミナールの時間に授業アンケートを行う。"
+      }
+    ]
   },
   {
     "id": "SB801400",
     "title": "セミナー",
     "instructor": "加藤　千尋",
     "slot": "集不定",
-    "url": "https://campus-3.shinshu-u.ac.jp/syllabusj/Display?NENDO=2026&BUKYOKU=S&CODE=SB801400"
+    "url": "https://campus-3.shinshu-u.ac.jp/syllabusj/Display?NENDO=2026&BUKYOKU=S&CODE=SB801400",
+    "classroom": "",
+    "credits_detail": "2",
+    "target_student": "4年",
+    "format": "演習",
+    "overview": "研究室ごとに4月に説明します。最後に授業アンケートを行います。",
+    "evaluation": "セミナーへの取組状況をもとに評価します。",
+    "textbook": "特に指定しない。",
+    "lesson_plan": [
+      {
+        "session": "1-15",
+        "content": "研究室ごとに4月に説明します。"
+      }
+    ]
   },
   {
     "id": "SA401100",
     "title": "線形代数学演習Ⅰ",
     "instructor": "和田　堅太郎",
     "slot": "木４",
-    "url": "https://campus-3.shinshu-u.ac.jp/syllabusj/Display?NENDO=2026&BUKYOKU=S&CODE=SA401100"
+    "url": "https://campus-3.shinshu-u.ac.jp/syllabusj/Display?NENDO=2026&BUKYOKU=S&CODE=SA401100",
+    "classroom": "理学部第１講義室",
+    "credits_detail": "1",
+    "target_student": "1年",
+    "format": "演習",
+    "overview": "講義「線形代数学I」の内容に沿って関連する問題を解く．演習問題を解くことにより，行列の演算，行列の基本変形，連立1次方程式の解法，行列式の計算を理解することが求められる．",
+    "evaluation": "レポートによって判断します．詳しくは初回の演習時に説明します.",
+    "textbook": "信州大学数学教科書編集委員会編, [基礎理学教科書] 線形代数学, 学術図書出版社",
+    "lesson_plan": [
+      {
+        "session": "1-15",
+        "content": "1. ベクトル\n2. 行列の算法 (1)\n3. 行列の算法 (2)\n4. 正方行列\n5. 連立一次方程式 (1)\n6. 連立一次方程式 (2), 行列の階数\n7. 基本行列\n8. 前半のまとめ\n9. 置換\n10. 行列式の定義\n11. 行列式の性質 (1)\n12. 行列式の性質 (2)\n13. 行列式の展開\n14. クラメールの公式\n15. 行列式の応用，授業アンケート"
+      }
+    ]
   },
   {
     "id": "SA402100",
     "title": "微分積分学演習Ⅰ",
     "instructor": "佐々木　格",
     "slot": "月４",
-    "url": "https://campus-3.shinshu-u.ac.jp/syllabusj/Display?NENDO=2026&BUKYOKU=S&CODE=SA402100"
+    "url": "https://campus-3.shinshu-u.ac.jp/syllabusj/Display?NENDO=2026&BUKYOKU=S&CODE=SA402100",
+    "classroom": "理学部第１講義室",
+    "credits_detail": "1",
+    "target_student": "1年",
+    "format": "演習",
+    "overview": "この授業では，微分積分学Iの内容を演習問題を通じて深く理解する。また，時間の制約により微分積分学Iで扱われなかったトピックについても演習問題を出題する。さらに，理解を深めるために，微分積分学詳論Iの内容にも触れることがある。受講生は各自で練習問題を解いた後に，他人に伝えられるように内容を整理してから，発表を行ってもらう。この発表を通じて，数学を他者にわかりやすく伝える能力を養う。",
+    "evaluation": "試験および発表内容を総合的に評価する。100点満点で90点以上を秀，80点以上を優，70点以上を良，60点以上を可とする。",
+    "textbook": "浅倉史興他共著：微分積分―高校数学のつづき―，学術図書出版社，2021年ISBN:978-4-7806-1180-9",
+    "lesson_plan": [
+      {
+        "session": "1-15",
+        "content": "(1) 関数と定義域，逆関数\n(2) 逆関数の導関数とその応用\n(3) 最大・最小値の定理，中間値の定理，\n(4) 高階導関数とライプニッツの公式\n(5) ロルの定理と平均値の定理，ロピタルの定理\n(6) テイラーの定理\n(7) テイラーの展開の応用\n(8) 不定積分，定積分\n(9) 積分の技術１\n(10) 積分の技術２\n(11) 広義積分\n(12) 置換積分と広義積分\n(13) 広義積分の収束\n(14) ベータ関数，ガンマ関数，ウォーリスの公式\n(15) 積分の応用，授業のふりかえり"
+      }
+    ]
   },
   {
     "id": "SA403100",
     "title": "微分積分学詳論Ⅰ",
     "instructor": "佐々木　格",
     "slot": "火１",
-    "url": "https://campus-3.shinshu-u.ac.jp/syllabusj/Display?NENDO=2026&BUKYOKU=S&CODE=SA403100"
+    "url": "https://campus-3.shinshu-u.ac.jp/syllabusj/Display?NENDO=2026&BUKYOKU=S&CODE=SA403100",
+    "classroom": "理学部第１講義室",
+    "credits_detail": "2",
+    "target_student": "1年",
+    "format": "講義",
+    "overview": "数学で最も基本となる論理と集合の話から始める。素朴な実数の定義を確認し，数列に対する極限の意味付けから始めて数列収束に関する理論を系統的に学び，その後，実数の連続性公理およびその同値定理を勉強する。数列の極限についての厳密な概念であるε-N 論法を導入し，多くの例によってその定義の理解を深める。実数の連続性公理を中心に，上限，下限の概念等を紹介し，稠密性，数列収束の判定法を詳しく説明する。",
+    "evaluation": "試験の成績、レポートや小テストの状況により総合的に点数化し、100点満点で90点以上を秀、80点以上を優、70点以上を良、60点以上を可とする．",
+    "textbook": "浅倉史興他共著：微分積分―高校数学のつづき―，学術図書出版社，2021年ISBN:978-4-7806-1180-9",
+    "lesson_plan": [
+      {
+        "session": "1-15",
+        "content": "1. 導入，数の表現，集合と論理\n2. 含意と否定，量化記号\n3. 論証法と無限の数学的表現，アルキメデスの公理\n4. 数列の極限の定義（ε-N 論法）\n5. ε-N 論法の具体例と典型的誤り\n6. 極限の基本性質と発散の定義\n7. 実数の構成（小数表示と四則演算）\n8. 有界性と単調収束定理\n9. 上限・下限と上極限・下極限\n10. 区間縮小法と上限の特徴づけ\n11. Cauchy 列と実数の完備性\n12. 関数の極限と連続性（ε-δ 論法）\n13. 連続関数の基本定理（最大値・中間値）\n14. 逆関数の連続性とその応用\n15. 指数関数の構成と基本性質，授業のふりかえり"
+      }
+    ]
   },
   {
     "id": "SA408200",

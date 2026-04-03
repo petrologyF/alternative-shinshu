@@ -81,9 +81,9 @@ def scrape_detail(session, url):
         print(f"  [ERROR] Detail fetch failed for {url}: {e}")
         return {}
 
-def scrape_faculty(session, code, name):
+def scrape_faculty(session, code, name, limit=None):
     search_url = f"{BASE_URL}Search?Code={code}"
-    print(f"\n--- Scraping Faculty: {name} (Code={code}) ---")
+    print(f"\n--- Scraping Faculty: {name} (Code={code}, limit={limit}) ---")
     
     # Initial GET to establish session
     res = session.get(search_url)
@@ -131,6 +131,9 @@ def scrape_faculty(session, code, name):
 
         page_courses = []
         for row in rows[1:]:
+            if limit and len(all_faculty_courses) >= limit:
+                break
+
             tds = row.find_all("td")
             if len(tds) < 6: continue
             
@@ -141,7 +144,7 @@ def scrape_faculty(session, code, name):
             if not course_id: continue
             
             detail_url = urllib.parse.urljoin(BASE_URL, title_tag["href"])
-            print(f"    Fetching details for {course_id}: {title_tag.get_text(strip=True)}...")
+            print(f"    [{len(all_faculty_courses)+1}/{limit if limit else 'all'}] Fetching {course_id}...")
             
             # Fetch Deep Details
             details = scrape_detail(session, detail_url)
@@ -160,6 +163,10 @@ def scrape_faculty(session, code, name):
 
         print(f"  Extracted {len(page_courses)} detailed courses from page {page}.")
         save_incremental(page_courses)
+
+        if limit and len(all_faculty_courses) >= limit:
+            print(f"  Reached limit of {limit} courses for {name}. Stopping.")
+            break
 
         if len(all_faculty_courses) > 15000:
             print("  [WARNING] Circuit breaker triggered (15k+). Stopping.")
@@ -183,11 +190,11 @@ def main():
         "Referer": BASE_URL
     })
 
-    # Faculty of Science
-    scrape_faculty(session, "S", "理学部")
+    # Faculty of Science (Limit 5 for testing)
+    scrape_faculty(session, "S", "理学部", limit=5)
     
-    # General Education
-    scrape_faculty(session, "G", "共通教育")
+    # General Education (Limit 5 for testing)
+    scrape_faculty(session, "G", "共通教育", limit=5)
 
 if __name__ == "__main__":
     main()

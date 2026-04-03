@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
 import { colorGreenDark, shadow } from "@/utils/style";
 import { kdb } from "@/utils/subject";
 
@@ -33,14 +32,6 @@ const Wrapper = styled.div`
       margin-left: -8px;
       padding-left: 8px;
     }
-  }
-
-  #summary-heading-summary-contents h2 {
-    margin-top: 0;
-  }
-
-  p {
-    margin: 0;
   }
 
   table {
@@ -89,27 +80,62 @@ const Content = styled.div`
   overflow-y: scroll;
 `;
 
+const Section = styled.div`
+  margin-bottom: 24px;
+`;
+
+const SectionTitle = styled.h2`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  color: ${colorGreenDark};
+  margin-bottom: 12px;
+  border-bottom: 2px solid ${colorGreenDark};
+  padding-bottom: 4px;
+`;
+
+const SectionContent = styled.div`
+  white-space: pre-wrap;
+  font-size: 14px;
+  color: #334155;
+  line-height: 1.6;
+`;
+
+const PlanList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+const PlanItem = styled.div`
+  display: flex;
+  gap: 12px;
+  padding: 8px;
+  background: #f8fafc;
+  border-radius: 4px;
+  border-left: 3px solid ${colorGreenDark};
+`;
+
+const SessionNo = styled.div`
+  min-width: 40px;
+  font-weight: bold;
+  color: ${colorGreenDark};
+  font-size: 13px;
+`;
+
+const SessionContent = styled.div`
+  flex-grow: 1;
+  font-size: 14px;
+`;
+
 interface SyllabiProps {
   subjectCode: string | null;
   setSubjectCode: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const Syllabi = ({ subjectCode, setSubjectCode }: SyllabiProps) => {
-  const [content, setContent] = useState("");
-
   const subject = kdb.subjectMap[subjectCode as string];
-
-  useEffect(() => {
-    (async () => {
-      if (!subjectCode) {
-        return;
-      }
-
-      // Shinshu University does not have a public JSON syllabus backend like Yokohama.dev for Tsukuba
-      // We set a placeholder or fetch from a different source if it existed.
-      setContent("<p>クイックビューは現在利用できません。詳細は以下の公式シラバスリンクから確認してください。</p>");
-    })();
-  }, [subjectCode]);
 
   if (!subjectCode || !subject) {
     return null;
@@ -134,8 +160,50 @@ const Syllabi = ({ subjectCode, setSubjectCode }: SyllabiProps) => {
         </SyllabusLink>
         <Close onClick={() => setSubjectCode(null)}>×</Close>
       </Header>
-      {/* biome-ignore lint/security/noDangerouslySetInnerHtml: to display the syllabus HTML or placeholder */}
-      <Content dangerouslySetInnerHTML={{ __html: content }}></Content>
+
+      <Content>
+        {subject.abstract && (
+          <Section>
+            <SectionTitle>授業の概要</SectionTitle>
+            <SectionContent>{subject.abstract}</SectionContent>
+          </Section>
+        )}
+
+        {subject.evaluation && (
+          <Section>
+            <SectionTitle>成績評価の方法</SectionTitle>
+            <SectionContent>{subject.evaluation}</SectionContent>
+          </Section>
+        )}
+
+        {subject.textbook && (
+          <Section>
+            <SectionTitle>教科書</SectionTitle>
+            <SectionContent>{subject.textbook}</SectionContent>
+          </Section>
+        )}
+
+        {subject.lessonPlan.length > 0 && (
+          <Section>
+            <SectionTitle>授業計画</SectionTitle>
+            <PlanList>
+              {subject.lessonPlan.map((p, i) => (
+                <PlanItem key={i}>
+                  <SessionNo>{p.session}</SessionNo>
+                  <SessionContent>{p.content}</SessionContent>
+                </PlanItem>
+              ))}
+            </PlanList>
+          </Section>
+        )}
+
+        {(!subject.abstract && !subject.evaluation && !subject.lessonPlan.length) && (
+          <p style={{ color: "#64748b", fontStyle: "italic", textAlign: "center", marginTop: "40px" }}>
+            この科目のクイックビュー用データは現在収集元に含まれていません。<br/>
+            詳細は公式シラバスをご確認ください。
+          </p>
+        )}
+      </Content>
     </Wrapper>
   );
 };
