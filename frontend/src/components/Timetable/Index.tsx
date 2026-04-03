@@ -7,17 +7,12 @@ import { useMedia } from "react-use";
 
 
 import {
-
   colorAccent,
-
   colorGreenDark,
-
+  colorGreen,
   mobileMedia,
-
   mobileWidth,
-
   shadow,
-
 } from "@/utils/style";
 
 import { CURRENT_YEAR, type Subject } from "@/utils/subject";
@@ -188,19 +183,7 @@ const PeriodItem = styled(Item)`
 
 
 
-const Time = styled.time`
 
-  color: #999;
-
-  line-height: 11px;
-
-  font-size: 9px;
-
-  margin-bottom: 3px;
-
-  display: block;
-
-`;
 
 
 
@@ -312,21 +295,7 @@ const Link = styled.a<{ caution?: boolean }>`
 
 
 
-const times = [
 
-  ["8:40", "9:55"],
-
-  ["10:10", "11:25"],
-
-  ["12:15", "13:30"],
-
-  ["13:45", "15:00"],
-
-  ["15:15", "16:30"],
-
-  ["16:45", "18:00"],
-
-];
 
 
 
@@ -411,16 +380,6 @@ const TimetableElement = React.memo(
               <PeriodItem key={i}>
 
                 {i + 1}
-
-                <Time>
-
-                  {times[i][0]}
-
-                  <br />
-
-                  {times[i][1]}
-
-                </Time>
 
               </PeriodItem>
 

@@ -8,41 +8,15 @@ import type { SearchOptions } from "@/utils/search";
 
 import {
   colorGreen,
-  shallowShadow,
 } from "@/utils/style";
 
 import type { Subject } from "@/utils/subject";
 
 import type { useBookmark } from "@/utils/useBookmark";
 
-import { BottomRow, Star, Td, YearSelect, years } from "./parts";
+import { Star, Td, YearSelect, years } from "./parts";
 
 
-
-const Link = styled.a`
-  height: 24px;
-  color: #fff;
-  text-align: center;
-  text-decoration: none;
-  font-size: 13px;
-  margin: 4px 0;
-  padding: 0 10px;
-  border-radius: 12px;
-  box-shadow: ${shallowShadow};
-  background: ${colorGreen};
-  display: inline-flex;
-  align-items: center;
-  transition: opacity 0.2s;
-
-  &:hover {
-    opacity: 0.8;
-    color: #fff;
-  }
-
-  span {
-    text-box: trim-both cap alphabetic;
-  }
-`;
 
 const Badge = styled.span`
   background: #d32f2f;
@@ -87,14 +61,6 @@ const Anchor = styled.a`
 
 
 
-const ClassMethods = styled.div`
-
-  line-height: 1.4;
-
-`;
-
-
-
 const Classrooms = styled.div`
 
   line-height: 1.2;
@@ -109,37 +75,36 @@ const Classrooms = styled.div`
 
 
 
+const SubjectName = styled.div`
+  font-weight: 600;
+  font-size: 14px;
+  color: #1a202c;
+  cursor: pointer;
+  transition: color 0.2s;
+
+  &:hover {
+    color: ${colorGreen};
+    text-decoration: underline;
+  }
+`;
+
 interface SubjectTrProps {
-
   subject: Subject;
-
   usedBookmark: ReturnType<typeof useBookmark>;
-
   setSearchOptions: React.Dispatch<React.SetStateAction<SearchOptions>>;
-
   setSyllabiSubjectCode: React.Dispatch<React.SetStateAction<string | null>>;
-
   getClassroom: (subjectCode: string) => string | null;
-
 }
-
-
 
 const CodeBadge = styled.span`
   background: #f1f5f9;
   color: #1e293b;
-  padding: 1px 6px 3px 6px;
+  padding: 1px 4px;
   border-radius: 4px;
   font-size: 11px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-weight: 500;
   border: 1px solid #cbd5e1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: normal;
-  height: 20px;
-  box-sizing: border-box;
 `;
 
 const SubjectTr = React.memo(
@@ -156,199 +121,108 @@ const SubjectTr = React.memo(
     const bookmarkSubject = getBookmarkSubject(subject.code);
     const classrooms = getClassroom(subject.code)?.split(",") ?? [];
 
-    // TODO: 科目一覧で科目名をクリックすると「科目詳細」画面へ遷移
+    const tdStyle: React.CSSProperties = {
+      padding: "8px 4px",
+      verticalAlign: "middle",
+      borderBottom: "1px solid #e2e8f0"
+    };
+
     return (
       <tr key={subject.code}>
-        <Td style={{ borderLeft: `8px solid ${subject.facultyColor}` }}>
-          <div style={{ marginBottom: "8px", display: "flex", gap: "8px", alignItems: "center" }}>
+        <Td style={{ ...tdStyle, textAlign: "center" }}>
+          <Star
+            enabled={bookmarksHas(subject.code)}
+            onClick={() => switchBookmark(subject.code)}
+          >
+            ★
+          </Star>
+        </Td>
+
+        <Td style={tdStyle}>
+          <CodeBadge>{subject.code}</CodeBadge>
+        </Td>
+
+        <Td style={tdStyle}>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
             <CampusBadge>{subject.campus}</CampusBadge>
-            <CodeBadge>{subject.code}</CodeBadge>
+            <SubjectName onClick={() => setSyllabiSubjectCode(subject.code)}>
+              {subject.name}
+            </SubjectName>
             {subject.isLottery && <Badge>抽選</Badge>}
           </div>
-          <div style={{ fontWeight: 600, fontSize: "16px", marginBottom: "6px", color: "#111" }}>
-            {subject.name}
-          </div>
-          <BottomRow>
-            <Link onClick={() => setSyllabiSubjectCode(subject.code)}>
-              <span>シラバス</span>
-            </Link>
-
-            <Star
-
-              enabled={bookmarksHas(subject.code)}
-
-              onClick={() => switchBookmark(subject.code)}
-
-            >
-
-              ★
-
-            </Star>
-
-            {bookmarkSubject && (
-
-              <>
-
-                <YearSelect
-
-                  value={bookmarkSubject.year}
-
-                  onChange={(e) =>
-
-                    updateBookmark(subject.code, {
-
-                      year: Number.parseInt(e.currentTarget.value, 10),
-
-                    })
-
-                  }
-
-                >
-
-                  {years.map((year) => (
-
-                    <option key={year}>{year}</option>
-
-                  ))}
-
-                </YearSelect>
-
-                <label>
-
-                  <input
-
-                    type="checkbox"
-
-                    checked={bookmarkSubject.ta}
-
-                    onChange={(e) =>
-
-                      updateBookmark(subject.code, {
-
-                        ta: e.currentTarget.checked,
-
-                      })
-
-                    }
-
-                  />{" "}
-
-                  TA
-
-                </label>
-
-              </>
-
-            )}
-
-          </BottomRow>
-
-        </Td>
-
-        <Td>
-
-          {subject.credit.toFixed(1)} 単位
-
-          <br />
-
-          {subject.year} 年次
-
-        </Td>
-
-        <Td>
-
-          {subject.termStr}
-
-          <br />
-
-          {subject.timeslotStr}
-
-        </Td>
-
-        <Td>
-
-          {subject.person.split(",").map((person, i, array) => (
-
-            <React.Fragment key={i}>
-
-              <Anchor
-
-                href="#"
-
-                onClick={() =>
-
-                  setSearchOptions((prev) => ({
-
-                    ...prev,
-
-                    keyword: person,
-
-                    containsPerson: true,
-
-                  }))
-
+          {bookmarkSubject && (
+            <div style={{ marginTop: "4px", display: "flex", gap: "8px", alignItems: "center", fontSize: "12px" }}>
+              <YearSelect
+                value={bookmarkSubject.year}
+                onChange={(e) =>
+                  updateBookmark(subject.code, {
+                    year: Number.parseInt(e.currentTarget.value, 10),
+                  })
                 }
-
               >
-
-                {person}
-
-              </Anchor>
-
-              {i < array.length && <br />}
-
-            </React.Fragment>
-
-          ))}
-
+                {years.map((year) => (
+                  <option key={year}>{year}</option>
+                ))}
+              </YearSelect>
+              <label style={{ cursor: "pointer" }}>
+                <input
+                  type="checkbox"
+                  checked={bookmarkSubject.ta}
+                  onChange={(e) =>
+                    updateBookmark(subject.code, {
+                      ta: e.currentTarget.checked,
+                    })
+                  }
+                />{" "}
+                TA
+              </label>
+            </div>
+          )}
         </Td>
 
-        <Td>
+        <Td style={tdStyle}>
+          {subject.credit.toFixed(1)} {subject.year}次
+        </Td>
 
-          <ClassMethods>
+        <Td style={tdStyle}>
+          {subject.termStr} {subject.timeslotStr}
+        </Td>
 
-            {subject.classMethods.map((method, i, array) => (
-
-              <React.Fragment key={i}>
-
-                {method}
-
-                {i < array.length && <br />}
-
-              </React.Fragment>
-
-            ))}
-
-          </ClassMethods>
-
+        <Td style={tdStyle}>
           <Classrooms>
-
             {classrooms.map((classroom, i, array) => (
-
               <React.Fragment key={i}>
-
                 {classroom}
-
-                {i < array.length && <br />}
-
+                {i < array.length - 1 && <br />}
               </React.Fragment>
-
             ))}
-
+            {classrooms.length === 0 && subject.room && <span>{subject.room}</span>}
           </Classrooms>
-
         </Td>
 
-        <Td>{subject.abstract}</Td>
-
-        <Td>{subject.note}</Td>
-
+        <Td style={tdStyle}>
+          {subject.person.split(",").map((person, i, array) => (
+            <React.Fragment key={i}>
+              <Anchor
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setSearchOptions((prev) => ({
+                    ...prev,
+                    keyword: person,
+                    containsPerson: true,
+                  }));
+                }}
+              >
+                {person}
+              </Anchor>
+              {i < array.length - 1 && " / "}
+            </React.Fragment>
+          ))}
+        </Td>
       </tr>
-
     );
-
   },
-
 );
 
 

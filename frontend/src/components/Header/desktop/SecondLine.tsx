@@ -34,7 +34,7 @@ const SecondLine = ({ options, setOptions }: RequirementProps) => {
 
     <Line thin={false} style={{ marginBottom: "4px" }}>
 
-      <Headline>要件</Headline>
+      <Headline>開講部局</Headline>
 
       <div style={{ width: inputSize }}>
 

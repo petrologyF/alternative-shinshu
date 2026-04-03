@@ -26,36 +26,40 @@ const Table = styled.table`
     font-weight: normal;
 
     &:first-of-type {
-      width: 16rem;
+      width: 2.5rem; /* Star */
     }
 
     &:nth-of-type(2) {
-      width: 5rem;
+      width: 6rem; /* Code */
     }
 
     &:nth-of-type(3) {
-      width: 5rem;
+      width: 18rem; /* Name */
     }
 
     &:nth-of-type(4) {
-      width: 6rem;
+      width: 6rem; /* Credit/Year */
     }
 
     &:nth-of-type(5) {
-      width: 6rem;
+      width: 8rem; /* Term/Slot */
     }
 
     &:nth-of-type(6) {
-      width: 18rem;
+      width: 10rem; /* Room */
     }
+
+    /* Column 7 (Instructor) takes remaining space */
   }
 `;
 
 const Th = styled.th`
   height: 16px;
   color: #fff;
-  padding: 4px 0 6px 0;
+  padding: 6px 4px 8px 4px;
   background: ${colorGreenDark};
+  font-size: 13px;
+  font-weight: 600;
 
   &:first-of-type {
     padding-left: 8px;
@@ -124,20 +128,20 @@ const MainTableDesktop = React.memo(
       <Table>
         <thead>
           <tr>
-            <Th>科目番号 / 科目名</Th>
-            <Th>単位 / 年次</Th>
-            <Th>学期 / 時限</Th>
-            <Th>担当</Th>
+            <Th>★</Th>
+            <Th>登録コード</Th>
+            <Th>授業名</Th>
+            <Th>単位/年次</Th>
+            <Th>講義期間/曜限</Th>
             <Th onClick={() => setIsImporting(true)}>
               <Classrooms>
-                実施教室
+                講義室
                 <Plus>
                   <span>+</span>
                 </Plus>
               </Classrooms>
             </Th>
-            <Th>概要</Th>
-            <Th>備考</Th>
+            <Th>担当教員</Th>
           </tr>
         </thead>
         <tbody>

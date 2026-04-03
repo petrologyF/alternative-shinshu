@@ -21,7 +21,7 @@ export interface ScrapedSubject {
   lesson_plan?: Array<{ session: string; content: string }>;
 }
 
-const facultyColorMap: Record<string, string> = {
+export const facultyColorMap: Record<string, string> = {
   H: "#8C0023", // 人文学部
   E: "#FF3FCC", // 教育学部
   L: "#FF7F0C", // 経済学部
@@ -35,7 +35,7 @@ const facultyColorMap: Record<string, string> = {
   R: "#8CFF26", // 全学教育機構
 };
 
-const facultyNameMap: Record<string, string> = {
+export const facultyNameMap: Record<string, string> = {
   H: "人文学部",
   E: "教育学部",
   L: "経法学部",
