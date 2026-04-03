@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import React from "react";
 
 import type { SearchOptions } from "@/utils/search";
-import { colorGreen, colorGreenDark, mobileMedia } from "@/utils/style";
+import { colorGreenDark, mobileMedia } from "@/utils/style";
 import { kdb, type Subject } from "@/utils/subject";
 import type { useBookmark } from "@/utils/useBookmark";
 import { BottomTd } from "./parts";
@@ -26,30 +26,38 @@ const Table = styled.table`
     font-weight: normal;
 
     &:first-of-type {
-      width: 2.5rem; /* Star */
+      width: 2.2rem; /* Star */
     }
 
     &:nth-of-type(2) {
-      width: 6rem; /* Code */
+      width: 5.8rem; /* Code */
     }
 
     &:nth-of-type(3) {
-      width: 18rem; /* Name */
+      width: 14rem; /* Name */
     }
 
     &:nth-of-type(4) {
-      width: 6rem; /* Credit/Year */
+      width: 3rem; /* Credit */
     }
 
     &:nth-of-type(5) {
-      width: 8rem; /* Term/Slot */
+      width: 3.5rem; /* Year */
     }
 
     &:nth-of-type(6) {
-      width: 10rem; /* Room */
+      width: 5.5rem; /* Term */
     }
 
-    /* Column 7 (Instructor) takes remaining space */
+    &:nth-of-type(7) {
+      width: 8rem; /* Timeslot */
+    }
+
+    &:nth-of-type(8) {
+      width: 8.5rem; /* Department */
+    }
+
+    /* Column 9 (Instructor) takes remaining space */
   }
 `;
 
@@ -73,44 +81,13 @@ const Th = styled.th`
   }
 `;
 
-const Classrooms = styled.div`
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-
-  &:hover {
-    opacity: 0.8;
-  }
-`;
-
-const Plus = styled.span`
-  width: 16px;
-  height: 16px;
-  color: ${colorGreen};
-  font-size: 12px;
-  font-weight: bold;
-  margin-top: 2px;
-  border-radius: 50%;
-  background: #fff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  span {
-    text-box: trim-both cap alphabetic;
-  }
-`;
-
 interface MainTableDesktopProps {
   subjects: Subject[];
   hasMore: boolean;
   loadingRef: React.RefObject<HTMLTableRowElement | null>;
   usedBookmark: ReturnType<typeof useBookmark>;
   setSearchOptions: React.Dispatch<React.SetStateAction<SearchOptions>>;
-  setIsImporting: React.Dispatch<React.SetStateAction<boolean>>;
   setSyllabiSubjectCode: React.Dispatch<React.SetStateAction<string | null>>;
-  getClassroom: (subjectCode: string) => string | null;
 }
 
 const MainTableDesktop = React.memo(
@@ -120,9 +97,7 @@ const MainTableDesktop = React.memo(
     loadingRef,
     usedBookmark,
     setSearchOptions,
-    setIsImporting,
     setSyllabiSubjectCode,
-    getClassroom,
   }: MainTableDesktopProps) => {
     return (
       <Table>
@@ -131,16 +106,11 @@ const MainTableDesktop = React.memo(
             <Th>★</Th>
             <Th>登録コード</Th>
             <Th>授業名</Th>
-            <Th>単位/年次</Th>
-            <Th>講義期間/曜限</Th>
-            <Th onClick={() => setIsImporting(true)}>
-              <Classrooms>
-                講義室
-                <Plus>
-                  <span>+</span>
-                </Plus>
-              </Classrooms>
-            </Th>
+            <Th>単位</Th>
+            <Th>年次</Th>
+            <Th>講義期間</Th>
+            <Th>曜日・時限</Th>
+            <Th>開講部局</Th>
             <Th>担当教員</Th>
           </tr>
         </thead>
@@ -151,7 +121,6 @@ const MainTableDesktop = React.memo(
               usedBookmark={usedBookmark}
               setSearchOptions={setSearchOptions}
               setSyllabiSubjectCode={setSyllabiSubjectCode}
-              getClassroom={getClassroom}
               key={subject.code}
             />
           ))}

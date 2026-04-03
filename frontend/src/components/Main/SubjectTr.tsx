@@ -29,15 +29,7 @@ const Badge = styled.span`
   vertical-align: middle;
 `;
 
-const CampusBadge = styled.span`
-  background: #f1f5f9;
-  color: #475569;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 10px;
-  margin-right: 6px;
-  border: 1px solid #e2e8f0;
-`;
+
 
 
 
@@ -61,17 +53,7 @@ const Anchor = styled.a`
 
 
 
-const Classrooms = styled.div`
 
-  line-height: 1.2;
-
-  color: #666;
-
-  font-size: 12px;
-
-  margin-top: 2px;
-
-`;
 
 
 
@@ -93,7 +75,6 @@ interface SubjectTrProps {
   usedBookmark: ReturnType<typeof useBookmark>;
   setSearchOptions: React.Dispatch<React.SetStateAction<SearchOptions>>;
   setSyllabiSubjectCode: React.Dispatch<React.SetStateAction<string | null>>;
-  getClassroom: (subjectCode: string) => string | null;
 }
 
 const CodeBadge = styled.span`
@@ -113,13 +94,11 @@ const SubjectTr = React.memo(
     usedBookmark,
     setSearchOptions,
     setSyllabiSubjectCode,
-    getClassroom,
   }: SubjectTrProps) => {
     const { bookmarksHas, getBookmarkSubject, switchBookmark, updateBookmark } =
       usedBookmark;
 
     const bookmarkSubject = getBookmarkSubject(subject.code);
-    const classrooms = getClassroom(subject.code)?.split(",") ?? [];
 
     const tdStyle: React.CSSProperties = {
       padding: "8px 4px",
@@ -144,14 +123,13 @@ const SubjectTr = React.memo(
 
         <Td style={tdStyle}>
           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <CampusBadge>{subject.campus}</CampusBadge>
             <SubjectName onClick={() => setSyllabiSubjectCode(subject.code)}>
-              {subject.name}
+              {subject.displayName}
             </SubjectName>
             {subject.isLottery && <Badge>抽選</Badge>}
           </div>
           {bookmarkSubject && (
-            <div style={{ marginTop: "4px", display: "flex", gap: "8px", alignItems: "center", fontSize: "12px" }}>
+            <div style={{ marginTop: "4px", display: "flex", gap: "8px", alignItems: "center", fontSize: "11px" }}>
               <YearSelect
                 value={bookmarkSubject.year}
                 onChange={(e) =>
@@ -164,7 +142,7 @@ const SubjectTr = React.memo(
                   <option key={year}>{year}</option>
                 ))}
               </YearSelect>
-              <label style={{ cursor: "pointer" }}>
+              <label style={{ cursor: "pointer", color: "#64748b" }}>
                 <input
                   type="checkbox"
                   checked={bookmarkSubject.ta}
@@ -181,23 +159,23 @@ const SubjectTr = React.memo(
         </Td>
 
         <Td style={tdStyle}>
-          {subject.credit.toFixed(1)} {subject.year}次
+          {subject.credit.toFixed(1)}
         </Td>
 
         <Td style={tdStyle}>
-          {subject.termStr} {subject.timeslotStr}
+          {subject.year}
         </Td>
 
         <Td style={tdStyle}>
-          <Classrooms>
-            {classrooms.map((classroom, i, array) => (
-              <React.Fragment key={i}>
-                {classroom}
-                {i < array.length - 1 && <br />}
-              </React.Fragment>
-            ))}
-            {classrooms.length === 0 && subject.room && <span>{subject.room}</span>}
-          </Classrooms>
+          {subject.termStr}
+        </Td>
+
+        <Td style={tdStyle}>
+          {subject.timeslotStr}
+        </Td>
+
+        <Td style={{ ...tdStyle, fontSize: "12px", color: "#64748b" }}>
+          {subject.facultyName}
         </Td>
 
         <Td style={tdStyle}>

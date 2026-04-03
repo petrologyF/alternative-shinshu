@@ -9,7 +9,6 @@ import { useMedia } from "react-use";
 import {
   colorAccent,
   colorGreenDark,
-  colorGreen,
   mobileMedia,
   mobileWidth,
   shadow,

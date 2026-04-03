@@ -191,6 +191,11 @@ export class Subject {
   }
   private _syllabusHref: string;
 
+  get displayName() {
+    // Remove campus info like [松本], [長野], etc. from the title
+    return this._name.replace(/\[[^\]]+\]/g, "").trim();
+  }
+
   get facultyColor() {
     const prefix = this._code.charAt(0).toUpperCase();
     return facultyColorMap[prefix] || "#004831"; // Official Shinshu Green

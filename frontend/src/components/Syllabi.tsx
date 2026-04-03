@@ -102,6 +102,24 @@ const SectionContent = styled.div`
   line-height: 1.6;
 `;
 
+const MetaLabel = styled.span`
+  background: #f1f5f9;
+  color: #475569;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-right: 8px;
+  border: 1px solid #e2e8f0;
+`;
+
+const MetaItem = styled.div`
+  margin-bottom: 8px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+`;
+
 const PlanList = styled.div`
   display: flex;
   flex-direction: column;
@@ -148,9 +166,10 @@ const Syllabi = ({ subjectCode, setSubjectCode }: SyllabiProps) => {
         <Description>
           {subject.code} / {subject.credit} 単位 / {subject.year} 年次 /
           {subject.termStr} {subject.timeslotStr}
-          <br />
-          {subject.person.split(",").join(" / ")}
         </Description>
+        <div style={{ marginTop: "8px", fontSize: "14px", color: "#475569" }}>
+          担当教員: {subject.person.split(",").join(" / ")}
+        </div>
         <SyllabusLink
           href={subject.syllabusHref}
           target="_blank"
@@ -162,6 +181,22 @@ const Syllabi = ({ subjectCode, setSubjectCode }: SyllabiProps) => {
       </Header>
 
       <Content>
+        <Section>
+          <SectionTitle>基本情報</SectionTitle>
+          <MetaItem>
+            <MetaLabel>講義室</MetaLabel>
+            {subject.room || "未設定"}
+          </MetaItem>
+          <MetaItem>
+            <MetaLabel>対象学生</MetaLabel>
+            {subject.targetStudent || "未設定"}
+          </MetaItem>
+          <MetaItem>
+            <MetaLabel>授業形態</MetaLabel>
+            {subject.format || "未設定"}
+          </MetaItem>
+        </Section>
+
         {subject.abstract && (
           <Section>
             <SectionTitle>授業の概要</SectionTitle>
@@ -199,7 +234,7 @@ const Syllabi = ({ subjectCode, setSubjectCode }: SyllabiProps) => {
 
         {(!subject.abstract && !subject.evaluation && !subject.lessonPlan.length) && (
           <p style={{ color: "#64748b", fontStyle: "italic", textAlign: "center", marginTop: "40px" }}>
-            この科目のクイックビュー用データは現在収集元に含まれていません。<br/>
+            この科目の詳細データは現在収集元に含まれていません。<br/>
             詳細は公式シラバスをご確認ください。
           </p>
         )}

@@ -40,7 +40,6 @@ const Main = React.memo(
     setSyllabiSubjectCode,
   }: MainProps) => {
     const { bookmarksHas, switchBookmark } = usedBookmark;
-    const { getClassroom } = usedClassroom;
 
     const [displayedCount, setDisplayedCount] = useState(0);
     const [initial, setInitial] = useState(true);
@@ -108,9 +107,7 @@ const Main = React.memo(
               loadingRef={loadingDesktopRef}
               usedBookmark={usedBookmark}
               setSearchOptions={setSearchOptions}
-              setIsImporting={setIsImporting}
               setSyllabiSubjectCode={setSyllabiSubjectCode}
-              getClassroom={getClassroom}
             />
           )}
           <Mobile
