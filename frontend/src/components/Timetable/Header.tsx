@@ -11,8 +11,8 @@ const Wrapper = styled.header`
   padding: 6px 12px 20px 12px;
   border-radius: 8px;
   box-shadow: ${shadow};
-  background: hsla(150, 100%, 20%, 0.6); /* Adjusting to a translucent Shinshu Green */
-  backdrop-filter: blur(4px);
+  background: hsla(161, 100%, 12%, 0.9); /* Darker, more opaque Shinshu Green */
+  backdrop-filter: blur(8px);
   display: flex;
   justify-content: space-between;
   align-items: end;

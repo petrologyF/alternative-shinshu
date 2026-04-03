@@ -41,33 +41,16 @@ const facultyNameMap: Record<string, string> = {
   R: "全学教育機構",
 };
 
-
-
 // 現在の年度
 export const CURRENT_YEAR = 2026;
 
-
-
-const allSeasons = ["前期", "夏", "後期", "冬"] as const;
-
-export const normalSeasons = ["前期", "後期"] as const;
-
+const allSeasons = ["前期", "後期", "通年"] as const;
+export const normalSeasons = ["前期", "後期", "通年"] as const;
 export const classMethods = ["対面", "オンライン", "ハイブリッド"] as const;
 
-
-
 export type AllSeason = (typeof allSeasons)[number];
-
 export type NormalSeason = (typeof normalSeasons)[number];
-
-
-
 export type ClassMethod = (typeof classMethods)[number];
-
-
-
-
-
 
 export class Subject {
   private _code: string;
@@ -102,29 +85,30 @@ export class Subject {
     this._name = data.title;
     this._credit = 2; // デフォルト単位数 (信州大学の多くは2単位)
     this.year = "1-4";
-    this.termStr = "通年"; 
     this.timeslotStr = data.slot;
+    
+    // Shinshu Term Mapping (Simplified)
+    if (this.timeslotStr.includes("前期")) this.termStr = "前期";
+    else if (this.timeslotStr.includes("後期")) this.termStr = "後期";
+    else this.termStr = "通年";
+
     this.room = "";
     this.person = data.instructor;
     this.abstract = "";
-    this.note = ""; // Note content would ideally be scraped, but check against known constraints
+    this.note = ""; 
     this._syllabusHref = data.url;
 
     // Shinshu Mapping
     const prefix = this._code.charAt(0).toUpperCase();
     this.openingDepartment = facultyNameMap[prefix] || "信州大学";
     
-    // Campus Heuristic: 1st year subjects are almost always Matsumoto
-    // Code prefixes map mainly to faculties with specific home campuses
     const homeCampuses: Record<string, string> = {
       H: "松本", E: "長野", L: "松本", S: "松本", M: "松本",
       T: "長野", A: "南箕輪", F: "上田", G: "松本", Q: "松本", R: "松本"
     };
     
-    // Assume 1st year = Matsumoto, otherwise home campus
     this.campus = this.year.includes("1") ? "松本" : (homeCampuses[prefix] || "松本");
 
-    // Category for General Ed (G prefixes)
     this.category = "";
     if (prefix === "G" || prefix === "Q" || prefix === "R") {
       const subCategory = this._code.substring(1, 3);
@@ -135,7 +119,6 @@ export class Subject {
       this.category = this.openingDepartment;
     }
 
-    // Lottery check
     this.isLottery = this.note.includes("抽選") || this._name.includes("(抽選)");
 
     this._termCodes = [[0, 1, 2, 3, 4, 5]]; 
@@ -154,55 +137,29 @@ export class Subject {
     if (this._name.includes("オンライン")) this.classMethods.push("オンライン");
   }
 
-
-
   get code() {
-
     return this._code;
-
   }
-
-
 
   get name() {
-
     return this._name;
-
   }
-
-
 
   get credit() {
-
     return this._credit;
-
   }
-
-
 
   get termCodes() {
-
     return this._termCodes;
-
   }
-
-
 
   get timeslotTables() {
-
     return this._timeslotTables;
-
   }
-
-
 
   get timeslotTableBits() {
-
     return this._timeslotTableBits;
-
   }
-
-
 
   get syllabusHref() {
     return this._syllabusHref || `https://campus-3.shinshu-u.ac.jp/syllabusj/Display?NENDO=${CURRENT_YEAR}&CODE=${this.code}`;
@@ -211,19 +168,14 @@ export class Subject {
 
   get facultyColor() {
     const prefix = this._code.charAt(0).toUpperCase();
-    return facultyColorMap[prefix] || "#006633"; // デフォルトはスクールカラー(DIC389)
+    return facultyColorMap[prefix] || "#004831"; // Official Shinshu Green
   }
 
   get facultyName() {
     const prefix = this._code.charAt(0).toUpperCase();
     return facultyNameMap[prefix] || "信州大学";
   }
-
-
-
 }
-
-
 
 export const kdb = (() => {
   const subjectMap: { [key: string]: Subject } = {};
@@ -243,100 +195,51 @@ export const kdb = (() => {
   };
 })();
 
-
-
-// 一度に表示する件数
-
 export const ONCE_COUNT = 50;
 
-
-
-// 初期表示する科目
-
 export const initialSubjects = kdb.subjectCodeList
-
   .slice(0, ONCE_COUNT)
-
   .map((code) => kdb.subjectMap[code]);
 
-
-
-// UTF-8 BOM付きで CSV ファイルに出力
 export const outputSubjectsToCSV = (
-
   subjects: Subject[],
-
   a: HTMLAnchorElement | null,
-
 ) => {
-
   const escaped = /,|\r?\n|\r|"/;
-
   const e = /"/g;
-
-
-
   const bom = new Uint8Array([0xef, 0xbb, 0xbf]);
 
   const rows = [
-
     [
-
       "科目コード",
-
       "科目名",
-
       "単位数",
-
       "年度",
-
       "ターム",
-
       "時限",
-
       "担当教員",
-
       "授業方法",
-
       "概要",
-
       "備考",
-
     ],
-
   ];
 
   for (const subject of subjects) {
-
     rows.push([
-
       subject.code,
-
       subject.name,
-
       subject.credit.toFixed(1),
-
       subject.year,
-
       subject.termStr,
-
       subject.timeslotStr,
-
       subject.person,
-
       subject.classMethods.join(","),
-
       subject.abstract,
-
       subject.note,
-
     ]);
-
   }
 
-  // カンマなどでエスケープ
   const csvRows: string[] = [];
-
   for (const row of rows) {
     csvRows.push(
       row

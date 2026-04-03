@@ -28,11 +28,6 @@ export interface SearchOptions {
   containsAbstract: boolean;
   containsNote: boolean;
   filter: "all" | "bookmark" | "except-bookmark";
-  concentration: boolean;
-  isLottery: boolean;
-  negotiable: boolean;
-  asneeded: boolean;
-  nt: boolean;
   exceptSameName: boolean;
 }
 
@@ -57,11 +52,6 @@ export const createSearchOptions = (): SearchOptions => {
     containsAbstract: false,
     containsNote: false,
     filter: "all",
-    concentration: false,
-    isLottery: false,
-    negotiable: false,
-    asneeded: false,
-    nt: false,
     exceptSameName: false,
   };
 };
@@ -185,8 +175,7 @@ const matchesSearchOptions = (
     matchesSameName &&
     matchesCampus &&
     matchesDepartment &&
-    matchesCategory &&
-    (!options.isLottery || subject.isLottery)
+    matchesCategory
   );
 };
 
@@ -287,13 +276,12 @@ const matchesKeyword = (
 const matchesTerm = (subject: Subject, options: SearchOptions) => {
   const season = options.season;
 
-  // 通年の場合はマッチ
-  if (subject.termStr.includes("通年")) {
-    return true;
-  }
+  if (!season) return true;
 
-  // 学期が指定されている場合は検索
-  return !season || subject.termStr.includes(season);
+  // 「通年」の科目は前期・後期のいずれの検索でもヒットさせる
+  if (subject.termStr === "通年") return true;
+
+  return subject.termStr === season;
 };
 
 const matchesTimeslot = (
@@ -314,21 +302,9 @@ const matchesTimeslot = (
   // - 何の条件も設定されていない
   // - 時限が一致する
   // - 集中、横断、随時に一致する
-  const isNotSpecified =
-    getTimeslotsLength(options.timeslotTable) === 0 &&
-    !options.concentration &&
-    !options.negotiable &&
-    !options.asneeded &&
-    !options.nt;
-  const matchesSpecial =
-    (options.concentration && subject.concentration) ||
-    (options.negotiable && subject.negotiable) ||
-    (options.asneeded && subject.asneeded) ||
-    (options.nt && subject.nt);
+  const isNotSpecified = getTimeslotsLength(options.timeslotTable) === 0;
 
   return (
-    isNotSpecified ||
-    matchesTimeslots(subject.timeslotTableBits, enableBits) ||
-    matchesSpecial
+    isNotSpecified || matchesTimeslots(subject.timeslotTableBits, enableBits)
   );
 };

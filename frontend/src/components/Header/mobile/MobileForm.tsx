@@ -11,7 +11,6 @@ import {
   classMethods,
   kdb,
   type NormalSeason,
-  normalSeasons,
 } from "@/utils/subject";
 import type { TimeslotTable } from "@/utils/timetable";
 import {
@@ -120,14 +119,6 @@ const Update = styled.div`
   }
 `;
 
-const specialOptions = [
-  ["抽選", "isLottery"],
-  ["集中", "concentration"],
-  ["相談可", "negotiable"],
-  ["随時", "asneeded"],
-  ["NT", "nt"],
-] as const;
-
 interface DesktopHeaderProps {
   searchOptions: SearchOptions;
   bookmarkTimeslotTable: TimeslotTable;
@@ -196,7 +187,7 @@ const MobileForm = ({
               }
             >
               <option value="null">全学期</option>
-              {normalSeasons.map((season) => (
+              {["前期", "後期", "通年"].map((season) => (
                 <option value={season} key={season}>
                   {season}
                 </option>
@@ -212,20 +203,7 @@ const MobileForm = ({
         </Line>
         <Line>
           <CheckButtonWrapper>
-            {specialOptions.map(([label, value]) => (
-              <CheckButton
-                data-selected={searchOptions[value]}
-                key={value}
-                onClick={() =>
-                  setSearchOptions((prev) => ({
-                    ...searchOptions,
-                    [value]: !prev[value],
-                  }))
-                }
-              >
-                {label}
-              </CheckButton>
-            ))}
+            {/* Legacy special options removed */}
             <CheckButton
               data-selected={searchOptions.filter === "bookmark"}
               onClick={() =>
@@ -276,7 +254,7 @@ const MobileForm = ({
                     classMethod: method[1],
                   })
                 }
-                key={method[1]}
+                key={method[1] ?? "null"}
               >
                 {method[0]}
               </CheckButton>

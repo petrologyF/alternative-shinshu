@@ -203,49 +203,32 @@ const Time = styled.time`
 
 
 const SubjectTile = styled.div<{ background: string; top: number }>`
-
-  width: calc(100% - 3px * 2 - 6px * 2);
-
-  height: calc(100% - 3px * 2 - 4px * 2);
-
-  line-height: 10px;
-
-  font-size: 8px;
-
+  width: calc(100% - 3px * 2);
+  height: calc(100% - 3px * 2);
+  line-height: 12px;
+  font-size: 10px;
   word-break: break-all;
-
   padding: 4px 6px;
-
   border-radius: 4px;
-
   background: ${({ background }) => background};
-
+  color: #fff;
   overflow: hidden;
-
   position: absolute;
-
   top: ${({ top }) => 3 + top}px;
-
   left: 3px;
-
-
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
   a {
-
-    color: #000;
-
+    color: #fff;
     text-decoration: none;
-
   }
-
-
 
   &:hover .close {
-
     display: block;
-
   }
-
 `;
 
 
@@ -418,30 +401,8 @@ const TimetableElement = React.memo(
 
 
 
-    const getColor = (subject: Subject, no: number) => {
-
-      // 授業形態（対面・オンライン）に応じて色を決定
-
-      const isFaceToFace = subject.classMethods.includes("対面");
-
-      const isOndemand = subject.classMethods.includes("オンライン");
-
-      const isInteractive = subject.classMethods.includes("ハイブリッド");
-
-
-
-      const isOnlyFaceToFace = isFaceToFace && !isOndemand && !isInteractive;
-
-      const isOnlyOnline = !isFaceToFace && (isOndemand || isInteractive);
-
-      const baseH = isOnlyFaceToFace ? 320 : isOnlyOnline ? 200 : 260;
-
-      const h = baseH;
-
-      const s = 100 - no * 40;
-
-      return `hsla(${h}, ${s}%, 90%, 1.0)`;
-
+    const getColor = (subject: Subject, _no: number) => {
+      return subject.facultyColor;
     };
 
 
