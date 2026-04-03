@@ -11,8 +11,10 @@ const Wrapper = styled.header`
   padding: 6px 12px 20px 12px;
   border-radius: 8px;
   box-shadow: ${shadow};
-  background: hsla(161, 100%, 12%, 0.9); /* Darker, more opaque Shinshu Green */
-  backdrop-filter: blur(8px);
+  background: hsla(161, 100%, 8%, 0.98); /* Almost solid, high-contrast Shinshu Green */
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-weight: 500;
   display: flex;
   justify-content: space-between;
   align-items: end;

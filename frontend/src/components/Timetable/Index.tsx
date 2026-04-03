@@ -204,8 +204,8 @@ const Time = styled.time`
 
 const SubjectTile = styled.div<{ background: string; top: number }>`
   width: calc(100% - 3px * 2);
-  height: calc(100% - 3px * 2);
-  line-height: 12px;
+  height: 44px;
+  line-height: normal;
   font-size: 10px;
   word-break: break-all;
   padding: 4px 6px;
@@ -220,10 +220,15 @@ const SubjectTile = styled.div<{ background: string; top: number }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 
   a {
     color: #fff;
     text-decoration: none;
+    display: block;
+    width: 100%;
   }
 
   &:hover .close {

@@ -1,4 +1,4 @@
-﻿import styled from "@emotion/styled";
+import styled from "@emotion/styled";
 
 
 
@@ -13,25 +13,16 @@ export const years = [...Array(9)].map((_, i) => CURRENT_YEAR + i - 4);
 
 
 export const Td = styled.td`
-
-  vertical-align: top;
-
-  padding: 4px 8px 4px 0;
-
+  vertical-align: middle;
+  padding: 8px 8px 8px 0;
   border-bottom: solid 1px #ccc;
-
-
+  line-height: 1.5;
 
   &:nth-of-type(6),
-
   &:nth-of-type(7) {
-
-    line-height: 1.3em;
-
-    font-size: 0.6rem;
-
+    line-height: 1.4;
+    font-size: 0.75rem;
   }
-
 `;
 
 

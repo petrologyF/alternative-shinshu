@@ -128,14 +128,18 @@ interface SubjectTrProps {
 const CodeBadge = styled.span`
   background: #f1f5f9;
   color: #1e293b;
-  padding: 2px 6px;
+  padding: 1px 6px 3px 6px;
   border-radius: 4px;
   font-size: 11px;
-  font-family: monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-weight: 500;
   border: 1px solid #cbd5e1;
-  display: inline-block;
-  line-height: 1.2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: normal;
+  height: 20px;
+  box-sizing: border-box;
 `;
 
 const SubjectTr = React.memo(
@@ -155,13 +159,13 @@ const SubjectTr = React.memo(
     // TODO: 科目一覧で科目名をクリックすると「科目詳細」画面へ遷移
     return (
       <tr key={subject.code}>
-        <Td style={{ borderLeft: `4px solid ${subject.facultyColor}` }}>
-          <div style={{ marginBottom: "6px", display: "flex", gap: "6px", alignItems: "center" }}>
+        <Td style={{ borderLeft: `8px solid ${subject.facultyColor}` }}>
+          <div style={{ marginBottom: "8px", display: "flex", gap: "8px", alignItems: "center" }}>
             <CampusBadge>{subject.campus}</CampusBadge>
             <CodeBadge>{subject.code}</CodeBadge>
             {subject.isLottery && <Badge>抽選</Badge>}
           </div>
-          <div style={{ fontWeight: 500, fontSize: "15px", marginBottom: "4px" }}>
+          <div style={{ fontWeight: 600, fontSize: "16px", marginBottom: "6px", color: "#111" }}>
             {subject.name}
           </div>
           <BottomRow>
