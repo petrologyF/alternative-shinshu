@@ -4,20 +4,23 @@ import { shadow } from "@/utils/style";
 import { normalSeasons } from "@/utils/subject";
 
 const Wrapper = styled.header`
-  height: 24px;
-  line-height: 24px;
+  height: 28px;
+  line-height: 28px;
   color: #fff;
-  margin-bottom: -14px;
-  padding: 6px 12px 20px 12px;
+  margin-bottom: 0;
+  padding: 8px 12px;
   border-radius: 8px;
   box-shadow: ${shadow};
-  background: hsla(161, 100%, 8%, 0.98); /* Almost solid, high-contrast Shinshu Green */
+  background: #004831; /* Official Shinshu Green */
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   font-weight: 500;
   display: flex;
   justify-content: space-between;
-  align-items: end;
+  align-items: center;
+  position: relative;
+  z-index: 5;
+  transform: translateY(-4px);
 `;
 
 const Left = styled.div`

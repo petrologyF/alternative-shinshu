@@ -8,6 +8,8 @@ import { useMedia } from "react-use";
 
 import {
 
+  colorAccent,
+
   colorGreenDark,
 
   mobileMedia,
@@ -271,75 +273,41 @@ const Close = styled.a`
 
 
 const Footer = styled.footer`
-
-  height: 16px;
-
-  line-height: 14px;
-
-  margin: 8px 0 -8px 0;
-
-  padding: 8px 0 18px 0;
-
+  height: 32px;
+  line-height: 32px;
+  margin-top: 8px;
+  padding: 0 16px;
   border-radius: 8px;
-
-  box-shadow: ${shadow};
-
   background: #fff;
-
   display: flex;
-
-  justify-content: space-between;
-
+  justify-content: flex-end;
+  align-items: center;
   position: relative;
-
   z-index: 2;
-
 `;
 
-
-
 const Link = styled.a<{ caution?: boolean }>`
-
-  flex-grow: 1;
-
-  height: 16px;
-
+  height: 24px;
+  padding: 0 12px;
   color: ${({ caution }) => (caution ? "#c00" : colorGreenDark)};
-
   text-decoration: none;
-
   font-size: 13px;
-
+  font-weight: 500;
   display: flex;
-
   justify-content: center;
-
   align-items: center;
-
-
+  border-radius: 4px;
+  transition: all 0.2s ease;
 
   &:hover {
-
-    opacity: 0.8;
-
+    background: ${({ caution }) => (caution ? "#fee2e2" : "#f1f8f6")};
+    color: ${({ caution }) => (caution ? "#dc2626" : colorAccent)};
+    opacity: 1;
   }
-
-
-
-  &:not(:last-of-type) {
-
-    border-right: solid 1px #eee;
-
-  }
-
-
 
   span {
-
     text-box: trim-both cap alphabetic;
-
   }
-
 `;
 
 
@@ -391,8 +359,6 @@ const TimetableElement = React.memo(
       switchBookmark,
 
       clearBookmarks,
-
-      exportToTwinte,
 
     } = usedBookmark;
 
@@ -545,9 +511,6 @@ const TimetableElement = React.memo(
         </TimetableWrapper>
 
         <Footer>
-          <Link onClick={exportToTwinte}>
-            <span>Twin:te にエクスポート</span>
-          </Link>
           <Link caution={true} onClick={clearBookmarks}>
             <span>全てリセット</span>
           </Link>

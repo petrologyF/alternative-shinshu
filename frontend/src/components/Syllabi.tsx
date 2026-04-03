@@ -26,7 +26,7 @@ const Wrapper = styled.div`
     font-size: 14px;
     margin: 20px 0 8px 0;
     padding-bottom: 4px;
-    border-bottom: solid 1px hsla(270, 100%, 40%, 0.2);
+    border-bottom: solid 1px rgba(0, 72, 49, 0.2);
 
     &:before {
       content: "";
@@ -50,7 +50,7 @@ const Wrapper = styled.div`
 
 const Header = styled.div`
   padding: 16px 20px 12px 20px;
-  border-top: solid 6px hsla(270, 100%, 40%, 0.7);
+  border-top: solid 6px rgba(0, 72, 49, 0.7);
 `;
 
 const H1 = styled.h1`

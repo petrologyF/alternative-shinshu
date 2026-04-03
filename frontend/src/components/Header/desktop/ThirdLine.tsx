@@ -2,7 +2,7 @@ import type { SearchOptions } from "@/utils/search";
 
 import type { NormalSeason } from "@/utils/subject";
 
-import { Headline, Left, Line, Options } from "./parts";
+import { Headline, Left, Line } from "./parts";
 
 
 
