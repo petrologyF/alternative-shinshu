@@ -1,6 +1,5 @@
 import { matchesCodeRequirement } from "../kdb/code-types";
 import type { ClassMethod, Module, NormalSeason, Subject } from "./subject";
-import { getTermCode } from "./subject";
 import {
   createEmptyTimeslotTable,
   getTimeslotsLength,
@@ -275,11 +274,9 @@ const matchesTerm = (subject: Subject, options: SearchOptions) => {
     return true;
   }
 
-  // 学期、モジュールが両方指定されている場合は組み合わせで検索
+  // 学期、モジュールが両方指定されている場合は個別で検索
   if (season && module) {
-    return subject.termCodes.some((codes) =>
-      codes.includes(getTermCode(season, module)),
-    );
+    return subject.termStr.includes(season) && subject.termStr.includes(module);
   }
 
   // そうでなければどちらか片方で検索

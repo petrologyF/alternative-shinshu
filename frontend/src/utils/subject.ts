@@ -40,26 +40,6 @@ export type ClassMethod = (typeof classMethods)[number];
 
 
 
-const isAllSeason = (char: string): char is AllSeason =>
-
-  (allSeasons as readonly string[]).includes(char);
-
-
-
-const isNormalSeason = (char: string): char is NormalSeason =>
-
-  (normalSeasons as readonly string[]).includes(char);
-
-
-
-const isModule = (char: string): char is Module =>
-
-  (modules as readonly string[]).includes(char);
-
-
-
-export const getTermCode = (season: NormalSeason, module: Module) =>
-  (season === "春" ? 0 : 3) + (module === "A" ? 0 : module === "B" ? 1 : 2);
 
 
 
@@ -190,87 +170,6 @@ export class Subject {
   private _syllabusHref: string;
 
 
-
-  private static parseTerm(termStr: string) {
-
-    // タームコード
-    // - 春 A-C: 0-2
-    // - 秋 A-C: 3-5
-    // - 春 夏季/夏季等/秋 冬季/冬季等: 6-9
-
-    const termCodes: number[][] = [];
-
-    let season: AllSeason | null = null;
-
-
-
-    // 空白で分割（グループごと）
-
-    const termGroups = termStr.split(" ");
-
-    for (const groupStr of termGroups) {
-
-      // 最初に見つかったシーズンのグループとしてタームコードを作成
-      const group: number[] = [];
-
-      const charArray = Array.from(groupStr);
-
-
-
-      for (let i = 0; i < charArray.length; i++) {
-
-        const char = charArray[i];
-
-        const nextChar = charArray[i + 1];
-
-
-
-        // 春秋 A-C の場合
-        if (char === "春" && nextChar === "秋") {
-
-          group.push(0, 1, 2, 3, 4, 5);
-
-          continue;
-
-        }
-
-        // シーズンの判定
-        if (isAllSeason(char)) {
-
-          season = char;
-
-        }
-
-        if (season) {
-
-          // ABC モジュール
-
-          if (isModule(char) && isNormalSeason(season)) {
-
-            const no = getTermCode(season, char);
-
-            group.push(no);
-
-          }
-
-          // 夏季/冬季
-          if (char === "季") {
-
-            group.push(allSeasons.indexOf(season) + 6);
-
-          }
-
-        }
-
-      }
-
-      termCodes.push(group);
-
-    }
-
-    return termCodes;
-
-  }
 
 }
 
