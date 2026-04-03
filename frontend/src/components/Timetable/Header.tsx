@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 import { shadow } from "@/utils/style";
-import { modules, normalSeasons } from "@/utils/subject";
+import { normalSeasons } from "@/utils/subject";
 
 const Wrapper = styled.header`
   height: 24px;
@@ -11,7 +11,7 @@ const Wrapper = styled.header`
   padding: 6px 12px 20px 12px;
   border-radius: 8px;
   box-shadow: ${shadow};
-  background: hsla(270, 100%, 30%, 0.6);
+  background: hsla(150, 100%, 20%, 0.6); /* Adjusting to a translucent Shinshu Green */
   backdrop-filter: blur(4px);
   display: flex;
   justify-content: space-between;
@@ -99,7 +99,7 @@ const Header = ({
   const moveAfter = (e: React.MouseEvent) => {
     e.stopPropagation();
     setTermCode((prev) => {
-      if (prev + 1 < normalSeasons.length * modules.length) {
+      if (prev + 1 < normalSeasons.length) {
         return prev + 1;
       }
       return prev;
@@ -117,12 +117,11 @@ const Header = ({
           ＜
         </Move>
         <TermName>
-          {normalSeasons[Math.floor(termCode / modules.length)]}{" "}
-          {modules[termCode % 3]}
+          {normalSeasons[termCode]}
         </TermName>
         <Move
           data-next="true"
-          data-disabled={termCode + 1 >= normalSeasons.length * modules.length}
+          data-disabled={termCode + 1 >= normalSeasons.length}
           onClick={moveAfter}
         >
           ＞

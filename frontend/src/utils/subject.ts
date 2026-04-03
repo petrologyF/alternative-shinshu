@@ -48,11 +48,9 @@ export const CURRENT_YEAR = 2026;
 
 
 
-const allSeasons = ["春", "夏", "秋", "冬"] as const;
+const allSeasons = ["前期", "夏", "後期", "冬"] as const;
 
-export const normalSeasons = ["春", "秋"] as const;
-
-export const modules = ["A", "B", "C"] as const;
+export const normalSeasons = ["前期", "後期"] as const;
 
 export const classMethods = ["対面", "オンライン", "ハイブリッド"] as const;
 
@@ -62,7 +60,7 @@ export type AllSeason = (typeof allSeasons)[number];
 
 export type NormalSeason = (typeof normalSeasons)[number];
 
-export type Module = (typeof modules)[number];
+
 
 export type ClassMethod = (typeof classMethods)[number];
 

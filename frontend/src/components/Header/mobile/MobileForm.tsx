@@ -10,8 +10,6 @@ import {
 import {
   classMethods,
   kdb,
-  type Module,
-  modules,
   type NormalSeason,
   normalSeasons,
 } from "@/utils/subject";
@@ -185,37 +183,22 @@ const MobileForm = ({
           <Headline>時間</Headline>
           <Right>
             <ModuleSelect
-              value={
-                !searchOptions.season || !searchOptions.module
-                  ? "null"
-                  : `${searchOptions.season}${searchOptions.module}`
-              }
+              value={searchOptions.season || "null"}
               onChange={(e) =>
                 setSearchOptions((prev) => ({
                   ...prev,
                   season:
                     e.target.value !== "null"
-                      ? (e.target.value[0] as NormalSeason)
-                      : null,
-                  module:
-                    e.target.value !== "null"
-                      ? (e.target.value[1] as Module)
+                      ? (e.target.value as NormalSeason)
                       : null,
                 }))
               }
             >
-              <option value="null">全モジュール</option>
+              <option value="null">全学期</option>
               {normalSeasons.map((season) => (
-                <React.Fragment key={season}>
-                  {modules.map((module) => (
-                    <option
-                      value={`${season}${module}`}
-                      key={`${season}${module}`}
-                    >
-                      {`${season} ${module}`}
-                    </option>
-                  ))}
-                </React.Fragment>
+                <option value={season} key={season}>
+                  {season}
+                </option>
               ))}
             </ModuleSelect>
             <SubButtonAnchor

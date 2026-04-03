@@ -1,6 +1,6 @@
 import type { SearchOptions } from "@/utils/search";
 
-import type { Module, NormalSeason } from "@/utils/subject";
+import type { NormalSeason } from "@/utils/subject";
 
 import { Headline, Left, Line, Options } from "./parts";
 
@@ -56,69 +56,17 @@ const ThirdLine = ({ options, setOptions }: ThirdLineProps) => {
 
           全        </label>
 
-        {(["春", "秋"] as NormalSeason[]).map((season) => (
-
+        {(["前期", "後期"] as NormalSeason[]).map((season) => (
           <label key={season}>
-
             <input
-
               type="radio"
-
               name="season"
-
               checked={options.season === season}
-
               onChange={() => setOptions({ ...options, season })}
-
             />
-
             {season}
-
           </label>
-
         ))}
-
-        /
-        <label>
-
-          <input
-
-            type="radio"
-
-            name="module"
-
-            value="null"
-
-            checked={options.module === null}
-
-            onChange={() => setOptions({ ...options, module: null })}
-
-          />
-
-          遯ｶ繝ｻ        </label>
-
-        {(["A", "B", "C"] as Module[]).map((module) => (
-
-          <label key={module}>
-
-            <input
-
-              type="radio"
-
-              name="module"
-
-              checked={options.module === module}
-
-              onChange={() => setOptions({ ...options, module })}
-
-            />
-
-            {module}
-
-          </label>
-
-        ))}
-
       </Left>
 
       <Options>

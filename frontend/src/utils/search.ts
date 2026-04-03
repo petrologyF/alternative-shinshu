@@ -1,5 +1,5 @@
 import { matchesCodeRequirement } from "../kdb/code-types";
-import type { ClassMethod, Module, NormalSeason, Subject } from "./subject";
+import type { ClassMethod, NormalSeason, Subject } from "./subject";
 import {
   createEmptyTimeslotTable,
   getTimeslotsLength,
@@ -16,7 +16,6 @@ export interface SearchOptions {
   classMethod: ClassMethod | null;
   years: Set<number>;
   season: NormalSeason | null;
-  module: Module | null;
   timeslotTable: TimeslotTable;
   excludesBookmark: boolean;
   containsName: boolean;
@@ -42,7 +41,6 @@ export const createSearchOptions = (): SearchOptions => {
     classMethod: null,
     years: new Set(),
     season: null,
-    module: null,
     timeslotTable: createEmptyTimeslotTable(),
     excludesBookmark: false,
     containsName: true,
@@ -267,22 +265,14 @@ const matchesKeyword = (
 
 const matchesTerm = (subject: Subject, options: SearchOptions) => {
   const season = options.season;
-  const module = options.module;
 
   // 通年の場合はマッチ
   if (subject.termStr.includes("通年")) {
     return true;
   }
 
-  // 学期、モジュールが両方指定されている場合は個別で検索
-  if (season && module) {
-    return subject.termStr.includes(season) && subject.termStr.includes(module);
-  }
-
-  // そうでなければどちらか片方で検索
-  const matchesSeason = !season || subject.termStr.includes(season);
-  const matchesModule = !module || subject.termStr.includes(module);
-  return matchesSeason && matchesModule;
+  // 学期が指定されている場合は検索
+  return !season || subject.termStr.includes(season);
 };
 
 const matchesTimeslot = (
