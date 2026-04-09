@@ -8,7 +8,6 @@ export const daysofweek: readonly string[] = [
   "水",
   "木",
   "金",
-  "土",
 ];
 
 // 最大時限数

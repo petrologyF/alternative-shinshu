@@ -159,10 +159,53 @@ const ContextMenuItem = styled.div<{ danger?: boolean }>`
   align-items: center;
   gap: 8px;
   transition: background 0.2s ease;
-  
+
   &:hover {
     background: ${({ danger }) => (danger ? "#fee2e2" : "#f1f8f6")};
     color: ${({ danger }) => (danger ? "#dc2626" : colorGreenDark)};
+  }
+`;
+
+const OthersWrapper = styled.div`
+  border-top: 1px solid #ddd;
+  background: #fafafa;
+  padding: 8px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+`;
+
+const OthersTitle = styled.div`
+  font-size: 11px;
+  color: #888;
+  padding-left: 8px;
+  font-weight: bold;
+`;
+
+const OthersGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 4px;
+`;
+
+const OthersItem = styled.div<{ background: string }>`
+  height: 42px;
+  font-size: 11px;
+  background: ${({ background }) => background};
+  color: #fff;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2px 6px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.8;
   }
 `;
 
@@ -224,6 +267,7 @@ const TimetableElement = React.memo(
 
     const {
       bookmarkSubjectTable,
+      othersSubjectList,
       yearCredits,
       currentCredits,
       currentTimeslots,
@@ -350,7 +394,23 @@ const TimetableElement = React.memo(
             ))}
 
           </Main>
-
+          {othersSubjectList.length > 0 && (
+            <OthersWrapper>
+              <OthersTitle>集中講義・不定期など</OthersTitle>
+              <OthersGrid>
+                {othersSubjectList.map((subject) => (
+                  <OthersItem
+                    key={subject.code}
+                    background={subject.facultyColor}
+                    onClick={() => setSyllabiSubjectCode(subject.code)}
+                    onContextMenu={(e) => handleContextMenu(e, subject)}
+                  >
+                    {subject.name}
+                  </OthersItem>
+                ))}
+              </OthersGrid>
+            </OthersWrapper>
+          )}
         </TimetableWrapper>
 
         <Footer>

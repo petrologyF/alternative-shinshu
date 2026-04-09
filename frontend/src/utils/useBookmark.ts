@@ -106,53 +106,60 @@ export const useBookmark = (
     [yearCredits],
   );
 
-  const [
-    bookmarkTimeslotTable, // 現在のタームの TimeslotTable
-    bookmarkSubjectTable, // 現在のタームの時間割
-    currentCredits, // 現在のタームの単位数
-    currentTimeslots, // 現在のタームのコマ数
-  ] = useMemo(() => {
-    const table = createEmptyTimeslotTable();
-    const subjectTable = fillTimetable<Subject[]>([]);
-    let credits = 0;
-    let timeslots = 0;
+    const [
+      bookmarkTimeslotTable, // 現在のタームの TimeslotTable
+      bookmarkSubjectTable, // 現在のタームの時間割
+      othersSubjectList, // 時間割外の科目 (集中など)
+      currentCredits, // 現在のタームの単位数
+      currentTimeslots, // 現在のタームのコマ数
+    ] = useMemo(() => {
+      const table = createEmptyTimeslotTable();
+      const subjectTable = fillTimetable<Subject[]>([]);
+      const othersList: Subject[] = [];
+      let credits = 0;
+      let timeslots = 0;
 
-    for (const [code, bookmarkSubject] of Object.entries(bookmarks.subjects)) {
-      const subject = kdb.subjectMap[code];
-      if (!subject) {
-        continue;
-      }
-      if (bookmarkSubject.year !== CURRENT_YEAR) {
-        continue;
-      }
+      for (const [code, bookmarkSubject] of Object.entries(bookmarks.subjects)) {
+        const subject = kdb.subjectMap[code];
+        if (!subject) {
+          continue;
+        }
+        if (bookmarkSubject.year !== CURRENT_YEAR) {
+          continue;
+        }
 
-      // タームコードを含むグループを探索
-      const termIndex = subject.termCodes.findIndex((codes) =>
-        codes.includes(timetableTermCode),
-      );
-      if (termIndex === -1) {
-        continue;
-      }
+        // タームコードを含むグループを探索
+        const termIndex = subject.termCodes.findIndex((codes) =>
+          codes.includes(timetableTermCode),
+        );
+        if (termIndex === -1) {
+          continue;
+        }
 
-      const subjectTimeslotTable = subject.timeslotTables[termIndex];
-      if (subjectTimeslotTable) {
-        for (let day = 0; day < table.length; day++) {
-          for (let period = 0; period < table[day].length; period++) {
-            // 科目がコマを含めれば追加
-            if (subjectTimeslotTable[day][period]) {
-              table[day][period] = true;
-              subjectTable[day][period].push(subject);
+        const subjectTimeslotTable = subject.timeslotTables[termIndex];
+        if (subjectTimeslotTable) {
+          const slotsCount = getTimeslotsLength(subjectTimeslotTable);
+          if (slotsCount === 0) {
+            othersList.push(subject);
+          } else {
+            for (let day = 0; day < table.length; day++) {
+              for (let period = 0; period < table[day].length; period++) {
+                // 科目がコマを含めれば追加
+                if (subjectTimeslotTable[day][period]) {
+                  table[day][period] = true;
+                  subjectTable[day][period].push(subject);
+                }
+              }
             }
           }
+          timeslots += slotsCount;
         }
-        timeslots += getTimeslotsLength(subjectTimeslotTable);
+        if (!bookmarkSubject.ta) {
+          credits += subject.credit;
+        }
       }
-      if (!bookmarkSubject.ta) {
-        credits += subject.credit;
-      }
-    }
-    return [table, subjectTable, credits, timeslots];
-  }, [bookmarks, timetableTermCode]);
+      return [table, subjectTable, othersList, credits, timeslots];
+    }, [bookmarks, timetableTermCode]);
 
   const memoLength = 9;
 
@@ -291,6 +298,7 @@ export const useBookmark = (
   return {
     bookmarkTimeslotTable,
     bookmarkSubjectTable,
+    othersSubjectList,
     yearCredits,
     totalCredits,
     currentCredits,
