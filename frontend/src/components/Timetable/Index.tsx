@@ -131,24 +131,38 @@ const SubjectTile = styled.div<{ background: string; top: number }>`
     width: 100%;
   }
 
-  &:hover .close {
-    display: block;
+  &:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   }
 `;
 
-const Close = styled.a`
-  width: 18px;
-  height: 18px;
-  line-height: 18px;
-  color: #c00;
-  font-size: 18px;
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  display: none;
+const ContextMenu = styled.div<{ top: number; left: number }>`
+  position: fixed;
+  top: ${({ top }) => top}px;
+  left: ${({ left }) => left}px;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid #eee;
+  z-index: 1000;
+  padding: 4px 0;
+  min-width: 160px;
+  overflow: hidden;
+`;
 
+const ContextMenuItem = styled.div<{ danger?: boolean }>`
+  padding: 10px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  color: ${({ danger }) => (danger ? "#c00" : "#333")};
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s ease;
+  
   &:hover {
-    opacity: 0.6;
+    background: ${({ danger }) => (danger ? "#fee2e2" : "#f1f8f6")};
+    color: ${({ danger }) => (danger ? "#dc2626" : colorGreenDark)};
   }
 `;
 
@@ -213,30 +227,34 @@ const TimetableElement = React.memo(
   ({ usedBookmark, termCode, setTermCode }: TimetableProps) => {
 
     const {
-
       bookmarkSubjectTable,
-
       yearCredits,
-
       currentCredits,
-
       currentTimeslots,
-
       switchBookmark,
-
       clearBookmarks,
-
     } = usedBookmark;
 
-
-
     const isMobile = useMedia(`(width < ${mobileWidth})`);
-
-
-
     const [opened, setOpened] = useState(!isMobile);
+    const [menuPos, setMenuPos] = useState<{ x: number; y: number; subject: Subject } | null>(null);
 
+    React.useEffect(() => {
+      const handleGlobalClick = () => {
+        if (menuPos) setMenuPos(null);
+      };
+      document.addEventListener("click", handleGlobalClick);
+      document.addEventListener("scroll", handleGlobalClick, true);
+      return () => {
+        document.removeEventListener("click", handleGlobalClick);
+        document.removeEventListener("scroll", handleGlobalClick, true);
+      };
+    }, [menuPos]);
 
+    const handleContextMenu = (e: React.MouseEvent, subject: Subject) => {
+      e.preventDefault();
+      setMenuPos({ x: e.clientX, y: e.clientY, subject });
+    };
 
     const getColor = (subject: Subject, _no: number) => {
       return subject.facultyColor;
@@ -305,49 +323,18 @@ const TimetableElement = React.memo(
                       (subject, subjecti) => (
 
                         <SubjectTile
-
                           background={getColor(subject, subjecti)}
-
                           top={subjecti * 2}
-
                           key={subject.code}
-
+                          onContextMenu={(e) => handleContextMenu(e, subject)}
                         >
-
                           <a
-
                             href={subject.syllabusHref}
-
                             target="_blank"
-
                             rel="nofollow noopener noreferrer"
-
                           >
-
-                            {subject.code}
-
-                            <br />
-
                             {subject.name}
-
-                            <br />
-
-                            <small style={{ opacity: 0.8 }}>[{subject.campus}]</small>
-
                           </a>
-
-                          <Close
-
-                            className="close"
-
-                            onClick={() => switchBookmark(subject.code)}
-
-                          >
-
-                            ×
-
-                          </Close>
-
                         </SubjectTile>
 
                       ),
@@ -372,6 +359,27 @@ const TimetableElement = React.memo(
           </Link>
         </Footer>
 
+        {menuPos && (
+          <ContextMenu top={menuPos.y} left={menuPos.x}>
+            <ContextMenuItem
+              onClick={() => {
+                window.open(menuPos.subject.syllabusHref, "_blank", "nofollow noopener noreferrer");
+                setMenuPos(null);
+              }}
+            >
+              📄 シラバスを表示
+            </ContextMenuItem>
+            <ContextMenuItem
+              danger
+              onClick={() => {
+                switchBookmark(menuPos.subject.code);
+                setMenuPos(null);
+              }}
+            >
+              🗑️ 削除
+            </ContextMenuItem>
+          </ContextMenu>
+        )}
       </Wrapper>
 
     );
