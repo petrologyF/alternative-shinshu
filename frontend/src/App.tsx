@@ -128,6 +128,7 @@ const App = () => {
         termCode={timetableTermCode}
         usedBookmark={usedBookmark}
         setTermCode={setTimetableTermCode}
+        setSyllabiSubjectCode={setSyllabiSubjectCode}
       />
       <Syllabi
         subjectCode={syllabiSubjectCode}

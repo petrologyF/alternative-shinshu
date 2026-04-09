@@ -211,20 +211,16 @@ const Link = styled.a<{ caution?: boolean }>`
 
 
 interface TimetableProps {
-
   termCode: number;
-
   usedBookmark: ReturnType<typeof useBookmark>;
-
   setTermCode: React.Dispatch<React.SetStateAction<number>>;
-
+  setSyllabiSubjectCode: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 
 
 const TimetableElement = React.memo(
-
-  ({ usedBookmark, termCode, setTermCode }: TimetableProps) => {
+  ({ usedBookmark, termCode, setTermCode, setSyllabiSubjectCode }: TimetableProps) => {
 
     const {
       bookmarkSubjectTable,
@@ -332,6 +328,10 @@ const TimetableElement = React.memo(
                             href={subject.syllabusHref}
                             target="_blank"
                             rel="nofollow noopener noreferrer"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setSyllabiSubjectCode(subject.code);
+                            }}
                           >
                             {subject.name}
                           </a>
@@ -363,11 +363,11 @@ const TimetableElement = React.memo(
           <ContextMenu top={menuPos.y} left={menuPos.x}>
             <ContextMenuItem
               onClick={() => {
-                window.open(menuPos.subject.syllabusHref, "_blank", "nofollow noopener noreferrer");
+                setSyllabiSubjectCode(menuPos.subject.code);
                 setMenuPos(null);
               }}
             >
-              📄 シラバスを表示
+              📖 詳細を表示
             </ContextMenuItem>
             <ContextMenuItem
               danger
