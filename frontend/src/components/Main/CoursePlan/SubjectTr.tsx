@@ -114,9 +114,9 @@ const SubjectTr = ({ subject, usedBookmark }: SubjectTrProps) => {
 
 
 
-  const isSpring = subject.termStr.includes("春");
+  const isSpring = subject.termStr.includes("前期");
 
-  const isAutumn = subject.termStr.includes("秋");
+  const isAutumn = subject.termStr.includes("後期");
 
   const isYearRound =
 
@@ -148,9 +148,9 @@ const SubjectTr = ({ subject, usedBookmark }: SubjectTrProps) => {
 
             <>
 
-              {isSpring && "春"}
+              {isSpring && "前期"}
 
-              {isAutumn && "秋"}
+              {isAutumn && "後期"}
 
             </>
 

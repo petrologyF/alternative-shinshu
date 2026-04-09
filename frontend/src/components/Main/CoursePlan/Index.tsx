@@ -118,7 +118,7 @@ const CoursePlan = ({ subjects, usedBookmark }: CoursePlanProps) => {
       record[year].sort((a, b) =>
         a.termStr.includes("通年")
           ? -1
-          : a.termStr.includes("春") && !b.termStr.includes("春")
+          : a.termStr.includes("前期") && !b.termStr.includes("前期")
             ? -1
             : a.termStr < b.termStr
               ? -1

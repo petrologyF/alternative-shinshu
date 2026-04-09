@@ -150,11 +150,19 @@ def scrape_faculty(session, code, name, limit=None):
             details = scrape_detail(session, detail_url)
             time.sleep(1.5) # Gentle on university servers
             
+            period_raw = tds[1].get_text(strip=True)
+            period = "通年"
+            if "前期" in period_raw:
+                period = "前期"
+            elif "後期" in period_raw:
+                period = "後期"
+            
             course = {
                 "id": course_id,
                 "title": title_tag.get_text(strip=True),
                 "instructor": tds[4].get_text(strip=True),
                 "slot": tds[5].get_text(strip=True),
+                "period": period,
                 "url": detail_url,
                 **details
             }

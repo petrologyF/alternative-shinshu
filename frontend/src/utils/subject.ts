@@ -18,6 +18,7 @@ export interface ScrapedSubject {
   overview?: string;
   evaluation?: string;
   textbook?: string;
+  period: string;
   lesson_plan?: Array<{ session: string; content: string }>;
 }
 
@@ -106,10 +107,8 @@ export class Subject {
     this.year = data.target_student || "1-4";
     this.timeslotStr = data.slot;
     
-    // Shinshu Term Mapping (Simplified)
-    if (this.timeslotStr.includes("前期")) this.termStr = "前期";
-    else if (this.timeslotStr.includes("後期")) this.termStr = "後期";
-    else this.termStr = "通年";
+    // Shinshu Term Mapping (Using Scraped Period)
+    this.termStr = data.period;
 
     this.room = data.classroom || "";
     this.person = data.instructor;
@@ -146,7 +145,13 @@ export class Subject {
 
     this.isLottery = this.note.includes("抽選") || this._name.includes("(抽選)");
 
-    this._termCodes = [[0, 1, 2, 3, 4, 5]]; 
+    if (this.termStr === "前期") {
+      this._termCodes = [[0]];
+    } else if (this.termStr === "後期") {
+      this._termCodes = [[1]];
+    } else {
+      this._termCodes = [[0, 1, 2]];
+    }
     this._timeslotTables.push(createTimeslotTable(this.timeslotStr));
     
     this.concentration = this.timeslotStr.includes("集");
